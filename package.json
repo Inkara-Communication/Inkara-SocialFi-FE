@@ -60,13 +60,11 @@
     "react-error-overlay": "6.0.9"
   },
   "scripts": {
-    "git-info": "node src/utils/gitInfo.js",
-    "preinstall": "npx npm-force-resolutions",
     "worker": "webpack --watch",
-    "start": "npm run git-info && react-scripts start",
-    "build": "npm run git-info && react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "npm run git-info && react-scripts eject"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
