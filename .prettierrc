@@ -1,9 +1,13 @@
 {
-  "bracketSpacing": true,
-  "printWidth": 80,
-  "singleQuote": true,
-  "trailingComma": "none",
-  "tabWidth": 2,
-  "useTabs": false,
-  "bracketSameLine": false
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": false,
+    "jsxSingleQuote": false,
+    "printWidth": 80,
+    "bracketSameLine": true,
+    "tailwindFunctions": [
+        "clsx",
+        "tv"
+    ]
 }
