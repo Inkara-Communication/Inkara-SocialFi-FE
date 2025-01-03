@@ -50,8 +50,9 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
 
 export const endpoints = {
   auth: {
-    login: `/signin`,
-    register: `/signup`,
+    login: `/auth/signin`,
+    register: `/auth/signup`,
+    logout: `/auth/signout`,
   },
 
   user: {

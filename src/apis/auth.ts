@@ -3,27 +3,29 @@ import axiosInstance, { endpoints } from '@/utils/axios';
 
 //-------------------------------------------------------------------------------------------
 
-interface LoginParams {
-  username: string;
-  password: string;
+interface SignInParams {
+  address: string;
+  signature: string;
 }
 
-interface RegisterParams {
-  firstName: string;
-  lastName: string;
-  username: string;
-  password: string;
+interface SignUpParams {
+  address: string;
 }
 
-export const login = async ({ username, password }: LoginParams): Promise<IApiResponse<string>> => {
+export const login = async ({ address, signature }: SignInParams): Promise<IApiResponse<string>> => {
   const response = await axiosInstance.post(endpoints.auth.login, {
-    username,
-    password,
+    address,
+    signature,
   });
   return response.data;
 }
 
-export const register = async (params: RegisterParams): Promise<IApiResponse<string>> => {
+export const register = async (params: SignUpParams): Promise<IApiResponse<string>> => {
   const response = await axiosInstance.post(endpoints.auth.register, params);
   return response.data;
 };
+
+export const logout = async (): Promise<IApiResponse<string>> => {
+  const response = await axiosInstance.post(endpoints.auth.logout);
+  return response.data;
+}
