@@ -1,13 +1,7 @@
 {
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "semi": true,
-    "singleQuote": false,
-    "jsxSingleQuote": false,
-    "printWidth": 80,
-    "bracketSameLine": true,
-    "tailwindFunctions": [
-        "clsx",
-        "tv"
-    ]
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 80
 }
