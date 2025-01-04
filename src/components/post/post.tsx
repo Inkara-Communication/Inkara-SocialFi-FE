@@ -39,7 +39,7 @@ import { Button } from '../button';
 //-------------------------------------------------------------------------
 
 interface PostProps {
-  data: IPost ;
+  data: IPost;
   className?: string;
   onUpdatePost?: (updatedPost: IPost) => void;
   setParentComment?: (parentComment: { id: string; fullname: string }) => void;
@@ -53,7 +53,6 @@ export default function Post({
   data,
   className,
   onUpdatePost,
-  setParentComment,
   onDeleteSuccess,
   openMoreOptionsId,
   setOpenMoreOptionsId,
@@ -63,8 +62,6 @@ export default function Post({
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [isConfirm, setIsConfirm] = React.useState<boolean>(false);
 
-  const isPostType = 'isFeatured' in data || 'hasSaved' in data;
-  console.log('localData', localData);
   // const handleLikeClick = async () => {
   //   if (!isPostType) return;
 
@@ -180,23 +177,22 @@ export default function Post({
     >
       <div className="flex items-start gap-5">
         <Link
-          href={`/profile/${localData.creator}`}
+          href={`/profile/${localData.creatorId}`}
           className="cursor-pointer"
         >
-          {/* <Avatar alt="avatar" src={localData.photoId || ''} size={44} /> */}
+          <Avatar alt="avatar" src={localData?.user?.photo?.url || ''} size={44} />
         </Link>
         <div className="w-full flex flex-col gap-2">
           <div className="relative z-0 flex justify-items-auto items-center">
             <Link
-              href={`/profile/${localData.creator}`}
+              href={`/profile/${localData.creatorId}`}
               className="cursor-pointer"
             >
               <Typography
                 level="base2m"
                 className="text-primary font-bold justify-self-start opacity-80 mr-4"
               >
-                {/* {localData.author?.firstName} {localData.author?.lastName} */}
-                Hai Duong
+                {localData?.user.username}
               </Typography>
             </Link>
             <Typography
@@ -206,7 +202,7 @@ export default function Post({
               {relativeTime(new Date(localData.createdAt))}
             </Typography>
 
-            {data.creator === (userProfile as IUserProfile).id && (
+            {data.creatorId === (userProfile as IUserProfile).id && (
               <MoreIcon onClick={handleMoreOptions} />
             )}
           </div>
@@ -216,13 +212,13 @@ export default function Post({
             </Typography>
           </Link>
 
-          {isPostType && (localData as IPost).photoId && (
+          {(localData as IPost).photo.url && (
             <Link href={`/posts/${localData.id}`}>
               <Image
                 width={400}
                 height={400}
                 src={
-                  // (localData as IPost).photoId ||
+                  localData?.photo?.url ||
                   'https://i.pinimg.com/originals/d3/6f/ef/d36fef4f4885354afcfd3753dee95741.jpg'
                 }
                 alt="post-image"

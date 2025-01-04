@@ -1,5 +1,7 @@
 // import { ICommment } from './comment';
 
+import { IUserSimple } from "./user";
+
 export interface ILikes {
   id: string;
   userId: string;
@@ -20,13 +22,16 @@ export interface Comment {
 export interface IPost {
   id: string;
   content: string;
-  photoId?: string;
-  creator: string;
+  photo: {
+    url?: string;
+  };
+  creatorId: string;
   type: 'text' | 'media';
   createdAt: string;
   updatedAt: string;
   likes: ILikes[]
   comments?: Comment[];
+  user: IUserSimple;
 }
 
 export enum GetPostType {

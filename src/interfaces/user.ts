@@ -4,20 +4,17 @@ import { IPost } from './post';
 //-----------------------------------------------------------------------------
 export interface IUserSimple {
   id: string;
-  firstName: string;
-  lastName: string;
   username: string;
-  avatar: string | null;
+  photo: {
+    url: string;
+  };
 }
 
 export interface IUserProfile {
   id: string;
-  cover?: string;
-  avatar?: string;
   username: string;
-  firstName: string;
-  lastName: string;
   role: string;
+  address: string
   bio?: string;
   websiteUrl?: string;
   followerCount: number;
@@ -25,6 +22,9 @@ export interface IUserProfile {
   status: string;
   createdAt: string;
   updatedAt: string;
+  photo: {
+    url: string
+  };
   posts?: IPost[];
   media?: IImage[];
 }

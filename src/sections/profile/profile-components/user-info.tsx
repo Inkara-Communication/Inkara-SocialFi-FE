@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { useUserProfile } from '@/context/user-context';
@@ -66,15 +65,8 @@ export default function InfoUser({ user }: UserInfoProps) {
   return (
     <>
       <div className="w-full relative z-[2]">
-        <Image
-          width={1280}
-          height={180}
-          src={user.cover ? user.cover : '/img/default-cover.jpg'}
-          className="max-h-[11.25rem] w-full object-cover"
-          alt="cover"
-        />
         <AvatarProfile
-          avatar={user.avatar || USER_AVATAR_PLACEHOLDER}
+          avatar={user?.photo.url || USER_AVATAR_PLACEHOLDER}
           canEdit={false}
         />
       </div>
@@ -86,10 +78,10 @@ export default function InfoUser({ user }: UserInfoProps) {
         >
           <div className="grow opacity-80">
             <Typography level="title" className="text-primary">
-              {user.firstName} {user.lastName}
+              {user.username}
             </Typography>
             <Typography level="base2r" className="text-tertiary">
-              @{user.username}
+              {user.address}
             </Typography>
           </div>
 

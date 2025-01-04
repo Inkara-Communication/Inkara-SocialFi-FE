@@ -29,6 +29,8 @@ import NavigationBar from './navigationbar';
 
 import { USER_AVATAR_PLACEHOLDER } from '@/constant/contants';
 import { cn } from '@/lib/utils';
+import { IUserProfile } from '@/interfaces/user';
+import { logout } from '@/apis/auth';
 
 //-----------------------------------------------------------------------------------------------
 
@@ -48,14 +50,7 @@ export default function Sidebar({ className }: SidebarProps) {
       : item
   );
 
-  const { userProfile: user } = useUserProfile();
-
-  const currentUser = user && {
-    fullname: `${user.firstName} ${user.lastName}`,
-    nickname: user.username,
-    avatar: user.avatar || USER_AVATAR_PLACEHOLDER,
-    isActive: user.status === 'active',
-  };
+  const { userProfile } = useUserProfile();
 
   React.useEffect(() => {
     setIsExpanded(
@@ -136,8 +131,8 @@ export default function Sidebar({ className }: SidebarProps) {
         />
       </section>
       <section className="p-3 flex flex-col gap-2 items-center justify-center">
-        {currentUser && (
-          <UserSection isExpanded={isExpanded} user={currentUser} />
+        {userProfile && (
+          <UserSection isExpanded={isExpanded} user={userProfile} />
         )}
         <Button
           className={`${isExpanded ? 'px-6 py-3 w-full' : 'size-[44px]'}`}
@@ -171,16 +166,9 @@ export default function Sidebar({ className }: SidebarProps) {
   );
 }
 
-interface User {
-  fullname: string;
-  nickname: string;
-  avatar: string;
-  isActive: boolean;
-}
-
 interface UserSectionProps {
   isExpanded: boolean;
-  user: User;
+  user: IUserProfile;
 }
 
 export function UserSection({ isExpanded, user }: UserSectionProps) {
@@ -192,7 +180,8 @@ export function UserSection({ isExpanded, user }: UserSectionProps) {
     setIsMoreOptions(!isMoreOptions);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logout();
     auth.setToken(null);
   };
 
@@ -202,7 +191,11 @@ export function UserSection({ isExpanded, user }: UserSectionProps) {
         onClick={toggleMoreOptions}
         className={`relative z-20 flex p-1.5 gap-3 w-full items-center justify-center backdrop-blur-16  hover:bg-neutral1-5 active:bg-neutral4-30 ${isExpanded ? 'rounded-xl' : 'rounded-full '}`}
       >
-        <Avatar src={user.avatar} alt={user.nickname} size={32} />
+        <Avatar
+          src={user.photo.url || USER_AVATAR_PLACEHOLDER}
+          alt={user.username}
+          size={32}
+        />
 
         {isExpanded && (
           <div className="flex flex-1 items-center">
@@ -211,14 +204,14 @@ export function UserSection({ isExpanded, user }: UserSectionProps) {
                 level="base2sm"
                 className="text-secondary opacity-80 select-none"
               >
-                {user.fullname}
+                {user.username}
               </Typography>
               <br />
               <Typography
                 level="captionr"
                 className="text-tertiary opacity-45 select-none"
               >
-                @{user.nickname}
+                {`${user.address.slice(0, 12)}...${user.address.slice(-12)}`}
               </Typography>
             </span>
             <span className="p-1">

@@ -63,7 +63,7 @@ export const AccountsSection = () => {
         <div className="inline-block relative rounded-full bg-green-200 z-20">
           <Avatar
             size={64}
-            src={userProfile?.avatar || USER_AVATAR_PLACEHOLDER}
+            src={userProfile?.photo.url || USER_AVATAR_PLACEHOLDER}
             alt="Avatar"
             className="z-10 relative"
           />
@@ -77,11 +77,11 @@ export const AccountsSection = () => {
         <span className="flex flex-col items-center gap-2">
           <p className="font-rubik font-medium text-title text-primary self-center">
             {userProfile
-              ? `${userProfile.firstName} ${userProfile.lastName}`
+              ? `${userProfile.username}`
               : 'User'}
           </p>
           <p className="text-tertiary opacity-80">
-            {`@${userProfile?.username}` || '@username'}
+            {userProfile?.address}
           </p>
         </span>
       </SettingCard>

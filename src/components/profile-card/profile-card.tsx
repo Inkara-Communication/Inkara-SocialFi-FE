@@ -4,7 +4,7 @@ import { Button } from '@/components/button';
 import { Typography } from '@/components/typography';
 import { AddIcon } from '@/components/icons';
 
-import { IUserSimple } from '@/interfaces/user';
+import { IUserProfile } from '@/interfaces/user';
 
 import { cn } from '@/lib/utils';
 
@@ -14,7 +14,7 @@ import { Avatar } from '../avatar';
 
 interface ProfileCardProps {
   className?: string;
-  user: IUserSimple;
+  user: IUserProfile;
   types?: 'follower' | 'following';
   hasFollowedBack: boolean;
   onFollow?: () => void;
@@ -37,17 +37,17 @@ export default function ProfileCard({
         <div className="profile-info flex items-start gap-3">
           <div id="avatar-user" className="relative">
             <Avatar
-              src={user.avatar ? user.avatar : '/img/default-avatar.jpg'}
+              src={user.photo.url ? user.photo.url : '/img/default-avatar.jpg'}
               alt={`Avatar of ${user.username}`}
               className="size-[44px]"
             />
           </div>
           <div className="grow flex flex-col gap-1">
             <Typography level="base2sm" className="text-primary">
-              {user.firstName} {user.lastName}
+              {user.username}
             </Typography>
             <Typography className="text-tertiary opacity-80" level="captionr">
-              @{user.username}
+              {user.address}
             </Typography>
           </div>
 

@@ -18,7 +18,6 @@ import { Typography } from '@/components/typography';
 import { cn } from '@/lib';
 
 import { Button } from '../button';
-import { Dropdown } from '../dropdown';
 import { CloseIcon } from '../icons';
 import { SplashScreen } from '../loading-screen';
 
@@ -29,7 +28,7 @@ interface PostContentProps {
   className?: string;
   onCreated?: (isCreate: boolean) => void;
   postId?: string;
-  parentComment?: { id: string; fullname: string };
+  parentComment?: { id: string; username: string };
 }
 
 export default function ComposerInput({
@@ -72,13 +71,7 @@ export default function ComposerInput({
         id: tempId,
         content: content.trim(),
         image: uploadedImage,
-        author: {
-          id: userProfile?.id || '',
-          username: userProfile?.username || '',
-          firstName: userProfile?.firstName || '',
-          lastName: userProfile?.lastName || '',
-          avatar: userProfile?.avatar || null,
-        },
+        creatorId: userProfile?.id || '',
         type: uploadedImage === 'post' ? 'media' : 'text',
         hasLiked: false,
         hasSaved: false,
@@ -136,8 +129,8 @@ export default function ComposerInput({
   };
 
   React.useEffect(() => {
-    if (parentComment?.fullname) {
-      setContent(`@${parentComment.fullname} `);
+    if (parentComment?.username) {
+      setContent(`@${parentComment.username} `);
       if (inputRef.current) {
         inputRef.current.focus();
         inputRef.current.selectionStart = inputRef.current.value.length;
@@ -163,7 +156,7 @@ export default function ComposerInput({
           className="rounded-full"
           alt="avatar"
           size={40}
-          src={userProfile?.avatar}
+          src={userProfile?.photo?.url}
         />
 
         <div className="flex-1">

@@ -26,7 +26,7 @@ export const getUserList = async <T>({
 };
 
 export const getUserProfile = async (): Promise<IApiResponse<IUserProfile>> => {
-  const { data } = await axiosInstance.get(endpoints.user.profile);
+  const { data } = await axiosInstance.get(endpoints.user.me);
 
   return data;
 };
@@ -35,7 +35,7 @@ export const updateUserProfile = async (
   profileData: Partial<IUserProfile> & { password?: string }
 ): Promise<IApiResponse<IUserProfile>> => {
   const { data } = await axiosInstance.patch(
-    endpoints.user.profile,
+    endpoints.user.me,
     profileData
   );
   return data;

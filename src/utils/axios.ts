@@ -56,17 +56,17 @@ export const endpoints = {
   },
 
   user: {
-    get: `/me`,
+    me: `/user/me`,
     create: `/profile/`,
     update: `/profile`,
-    profile: `/profile`,
-    bookmark: (id: string) => `/users/${id}/saved-posts`,
-    followers: (id: string) => `/users/${id}/followers`,
-    followings: (id: string) => `/users/${id}/followings`,
-    follow: (id: string) => `/users/${id}/follow`,
-    unfollow: (id: string) => `/users/${id}/unfollow`,
-    profileById: (id: string) => `/users/${id}`,
-    hasFollowed: (id: string) => `/users/${id}/has-followed`,
+    profile: (id: string) => `user/${id}`,
+    bookmark: (id: string) => `/user/${id}/saved-posts`,
+    followers: (id: string) => `/user/${id}/followers`,
+    followings: (id: string) => `/user/${id}/followings`,
+    follow: (id: string) => `/user/${id}/follow`,
+    unfollow: (id: string) => `/user/${id}/unfollow`,
+    profileById: (id: string) => `/user/${id}`,
+    hasFollowed: (id: string) => `/user/${id}/has-followed`,
   },
 
   post: {

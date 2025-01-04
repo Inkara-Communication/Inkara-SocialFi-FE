@@ -45,7 +45,6 @@ export default function LoginView() {
     }
 
     const walletClient = await ConnectWalletClient();
-    const publicClient = ConnectPublicClient();
     // Retrieve the wallet address using the Wallet Client
     const [address] = await walletClient.requestAddresses();
     try {

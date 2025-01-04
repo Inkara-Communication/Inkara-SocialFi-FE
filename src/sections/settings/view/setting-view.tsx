@@ -61,13 +61,6 @@ const SettingsView = () => {
 
   const { userProfile } = useUserProfile();
 
-  const currentUser = userProfile && {
-    fullname: `${userProfile.firstName} ${userProfile.lastName}`,
-    nickname: userProfile.username,
-    avatar: userProfile.avatar || USER_AVATAR_PLACEHOLDER,
-    isActive: userProfile.status === 'active',
-  };
-
   const isLargeScreen =
     breakpoint === 'lg' ||
     breakpoint === 'xl' ||
@@ -127,7 +120,7 @@ const SettingsView = () => {
           <SearchInput placeholder="Search settings" />
         </section>
         <ul className="h-full flex-1 flex flex-col gap-2 overflow-auto no-scrollbar">
-          {currentUser && (
+          {userProfile && (
             <ListTile
               key="account-settings"
               active={'account-settings' === currentView}
@@ -135,19 +128,19 @@ const SettingsView = () => {
                 router.replace(`${paths.settings}?view=${'account-settings'}`)
               }
             >
-              <Avatar src={currentUser.avatar} alt={currentUser.nickname} />
+              <Avatar src={userProfile?.photo.url || USER_AVATAR_PLACEHOLDER } alt={userProfile.username} />
               <div className="flex-1 flex flex-col items-start">
                 <Typography
                   level="baser"
                   className="font-medium text-secondary"
                 >
-                  {currentUser.fullname}
+                  {userProfile.username}
                 </Typography>
                 <Typography
                   level="baser"
                   className="font-medium text-xs text-tertiary"
                 >
-                  @{currentUser.nickname}
+                  {userProfile.address}
                 </Typography>
               </div>
               <span

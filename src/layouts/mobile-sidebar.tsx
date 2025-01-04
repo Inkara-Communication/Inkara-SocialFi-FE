@@ -27,14 +27,7 @@ type MobileSidebarProps = {
 const MobileSidebar = ({ onClose, className }: MobileSidebarProps) => {
   const navItems = NAVIGATION_ITEMS;
 
-  const { userProfile: user } = useUserProfile();
-
-  const currentUser = user && {
-    fullname: `${user.firstName} ${user.lastName}`,
-    nickname: user.username,
-    avatar: user.avatar || USER_AVATAR_PLACEHOLDER,
-    isActive: user.status === 'active',
-  };
+  const { userProfile } = useUserProfile();
 
   return (
     <section
@@ -55,9 +48,9 @@ const MobileSidebar = ({ onClose, className }: MobileSidebarProps) => {
         className="flex-1 px-3"
       />
       <div className="p-3 flex flex-col gap-2 items-center justify-center">
-        {currentUser && (
+        {userProfile && (
           <div className="flex p-1.5 gap-3 w-full items-center justify-center">
-            <Avatar src={currentUser.avatar} alt={currentUser.nickname} />
+            <Avatar src={userProfile.photo.url || USER_AVATAR_PLACEHOLDER} alt='' />
 
             <div className="flex flex-1 items-center bg-red-100">
               <span className="flex-grow">
@@ -65,14 +58,14 @@ const MobileSidebar = ({ onClose, className }: MobileSidebarProps) => {
                   level="base2sm"
                   className="text-secondary opacity-80 select-none"
                 >
-                  {currentUser.fullname}
+                  {userProfile.username}
                 </Typography>
                 <br />
                 <Typography
                   level="captionr"
                   className="text-tertiary opacity-45 select-none"
                 >
-                  @{currentUser.nickname}
+                  {userProfile.address}
                 </Typography>
               </span>
               <span className="p-1 inline-flex gap-1 z-9">
