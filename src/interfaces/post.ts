@@ -1,43 +1,35 @@
-import { ICommment } from './comment';
-import { ITopic } from './topic';
-export interface Comment {
-  id: number;
-  user?: {
-    name: string;
-    avatar: string;
-  };
-  content?: {
-    text: string;
-    image?: string;
-  };
-  interactions?: {
-    likes: number;
-    reposts: number;
-    comments: number;
-  };
-}
+// import { ICommment } from './comment';
 
-export interface IAuthor {
+export interface ILikes {
   id: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  avatar: string | null;
+  userId: string;
+  postId: string;
+  type: 'post' | 'comment';
+  createdAt: string;
+  updatedAt: string;
+}
+export interface Comment {
+  id: string;
+  postId: string;
+  userId: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IPost {
   id: string;
   content: string;
-  image: string;
-  isFeatured: boolean;
-  commentCount: number;
-  likedCount: number;
-  type: string;
+  photoId?: string;
+  creator: string;
+  type: 'text' | 'media';
   createdAt: string;
   updatedAt: string;
-  topic: ITopic;
-  author: IAuthor;
-  hasLiked: boolean;
-  hasSaved: boolean;
-  comments?: ICommment[];
+  likes: ILikes[]
+  comments?: Comment[];
+}
+
+export enum GetPostType {
+  FOLLOWING = 'FOLLOWING',
+  EXPLORER = 'EXPLORER'
 }

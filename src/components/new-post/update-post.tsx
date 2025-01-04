@@ -3,11 +3,9 @@ import React from 'react';
 import { z } from 'zod';
 
 import { updatePost } from '@/apis/post';
-import { getTopics } from '@/apis/topic';
 import { usePost } from '@/context/post-context';
 import { useUserProfile } from '@/context/user-context';
 import { IPost } from '@/interfaces/post';
-import { ITopic } from '@/interfaces/topic';
 import { type UpdatePost, updatePostSchema } from '@/schema/posts-schema';
 
 import { Avatar } from '@/components/avatar';
@@ -42,8 +40,6 @@ export default function UpdatePost({
   const { userProfile } = useUserProfile();
   const { posts, updatePostCtx } = usePost();
 
-  const [selectedTopic, setSelectedTopic] = React.useState<string>('');
-  const [topics, setTopics] = React.useState<ITopic[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string>('');
 
@@ -59,28 +55,12 @@ export default function UpdatePost({
   React.useEffect(() => {
     if (post) {
       setContent(post.content);
-      setSelectedTopic(post.topic.id);
       if (post.image) {
         setPreviewUrl(post.image);
         setUploadedImage(post.image);
       }
     }
   }, [post]);
-
-  React.useEffect(() => {
-    getTopics()
-      .then((response) => {
-        setTopics(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching topics:', error);
-        setError('Failed to load topics.');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleSubmit = async () => {
     if (!post) return;
@@ -90,8 +70,7 @@ export default function UpdatePost({
 
       const postData: UpdatePost = {
         content: content.trim(),
-        image: uploadedImage || '',
-        topicId: selectedTopic,
+        image: uploadedImage || ''
       };
 
       const validatedData = updatePostSchema.parse(postData);
@@ -100,8 +79,6 @@ export default function UpdatePost({
         ...post,
         content: content.trim(),
         image: uploadedImage,
-        topic: topics.find((topic) => topic.id === selectedTopic) || post.topic,
-        updatedAt: new Date().toISOString(),
       };
 
       updatePostCtx(optimisticPost);
@@ -228,17 +205,6 @@ export default function UpdatePost({
               setPreviewUrl={setPreviewUrl}
               setUploadedImage={setUploadedImage}
               setIsUploading={setIsUploading}
-            />
-
-            <Dropdown
-              options={topics.map((topic) => ({
-                label: topic.name,
-                value: topic.id,
-                color: topic.color,
-              }))}
-              value={selectedTopic}
-              onChange={setSelectedTopic}
-              placeholder="Select a topic"
             />
 
             <Button

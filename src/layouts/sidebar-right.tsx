@@ -38,7 +38,10 @@ export default function SidebarRight({ className }: SidebarRightProps) {
       setIsLoading((prev) => ({ ...prev, posts: true }));
       try {
         const params = { type: 'media', limit: 10 };
-        const response = await getPosts(params);
+        const response = await getPosts('DAY', 'EXPLORER',
+          0,
+          1,
+          5);
         setPosts(response.data);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -125,11 +128,10 @@ export default function SidebarRight({ className }: SidebarRightProps) {
             {posts.map((post) => (
               <TrendingPostCard
                 key={post.id}
-                topic={post.topic}
                 author={post.author}
                 alt={post.id}
                 content={post.content}
-                image={post.image}
+                image={post.image ?? ''}
                 time={post.createdAt}
               />
             ))}
@@ -164,10 +166,9 @@ export default function SidebarRight({ className }: SidebarRightProps) {
                 {posts.map((post) => (
                   <li key={post.id} className="mb-2">
                     <TrendingPostCard
-                      topic={post.topic}
                       alt={post.id}
                       author={post.author}
-                      image={post.image}
+                      image={post.image ?? ''}
                       content={post.content}
                       time={post.createdAt}
                     />

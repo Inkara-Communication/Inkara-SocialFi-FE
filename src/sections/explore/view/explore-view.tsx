@@ -3,11 +3,9 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
-import { getTopics } from '@/apis/topic';
 import { getPosts } from '@/apis/post';
 
 import { IPost } from '@/interfaces/post';
-import { ITopic } from '@/interfaces/topic';
 
 import { SplashScreen } from '@/components/loading-screen';
 import { Button } from '@/components/button';
@@ -24,51 +22,27 @@ import ExploreCard from '../explore-card';
 export default function ExploreView() {
   const router = useRouter();
   const [searchStr, setSearchStr] = React.useState<string>('');
-  const [topics, setTopics] = React.useState<string[]>([]);
   const [posts, setPosts] = React.useState<IPost[]>([]);
   const [filteredPosts, setFilteredPosts] = React.useState<IPost[]>(posts);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<Error | null>(null);
 
-  React.useEffect(() => {
-    (async () => {
-      try {
-        const response = await getPosts({ str: searchStr, type: 'media' });
-        setPosts(response.data);
-        setFilteredPosts(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-        setError(new Error('Failed to fetch posts'));
-      }
-    })();
-  }, [searchStr]);
-
-  React.useEffect(() => {
-    const fetchTopics = async () => {
-      try {
-        const response = await getTopics();
-
-        const topicNames = response.data.map((topic: ITopic) => topic.name);
-        setTopics(['All', ...topicNames]);
-      } catch (error) {
-        console.error('Error fetching topics:', error);
-      } finally {
-      }
-    };
-
-    fetchTopics();
-  }, []);
+  // React.useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const response = await getPosts({ str: searchStr, type: 'media' });
+  //       setPosts(response.data);
+  //       setFilteredPosts(response.data);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       console.error('Error fetching posts:', error);
+  //       setError(new Error('Failed to fetch posts'));
+  //     }
+  //   })();
+  // }, [searchStr]);
 
   const handleTagSelect = (tag: string) => {
-    if (tag === 'All') {
-      setFilteredPosts(posts);
-    } else {
-      const topicFilteredPosts = posts.filter(
-        (post) => post.topic.name === tag
-      );
-      setFilteredPosts(topicFilteredPosts);
-    }
+    setFilteredPosts(posts);
   };
 
   return (
@@ -85,7 +59,6 @@ export default function ExploreView() {
           setSearch={setSearchStr}
         />
       </div>
-      <FilterBar tagNames={topics} onTagSelect={handleTagSelect} />
       {isLoading ? (
         <SplashScreen />
       ) : error ? (

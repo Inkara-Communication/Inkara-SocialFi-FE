@@ -16,7 +16,7 @@ export default function HeaderExplore() {
         className="size-[44px]"
         child={<ArrowBackIcon />}
       />
-      <SearchInput placeholder={'Search topics...'} />
+      <SearchInput placeholder={'Search others...'} />
     </div>
   );
 }

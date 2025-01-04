@@ -72,7 +72,7 @@ export default function LoginView() {
       });
 
       const authTokens = await login({ address, signature });
-      setToken(authTokens.data);
+      setToken(authTokens.data.accessToken);
       router.push('/');
     } catch (err: any) {
       console.error(err);
@@ -130,7 +130,7 @@ export default function LoginView() {
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Inkara</AlertDialogTitle>
+                    <AlertDialogTitle>Notification</AlertDialogTitle>
                   </AlertDialogHeader>
                   <AlertDialogDescription>
                     Hiện tại tính năng này chưa được hỗ trợ
@@ -140,18 +140,6 @@ export default function LoginView() {
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-
-              <Typography
-                level="captionr"
-                className="opacity-80 flex items-center gap-2 text-secondary justify-center"
-              >
-                Don&rsquo;t have an account?
-                <a href="/register" className="opacity-100 font-semibold">
-                  <Typography level="captionsm" className="opacity-100">
-                    Sign up, it&rsquo;s free!
-                  </Typography>
-                </a>
-              </Typography>
             </div>
           </div>
         </div>

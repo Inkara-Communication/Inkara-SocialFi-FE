@@ -6,8 +6,7 @@ const ROOTS = {
 export const paths = {
   // AUTH
   auth: {
-    login: `${ROOTS.HOME}/login`,
-    register: `${ROOTS.HOME}/register`,
+    login: `${ROOTS.HOME}/login`
   },
   settings: `${ROOTS.HOME}settings`,
 };

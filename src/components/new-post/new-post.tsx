@@ -3,11 +3,9 @@ import React from 'react';
 import { z } from 'zod';
 
 import { createPost } from '@/apis/post';
-import { getTopics } from '@/apis/topic';
 import { usePost } from '@/context/post-context';
 import { useUserProfile } from '@/context/user-context';
 import { IPost } from '@/interfaces/post';
-import { ITopic } from '@/interfaces/topic';
 import { CreatePost, createPostSchema } from '@/schema/posts-schema';
 
 import { Avatar } from '@/components/avatar';
@@ -36,54 +34,28 @@ export default function NewPost({ onBack }: INewPostProps) {
   const { userProfile } = useUserProfile();
   const { addPost } = usePost();
 
-  const [selectedTopic, setSelectedTopic] = React.useState<string>('');
-  const [topics, setTopics] = React.useState<ITopic[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string>('');
 
   const [content, setContent] = React.useState<string>('');
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
 
-  React.useEffect(() => {
-    getTopics()
-      .then((response) => {
-        setTopics(response.data);
-        setSelectedTopic(response.data[0].id);
-      })
-      .catch((error) => {
-        console.error('Error fetching topics:', error);
-        setError('Failed load topics.');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true);
 
-      const postData: CreatePost = {
+      const postData = {
         content: content.trim(),
-        image: uploadedImage || null,
-        topicId: selectedTopic,
+        image: uploadedImage || null
       };
 
       const validatedData = createPostSchema.parse(postData);
       const tempId = Math.random().toString(36).substring(2, 15);
 
-      const newPost: IPost = {
+      const newPost = {
         id: tempId,
         content: content.trim(),
         image: uploadedImage,
-        topic: topics.find((topic) => topic.id === selectedTopic) || {
-          id: '',
-          name: '',
-          color: '',
-          postCount: 0,
-          createdAt: '',
-          updatedAt: '',
-        },
         author: {
           id: userProfile?.id || '',
           username: userProfile?.username || '',
@@ -91,9 +63,6 @@ export default function NewPost({ onBack }: INewPostProps) {
           lastName: userProfile?.lastName || '',
           avatar: userProfile?.avatar || null,
         },
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        isFeatured: false,
         commentCount: 0,
         likedCount: 0,
         type: uploadedImage === 'post' ? 'media' : 'text',
@@ -226,19 +195,7 @@ export default function NewPost({ onBack }: INewPostProps) {
               setIsUploading={setIsUploading}
             />
 
-            {/* <GifButton /> */}
             {/* <TagButton /> */}
-
-            <Dropdown
-              options={topics.map((topic) => ({
-                label: topic.name,
-                value: topic.id,
-                color: topic.color,
-              }))}
-              value={selectedTopic}
-              onChange={setSelectedTopic}
-              placeholder="Select an topic"
-            />
 
             <Button
               disabled={!content.trim() || isUploading || isSubmitting}

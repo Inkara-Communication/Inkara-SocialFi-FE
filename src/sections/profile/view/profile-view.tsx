@@ -28,22 +28,22 @@ export default function ProfileView() {
   );
   const [isDeleted, setIsDeleted] = React.useState<boolean>(false);
 
-  React.useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      try {
-        const data = await getPosts({ ...params, userId: userProfile?.id });
-        setPosts(data.data);
-        setPostMedia(data.data.filter((post) => post.type === 'media'));
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-        setError('Failed load posts.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPosts();
-  }, [params, userProfile, isDeleted]);
+  // React.useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const data = await getPostById({ ...params, userId: userProfile?.id });
+  //       setPosts(data.data);
+  //       setPostMedia(data.data.filter((post) => post.type === 'media'));
+  //     } catch (error) {
+  //       console.error('Error fetching posts:', error);
+  //       setError('Failed load posts.');
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchPosts();
+  // }, [params, userProfile, isDeleted]);
 
   const handleToggle = (key: string) => {
     switch (key) {

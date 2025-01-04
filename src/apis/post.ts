@@ -7,25 +7,39 @@ import { CreatePost, UpdatePost } from '@/schema/posts-schema';
 
 //--------------------------------------------------------------------------------------------
 
-export const getPosts = async (params?: {
-  str?: string;
-  limit?: number;
-  userId?: string;
-  type?: string;
-}): Promise<IApiResponse<IPost[]>> => {
-  const response = await axiosInstance.get<IApiResponse<IPost[]>>(
-    endpoints.post.get,
+export const getPosts = async (
+  period: 'DAY',
+  filterBy: 'EXPLORER',
+  startId: 0,
+  offset: 1,
+  limit: 5,
+): Promise<IApiResponse<any>> => {
+  const filter = {
+    period,
+    filterBy,
+  }
+  const pagination = {
+    startId,
+    offset,
+    limit,
+  }
+  const response = await axiosInstance.get<IApiResponse<any>>(
+    endpoints.post.getMany,
     {
-      params,
+      params: {
+        ...filter,
+        ...pagination
+      }
     }
   );
+  console.log(response.data);
   return response.data;
 };
 
 export const getPostDetail = async (
   id: string
 ): Promise<IApiResponse<IPost>> => {
-  const response = await axiosInstance.get(`${endpoints.post.get}/${id}`);
+  const response = await axiosInstance.get(`${endpoints.post.getById}/${id}`);
   return response.data;
 };
 

@@ -4,7 +4,6 @@ export interface ICommment {
   id: string;
   userId: string;
   postId: string;
-  parentId: string | null;
   content: string;
   likedCount: number;
   replyCount?: number;
@@ -20,7 +19,6 @@ export interface IChilrenComment {
   id: string;
   userId: string;
   postId: string;
-  parentId: string | null;
   content: string;
   likedCount: number;
   createdAt: string;

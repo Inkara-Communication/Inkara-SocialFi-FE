@@ -6,7 +6,6 @@ import { Typography } from '@/components/typography';
 import { cn } from '@/lib/utils';
 
 import { IAuthor } from '@/interfaces/post';
-import { ITopic } from '@/interfaces/topic';
 import { relativeTime } from '@/utils/relative-time';
 
 import { Avatar } from '../avatar';
@@ -20,7 +19,6 @@ interface TrendingPostCardProps {
   alt: string;
   time: string;
   author: IAuthor;
-  topic: ITopic;
 }
 
 export default function TrendingPostCard({
@@ -29,7 +27,6 @@ export default function TrendingPostCard({
   image,
   alt,
   author,
-  topic,
   time,
 }: TrendingPostCardProps) {
   return (
@@ -75,15 +72,6 @@ export default function TrendingPostCard({
               </div>
               <Typography level="captionr" className="opacity-45 text-tertiary">
                 {relativeTime(new Date(time))}
-              </Typography>
-              <div
-                className="p-1 rounded-full"
-                style={{
-                  backgroundColor: `${topic.color ? topic.color : '#ffffff'}`,
-                }}
-              ></div>
-              <Typography level="captionr" className="text-tertiary">
-                {topic.name}
               </Typography>
             </div>
           )}

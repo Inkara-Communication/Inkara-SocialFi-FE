@@ -49,20 +49,23 @@ export default function ProfileUserView({ userId }: ProfileUserViewProps) {
     fetchUserProfile();
   }, [userId]);
 
-  React.useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const data = await getPosts({ ...params, userId });
-        setPosts(data.data);
-        setPostMedia(data.data.filter((post) => post.type === 'media'));
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-        setError('Failed to load posts.');
-      }
-    };
+  // React.useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     try {
+  //       const response = await getPosts('EXPLORER',
+  //         1,
+  //         5,
+  //         5);
+  //       setPosts(response.data);
+  //       setPostMedia(response.data.filter((post) => post.type === 'media'));
+  //     } catch (error) {
+  //       console.error('Error fetching posts:', error);
+  //       setError('Failed to load posts.');
+  //     }
+  //   };
 
-    fetchPosts();
-  }, [params, userId]);
+  //   fetchPosts();
+  // }, [params, userId]);
 
   const handleToggle = (key: string) => {
     switch (key) {

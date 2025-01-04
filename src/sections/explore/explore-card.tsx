@@ -20,12 +20,10 @@ export default function ExploreCard({ post }: IExploreCardProps) {
       className="group w-full min-w-[17.5rem] flex flex-col rounded-[20px] p-3 bg-neutral2-2 gap-3 md:items-start md:justify-center md:hover:bg-hover"
     >
       <Image
-        src={post.image}
+        src={post.image ?? ''}
         alt={
           'Image post by user ' +
-          post.author.username +
-          ' with topic ' +
-          post.topic?.name
+          post.author.username
         }
         height={500}
         width={900}
@@ -57,14 +55,6 @@ export default function ExploreCard({ post }: IExploreCardProps) {
         {/* <Typography level="small" className="text-tertiary mr-auto">
           {relativeTime(new Date(post.createdAt))}
         </Typography> */}
-
-        <Typography
-          level="smallsm"
-          className={`text-tertiary inline-flex items-center gap-2 before:size-2 before:rounded-full before:inset-0 before:bg-[var(--color)]`}
-          style={{ '--color': post.topic?.color } as React.CSSProperties}
-        >
-          {post.topic?.name}
-        </Typography>
       </div>
     </Link>
   );

@@ -8,7 +8,7 @@ interface PostContextType {
   posts: IPost[];
   filter: FilterType;
   setFilter: React.Dispatch<React.SetStateAction<FilterType>>;
-  addPost: (newPost: IPost) => void;
+  addPost: (newPost: any) => void;
   updatePostCtx: (updatedPost: IPost) => void;
   setPosts: (posts: IPost[]) => void;
   isLoading: boolean;
@@ -34,7 +34,10 @@ function usePostsManager(initialFilter: FilterType) {
   const fetchPosts = React.useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await getPosts(filter);
+      const response = await getPosts('DAY', 'EXPLORER',
+        0,
+        1,
+        5);
       setPosts(response.data);
       setError(null);
     } catch (error) {

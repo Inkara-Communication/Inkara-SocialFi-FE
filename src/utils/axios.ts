@@ -11,7 +11,7 @@ const axiosInstance = axios.create({ baseURL: HOST_API });
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token && config.headers) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -70,28 +70,23 @@ export const endpoints = {
   },
 
   post: {
-    get: `/posts`,
-    create: `/posts`,
-    update: (id: string) => `/posts/${id}`,
-    delete: (id: string) => `/posts/${id}`,
-    detail: `/posts/:id`,
-    like: (id: string) => `/posts/${id}/like`,
-    unlike: (id: string) => `/posts/${id}/unlike`,
-    save: (id: string) => `/posts/${id}/save`,
-    unsave: (id: string) => `/posts/${id}/unsave`,
+    getById: (id: string) => `/post/${id}`,
+    getMany: `/post`,
+    create: `/post`,
+    update: (id: string) => `/post/${id}`,
+    delete: (id: string) => `/post/${id}`,
+    detail: `/post/:id`,
+    like: (id: string) => `/post/${id}/like`,
+    unlike: (id: string) => `/post/${id}/unlike`,
+    save: (id: string) => `/post/${id}/save`,
+    unsave: (id: string) => `/post/${id}/unsave`,
   },
   media: {
     upload: `/upload-file`,
   },
 
-  topic: {
-    get: `/topics`,
-    detail: `/topics/:id`,
-    create: `/topics`,
-  },
-
   notification: {
-    get: `/notifications`,
+    get: `/notification`,
     read: (id: string) => `/notifications/${id}/read`,
     readAll: `/notifications/read-all`,
   },

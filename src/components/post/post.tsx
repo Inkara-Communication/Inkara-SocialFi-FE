@@ -39,7 +39,7 @@ import { Button } from '../button';
 //-------------------------------------------------------------------------
 
 interface PostProps {
-  data: IPost | ICommment | IChilrenComment;
+  data: IPost ;
   className?: string;
   onUpdatePost?: (updatedPost: IPost) => void;
   setParentComment?: (parentComment: { id: string; fullname: string }) => void;
@@ -64,77 +64,73 @@ export default function Post({
   const [isConfirm, setIsConfirm] = React.useState<boolean>(false);
 
   const isPostType = 'isFeatured' in data || 'hasSaved' in data;
+  console.log('localData', localData);
+  // const handleLikeClick = async () => {
+  //   if (!isPostType) return;
 
-  const handleLikeClick = async () => {
-    if (!isPostType) return;
+  //   const updatedData = {
+  //     ...localData
+  //   } as IPost;
 
-    const newLikedCount =
-      localData.likedCount + ((localData as IPost).hasLiked ? -1 : 1);
-    const updatedData = {
-      ...localData,
-      hasLiked: !(localData as IPost).hasLiked,
-      likedCount: newLikedCount,
-    } as IPost;
+  //   setLocalData(updatedData);
+  //   if (onUpdatePost) {
+  //     onUpdatePost(updatedData);
+  //   }
 
-    setLocalData(updatedData);
-    if (onUpdatePost) {
-      onUpdatePost(updatedData);
-    }
-
-    try {
-      if ((localData as IPost).hasLiked) {
-        await unlikePost(localData.id);
-      } else {
-        await likePost(localData.id);
-      }
-    } catch (error) {
-      console.error('Failed to update like status:', error);
-      setLocalData(localData);
-      if (onUpdatePost) {
-        onUpdatePost(localData as IPost);
-      }
-    }
-  };
+  //   try {
+  //     if ((localData as IPost).hasLiked) {
+  //       await unlikePost(localData.id);
+  //     } else {
+  //       await likePost(localData.id);
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to update like status:', error);
+  //     setLocalData(localData);
+  //     if (onUpdatePost) {
+  //       onUpdatePost(localData as IPost);
+  //     }
+  //   }
+  // };
 
   const handleMoreOptions = () => {
     setOpenMoreOptionsId?.(openMoreOptionsId === data.id ? null : data.id);
   };
 
-  const handleBookmarkClick = async () => {
-    if (!isPostType) return;
+  // const handleBookmarkClick = async () => {
+  //   if (!isPostType) return;
 
-    const updatedData = {
-      ...localData,
-      hasSaved: !(localData as IPost).hasSaved,
-    } as IPost;
+  //   const updatedData = {
+  //     ...localData,
+  //     hasSaved: !(localData as IPost).hasSaved,
+  //   } as IPost;
 
-    setLocalData(updatedData);
-    if (onUpdatePost) {
-      onUpdatePost(updatedData);
-    }
+  //   setLocalData(updatedData);
+  //   if (onUpdatePost) {
+  //     onUpdatePost(updatedData);
+  //   }
 
-    try {
-      if ((localData as IPost).hasSaved) {
-        await unsavePost(localData.id);
-      } else {
-        await savePost(localData.id);
-      }
-    } catch (error) {
-      console.error('Failed to update bookmark status:', error);
-      setLocalData(localData);
-      if (onUpdatePost) {
-        onUpdatePost(localData as IPost);
-      }
-    }
-  };
+  //   try {
+  //     if ((localData as IPost).hasSaved) {
+  //       await unsavePost(localData.id);
+  //     } else {
+  //       await savePost(localData.id);
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to update bookmark status:', error);
+  //     setLocalData(localData);
+  //     if (onUpdatePost) {
+  //       onUpdatePost(localData as IPost);
+  //     }
+  //   }
+  // };
 
-  const handleReplyComment = () => {
-    if (isPostType) return;
-    setParentComment?.({
-      id: data.id,
-      fullname: `${data.author.firstName} ${data.author.lastName}`,
-    });
-  };
+  // const handleReplyComment = () => {
+  //   if (isPostType) return;
+  //   setParentComment?.({
+  //     id: data.id,
+  //     fullname: `${data.author.firstName} ${data.author.lastName}`,
+  //   });
+  // };
 
   const handleUpdatePost = (updatedPost: IPost) => {
     setLocalData(updatedPost);
@@ -184,22 +180,23 @@ export default function Post({
     >
       <div className="flex items-start gap-5">
         <Link
-          href={`/profile/${localData.author.id}`}
+          href={`/profile/${localData.creator}`}
           className="cursor-pointer"
         >
-          <Avatar alt="avatar" src={localData.author.avatar || ''} size={44} />
+          {/* <Avatar alt="avatar" src={localData.photoId || ''} size={44} /> */}
         </Link>
         <div className="w-full flex flex-col gap-2">
           <div className="relative z-0 flex justify-items-auto items-center">
             <Link
-              href={`/profile/${localData.author.id}`}
+              href={`/profile/${localData.creator}`}
               className="cursor-pointer"
             >
               <Typography
                 level="base2m"
                 className="text-primary font-bold justify-self-start opacity-80 mr-4"
               >
-                {localData.author?.firstName} {localData.author?.lastName}
+                {/* {localData.author?.firstName} {localData.author?.lastName} */}
+                Hai Duong
               </Typography>
             </Link>
             <Typography
@@ -209,7 +206,7 @@ export default function Post({
               {relativeTime(new Date(localData.createdAt))}
             </Typography>
 
-            {data.author.id === (userProfile as IUserProfile).id && (
+            {data.creator === (userProfile as IUserProfile).id && (
               <MoreIcon onClick={handleMoreOptions} />
             )}
           </div>
@@ -219,13 +216,13 @@ export default function Post({
             </Typography>
           </Link>
 
-          {isPostType && (localData as IPost).image && (
+          {isPostType && (localData as IPost).photoId && (
             <Link href={`/posts/${localData.id}`}>
               <Image
                 width={400}
                 height={400}
                 src={
-                  (localData as IPost).image ||
+                  // (localData as IPost).photoId ||
                   'https://i.pinimg.com/originals/d3/6f/ef/d36fef4f4885354afcfd3753dee95741.jpg'
                 }
                 alt="post-image"
@@ -244,14 +241,16 @@ export default function Post({
 
       <div className="flex justify-end items-center md:justify-start md:pl-[48px]">
         <ReactItem
-          value={localData.likedCount}
+          // value={localData.likedCount}
+          value={0}
           icon={
-            <HeartIcon isActive={isPostType && (localData as IPost).hasLiked} />
+            // <HeartIcon isActive={isPostType && (localData as IPost).hasLiked} />
+            <HeartIcon isActive={false} />
           }
-          onClick={handleLikeClick}
+          // onClick={handleLikeClick}
         />
 
-        {isPostType ? (
+        {/* {isPostType ? (
           <ReactItem
             value={(localData as IPost).commentCount || 0}
             icon={<CommentIcon />}
@@ -260,9 +259,9 @@ export default function Post({
           <button onClick={handleReplyComment}>
             <CommentIcon />
           </button>
-        )}
+        )} */}
 
-        {isPostType && (
+        {/* {isPostType && (
           <div className="flex items-center md:grow justify-end gap-4">
             <button
               type="button"
@@ -276,7 +275,7 @@ export default function Post({
               />
             </button>
           </div>
-        )}
+        )} */}
       </div>
 
       {isEdit && (
