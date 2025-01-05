@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { useUserProfile } from '@/context/user-context';
 import { IUserProfile } from '@/interfaces/user';
@@ -33,11 +34,11 @@ export default function InfoUser({ user }: UserInfoProps) {
   const [isFollowed, setIsFollowed] = React.useState<boolean>(false);
   const [isCopied, setIsCopied] = React.useState<boolean>(false);
 
-  React.useEffect(() => {
-    (async () => {
-      setIsFollowed(await hasFollowed(user.id));
-    })();
-  }, [user]);
+  // React.useEffect(() => {
+  //   (async () => {
+  //     setIsFollowed(await hasFollowed(user.id));
+  //   })();
+  // }, [user]);
 
   const handleFollow = () => {
     if (isFollowed) {
@@ -65,6 +66,13 @@ export default function InfoUser({ user }: UserInfoProps) {
   return (
     <>
       <div className="w-full relative z-[2]">
+      <Image
+          width={1280}
+          height={180}
+          src={'/img/default-cover.jpg'}
+          className="max-h-[11.25rem] w-full object-cover"
+          alt="cover"
+        />
         <AvatarProfile
           avatar={user?.photo.url || USER_AVATAR_PLACEHOLDER}
           canEdit={false}

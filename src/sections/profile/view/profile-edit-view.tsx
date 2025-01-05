@@ -80,12 +80,12 @@ export default function ProfileEditView() {
           width={1280}
           height={180}
           src={
-            userProfile?.cover ? userProfile.cover : '/img/default-cover.jpg'
+            '/img/default-cover.jpg'
           }
           className="max-h-[11.25rem] w-full object-cover"
           alt="cover"
         />
-        <AvatarProfile avatar={userProfile?.avatar} canEdit={true} />
+        <AvatarProfile avatar={userProfile?.photo.url} canEdit={true} />
       </div>
       {userProfile && (
         <EditForm
@@ -99,7 +99,7 @@ export default function ProfileEditView() {
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
         onUpdateAvatar={handleCoverUpdate}
-        currentAvatar={userProfile?.cover || '/img/default-cover.jpg'}
+        currentAvatar={userProfile?.photo.url || '/img/default-cover.jpg'}
         type="cover"
       />
     </section>
