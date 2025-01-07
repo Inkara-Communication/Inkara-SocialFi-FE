@@ -4,7 +4,7 @@ import { Button } from '@/components/button';
 import { Typography } from '@/components/typography';
 import { AddIcon } from '@/components/icons';
 
-import { IUserProfile } from '@/interfaces/user';
+import { IUserSimple } from '@/interfaces/user';
 
 import { cn } from '@/lib/utils';
 
@@ -14,9 +14,8 @@ import { Avatar } from '../avatar';
 
 interface ProfileCardProps {
   className?: string;
-  user: IUserProfile;
+  user: IUserSimple;
   types?: 'follower' | 'following';
-  hasFollowedBack: boolean;
   onFollow?: () => void;
 }
 

@@ -5,7 +5,6 @@ import { Typography } from '@/components/typography';
 
 import { cn } from '@/lib/utils';
 
-import { IAuthor } from '@/interfaces/post';
 import { relativeTime } from '@/utils/relative-time';
 
 import { Avatar } from '../avatar';
@@ -18,7 +17,6 @@ interface TrendingPostCardProps {
   image: string;
   alt: string;
   time: string;
-  author: IAuthor;
 }
 
 export default function TrendingPostCard({
@@ -26,7 +24,6 @@ export default function TrendingPostCard({
   content,
   image,
   alt,
-  author,
   time,
 }: TrendingPostCardProps) {
   return (

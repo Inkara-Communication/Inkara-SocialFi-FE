@@ -5,6 +5,7 @@ import { IPost } from './post';
 export interface IUserSimple {
   id: string;
   username: string;
+  address: string
   photo: {
     url: string;
   };

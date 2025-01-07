@@ -2,7 +2,6 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 
 import { getPosts } from '@/apis/post';
-import { followUser, getUserFollower } from '@/apis/user';
 import { useUserProfile } from '@/context/user-context';
 
 import { IFollower } from '@/interfaces/follower';
@@ -14,6 +13,7 @@ import ProfileCard from '@/components/profile-card/profile-card';
 import ToggleGroup from '@/components/toggle-group/toggle-group';
 import { TrendingPostCard } from '@/components/trending-post-card';
 import { Typography } from '@/components/typography';
+import { followAction, listFollows } from '@/apis/follow';
 
 //-------------------------------------------------------------------------
 
@@ -60,7 +60,7 @@ export default function SidebarRight({ className }: SidebarRightProps) {
 
       setIsLoading((prev) => ({ ...prev, followers: true }));
       try {
-        const response = await getUserFollower(userProfile.id);
+        const response = await listFollows(userProfile.id);
         setFollowers(response.data);
       } catch (error) {
         console.error('Error fetching followers:', error);
@@ -78,7 +78,7 @@ export default function SidebarRight({ className }: SidebarRightProps) {
 
   const handleFollow = async (id: string) => {
     try {
-      await followUser(id);
+      await followAction(id);
       setFollowers((prevFollowers) =>
         prevFollowers.map((follower) =>
           follower.id === id ? { ...follower, hasFollowedBack: true } : follower
@@ -125,16 +125,16 @@ export default function SidebarRight({ className }: SidebarRightProps) {
             >
               Trending Posts
             </Typography>
-            {posts.map((post) => (
+            {/* {posts.map((post) => (
               <TrendingPostCard
                 key={post.id}
-                author={post.author}
+                author={post.user}
                 alt={post.id}
                 content={post.content}
-                image={post.image ?? ''}
+                image={post.photo.url ?? ''}
                 time={post.createdAt}
               />
-            ))}
+            ))} */}
           </>
         ) : (
           <>
@@ -151,19 +151,17 @@ export default function SidebarRight({ className }: SidebarRightProps) {
                       user={{
                         id: follower.id,
                         username: follower.username,
-                        firstName: follower.firstName,
-                        lastName: follower.lastName,
-                        avatar: follower.avatar,
+                        photo: { url: follower.avatar },
+                        address: ''
                       }}
-                      hasFollowedBack={follower.hasFollowedBack}
-                      onFollow={() => handleFollow(follower.id)} // Truyền hàm follow vào ProfileCard
+                      onFollow={() => handleFollow(follower.id)}
                     />
                   ))
                 )}
               </div>
             ) : (
               <ul className="max-h-[calc(100svh-68px)] overflow-y-scroll no-scrollbar">
-                {posts.map((post) => (
+                {/* {posts.map((post) => (
                   <li key={post.id} className="mb-2">
                     <TrendingPostCard
                       alt={post.id}
@@ -173,7 +171,7 @@ export default function SidebarRight({ className }: SidebarRightProps) {
                       time={post.createdAt}
                     />
                   </li>
-                ))}
+                ))} */}
               </ul>
             )}
           </>
