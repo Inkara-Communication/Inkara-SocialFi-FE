@@ -82,13 +82,6 @@ const MobileSidebar = ({ onClose, className }: MobileSidebarProps) => {
             </div>
           </div>
         )}
-        <p className="text-tertiary text-[10px] text-center">
-          Code by{' '}
-          <Link target="_blank" href="https://200lab.io/">
-            @<span className="text-[#278e4f]">200</span>
-            <span className="text-[#2170a1]">Lab</span>
-          </Link>
-        </p>
         <Button
           className={'px-6 py-3 w-full'}
           onClick={() => {}}

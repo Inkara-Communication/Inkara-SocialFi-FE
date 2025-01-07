@@ -1,5 +1,4 @@
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import React from 'react';
 
 import useBreakPoint from '@/hooks/use-breakpoint';
@@ -153,13 +152,6 @@ export default function Sidebar({ className }: SidebarProps) {
           }
         />
       </section>
-      <p className="text-tertiary text-[10px] text-center mb-2">
-        Code by{' '}
-        <Link target="_blank" href="https://200lab.io/">
-          @<span className="text-[#278e4f] font-semibold">200</span>
-          <span className="text-[#2170a1] font-semibold">Lab</span>
-        </Link>
-      </p>
 
       {isCreatePost && <NewPostModal onBack={handleCreatePost} />}
     </aside>
