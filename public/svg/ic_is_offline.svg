@@ -5,13 +5,13 @@
     </g>
   </g>
   <defs>
-    <filter id="filter0_b_12158_97692" x="-32" y="-32" width="76" height="76" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <filter id="filter0_b_12158_97692" x="-32" y="-32" width="76" height="76" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
       <feFlood flood-opacity="0" result="BackgroundImageFix"/>
       <feGaussianBlur in="BackgroundImageFix" stdDeviation="16"/>
       <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_12158_97692"/>
       <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_12158_97692" result="shape"/>
     </filter>
-    <filter id="filter1_bi_12158_97692" x="-100" y="-100" width="212" height="212" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <filter id="filter1_bi_12158_97692" x="-100" y="-100" width="212" height="212" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
       <feFlood flood-opacity="0" result="BackgroundImageFix"/>
       <feGaussianBlur in="BackgroundImageFix" stdDeviation="50"/>
       <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_12158_97692"/>

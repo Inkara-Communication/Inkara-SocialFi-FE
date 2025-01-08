@@ -65,7 +65,7 @@ const MobileSidebar = ({ onClose, className }: MobileSidebarProps) => {
                   level="captionr"
                   className="text-tertiary opacity-45 select-none"
                 >
-                  {userProfile.address}
+                  {`${userProfile.address.slice(0, 12)}...${userProfile.address.slice(-12)}`}
                 </Typography>
               </span>
               <span className="p-1 inline-flex gap-1 z-9">

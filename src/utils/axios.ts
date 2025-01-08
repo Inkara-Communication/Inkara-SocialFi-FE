@@ -66,7 +66,7 @@ export const endpoints = {
   follow: {
     hasFollowed: (id: string) => `/follow/check/${id}`,
     followAction: (followingId: string) => `/follow/${followingId}`,
-    listFollows: (id: string) => `/follow/${id}`
+    listFollows: `/follow/list`
   },
 
   post: {

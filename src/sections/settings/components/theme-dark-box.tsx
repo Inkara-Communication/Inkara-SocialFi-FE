@@ -61,7 +61,7 @@ export default function ThemeDarkBox() {
               width="43.9046"
               height="57.7933"
               filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB"
+              colorInterpolationFilters="sRGB"
             >
               <feFlood flood-opacity="0" result="BackgroundImageFix" />
               <feGaussianBlur in="BackgroundImageFix" stdDeviation="2.97615" />
@@ -131,7 +131,7 @@ export default function ThemeDarkBox() {
               width="79.682"
               height="79.682"
               filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB"
+              colorInterpolationFilters="sRGB"
             >
               <feFlood flood-opacity="0" result="BackgroundImageFix" />
               <feBlend

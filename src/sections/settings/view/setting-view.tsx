@@ -140,7 +140,7 @@ const SettingsView = () => {
                   level="baser"
                   className="font-medium text-xs text-tertiary"
                 >
-                  {userProfile.address}
+                  {`${userProfile.address.slice(0, 12)}...${userProfile.address.slice(-12)}`}
                 </Typography>
               </div>
               <span

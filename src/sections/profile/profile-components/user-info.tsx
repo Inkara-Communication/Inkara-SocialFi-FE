@@ -21,7 +21,7 @@ import { SplashScreen } from '@/components/loading-screen';
 import { Typography } from '@/components/typography';
 
 import { USER_AVATAR_PLACEHOLDER } from '@/constant';
-import { followUser, hasFollowed, unfollowUser } from '@/apis/user';
+import { followAction, hasFollowed } from '@/apis/follow';
 
 //-------------------------------------------------------------------------
 
@@ -34,18 +34,19 @@ export default function InfoUser({ user }: UserInfoProps) {
   const [isFollowed, setIsFollowed] = React.useState<boolean>(false);
   const [isCopied, setIsCopied] = React.useState<boolean>(false);
 
-  // React.useEffect(() => {
-  //   (async () => {
-  //     setIsFollowed(await hasFollowed(user.id));
-  //   })();
-  // }, [user]);
+  React.useEffect(() => {
+    (async () => {
+      setIsFollowed(await hasFollowed(user.id));
+    })();
+  }, [user]);
 
-  const handleFollow = () => {
+  const handleFollow = async () => {
+    console.log(user)
     if (isFollowed) {
-      unfollowUser(user.id);
+      await followAction(user.id);
       setIsFollowed(false);
     } else {
-      followUser(user.id);
+      followAction(user.id);
       setIsFollowed(true);
     }
   };
@@ -74,7 +75,7 @@ export default function InfoUser({ user }: UserInfoProps) {
           alt="cover"
         />
         <AvatarProfile
-          avatar={user?.photo.url || USER_AVATAR_PLACEHOLDER}
+          avatar={user?.photo?.url || USER_AVATAR_PLACEHOLDER}
           canEdit={false}
         />
       </div>

@@ -1,15 +1,20 @@
+import { IUserSimple } from "./user";
+
 export interface IFollower {
   id: string;
   username: string;
+  address: string;
   avatar: string;
 }
 
 export interface IFollowing {
   id: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  avatar: string;
-  followedAt: string;
-  hasFollowedBack: boolean;
+  followingId: string;
+  followerId: string;
+  following: IUserSimple
+}
+
+export enum ListFollowerType {
+  LIST_FOLLOWERS = 'LIST_FOLLOWERS',
+  LIST_FOLLOWINGS = 'LIST_FOLLOWINGS'
 }

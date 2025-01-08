@@ -26,7 +26,7 @@ const OfflineIcon = () => {
           width="76"
           height="76"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="16" />
@@ -49,7 +49,7 @@ const OfflineIcon = () => {
           width="212"
           height="212"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="50" />

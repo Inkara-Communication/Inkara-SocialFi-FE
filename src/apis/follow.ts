@@ -14,15 +14,37 @@ export const followAction = async (followingId: string): Promise<IApiResponse<an
 
 export const hasFollowed = async (id: string): Promise<boolean> => {
   try {
-    const { data } = await axiosInstance.get(endpoints.follow.hasFollowed(id));
-    return data.data;
+    const response = await axiosInstance.get(endpoints.follow.hasFollowed(id));
+    return response.data;
   } catch (error) {
     console.log('error', error);
     return false;
   }
 };
 
-export const listFollows = async (id: string): Promise<IApiResponse<any>> => {
-  const { data } = await axiosInstance.get(endpoints.follow.listFollows(id));
-  return data;
+export const listFollows = async (
+  period: 'DAY',
+  filterBy: string,
+  startId: 0,
+  offset: 1,
+  limit: 5,
+): Promise<IApiResponse<any>> => {
+  const filter = {
+    period,
+    filterBy,
+  }
+  const pagination = {
+    startId,
+    offset,
+    limit,
+  }
+  const response = await axiosInstance.get<IApiResponse<any>>(
+    endpoints.follow.listFollows,
+    {
+      params: {
+        ...filter,
+        ...pagination
+      }
+    });
+  return response.data;
 }

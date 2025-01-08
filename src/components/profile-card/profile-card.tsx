@@ -46,7 +46,7 @@ export default function ProfileCard({
               {user.username}
             </Typography>
             <Typography className="text-tertiary opacity-80" level="captionr">
-              {user.address}
+            {`${user.address.slice(0, 12)}...${user.address.slice(-12)}`}
             </Typography>
           </div>
 

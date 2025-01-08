@@ -1,19 +1,16 @@
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
-import { getPosts } from '@/apis/post';
 import { useUserProfile } from '@/context/user-context';
 
-import { IFollower } from '@/interfaces/follower';
-import { IPost } from '@/interfaces/post';
+import { IFollowing, ListFollowerType } from '@/interfaces/follower';
 import { cn } from '@/lib/utils';
 
 import { SplashScreen } from '@/components/loading-screen';
 import ProfileCard from '@/components/profile-card/profile-card';
 import ToggleGroup from '@/components/toggle-group/toggle-group';
-import { TrendingPostCard } from '@/components/trending-post-card';
-import { Typography } from '@/components/typography';
 import { followAction, listFollows } from '@/apis/follow';
+import { USER_AVATAR_PLACEHOLDER } from '@/constant';
 
 //-------------------------------------------------------------------------
 
@@ -24,52 +21,35 @@ type SidebarRightProps = {
 export default function SidebarRight({ className }: SidebarRightProps) {
   const [activeTab, setActiveTab] = React.useState('1');
   const pathName = usePathname();
-  const [posts, setPosts] = React.useState<IPost[]>([]);
-  const [followers, setFollowers] = React.useState<IFollower[]>([]);
+  const [followings, setFollowings] = React.useState<IFollowing[]>([]);
   const [isLoading, setIsLoading] = React.useState({
-    posts: true,
-    followers: true,
+    followings: true
   });
-  const [error, setError] = React.useState({ posts: '', followers: '' });
+  const [error, setError] = React.useState({ posts: '', followings: '' });
   const { userProfile } = useUserProfile();
-
-  React.useEffect(() => {
-    const fetchPostsData = async () => {
-      setIsLoading((prev) => ({ ...prev, posts: true }));
-      try {
-        const params = { type: 'media', limit: 10 };
-        const response = await getPosts('DAY', 'EXPLORER',
-          0,
-          1,
-          5);
-        setPosts(response.data);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-        setError((prev) => ({ ...prev, posts: 'Failed to load posts.' }));
-      } finally {
-        setIsLoading((prev) => ({ ...prev, posts: false }));
-      }
-    };
-
-    fetchPostsData();
-  }, []);
 
   React.useEffect(() => {
     const fetchFollowersData = async () => {
       if (activeTab !== '1' || !userProfile?.id) return;
 
-      setIsLoading((prev) => ({ ...prev, followers: true }));
+      setIsLoading((prev) => ({ ...prev, followings: true }));
       try {
-        const response = await listFollows(userProfile.id);
-        setFollowers(response.data);
+        const response = await listFollows(
+          'DAY',
+          ListFollowerType.LIST_FOLLOWINGS,
+          0,
+          1,
+          5
+        );
+        setFollowings(response.data);
       } catch (error) {
-        console.error('Error fetching followers:', error);
+        console.error('Error fetching followings:', error);
         setError((prev) => ({
           ...prev,
-          followers: 'Failed to load followers.',
+          followings: 'Failed to load followings.',
         }));
       } finally {
-        setIsLoading((prev) => ({ ...prev, followers: false }));
+        setIsLoading((prev) => ({ ...prev, followings: false }));
       }
     };
 
@@ -79,9 +59,8 @@ export default function SidebarRight({ className }: SidebarRightProps) {
   const handleFollow = async (id: string) => {
     try {
       await followAction(id);
-      setFollowers((prevFollowers) =>
-        prevFollowers.map((follower) =>
-          follower.id === id ? { ...follower, hasFollowedBack: true } : follower
+      setFollowings((prevFollowers) =>
+        prevFollowers.map((following) => following
         )
       );
     } catch (error) {
@@ -89,14 +68,11 @@ export default function SidebarRight({ className }: SidebarRightProps) {
     }
   };
 
-  if (isLoading.posts) return <SplashScreen />;
-  if (error.posts) return <div>{error.posts}</div>;
-
   const handleTabChange = (key: string) => {
     setActiveTab(key);
   };
 
-  const isFollowingPage = pathName === '/following';
+  const isFollowingPage = pathName === '/followings';
 
   return (
     <section
@@ -110,72 +86,32 @@ export default function SidebarRight({ className }: SidebarRightProps) {
           <ToggleGroup
             className="w-full p-1 flex justify-between items-center bg-neutral3-60 rounded-[6.25rem]"
             items={[
-              { key: '1', label: 'Who to follow' },
-              { key: '2', label: 'Trending posts' },
+              { key: '1', label: 'List friend' },
+              { key: '2', label: 'Who to follow' },
             ]}
             onChange={handleTabChange}
           />
         )}
-
-        {isFollowingPage ? (
-          <>
-            <Typography
-              level="title"
-              className="text-tertiary opacity-80 px-3 py-[0.625rem]"
-            >
-              Trending Posts
-            </Typography>
-            {/* {posts.map((post) => (
-              <TrendingPostCard
-                key={post.id}
-                author={post.user}
-                alt={post.id}
-                content={post.content}
-                image={post.photo.url ?? ''}
-                time={post.createdAt}
+        <div className="flex flex-col gap-2">
+          {isLoading.followings ? (
+            <SplashScreen />
+          ) : error.followings ? (
+            <div>{error.followings}</div>
+          ) : (
+            followings.map((user) => (
+              <ProfileCard
+                key={user.following.id}
+                user={{
+                  id: user.following.id,
+                  username: user.following.username,
+                  photo: { url: user.following.photo?.url || USER_AVATAR_PLACEHOLDER},
+                  address: user.following.address,
+                }}
+                onFollow={() => handleFollow(user.following.id)}
               />
-            ))} */}
-          </>
-        ) : (
-          <>
-            {activeTab === '1' ? (
-              <div className="flex flex-col gap-2">
-                {isLoading.followers ? (
-                  <SplashScreen />
-                ) : error.followers ? (
-                  <div>{error.followers}</div>
-                ) : (
-                  followers.map((follower) => (
-                    <ProfileCard
-                      key={follower.id}
-                      user={{
-                        id: follower.id,
-                        username: follower.username,
-                        photo: { url: follower.avatar },
-                        address: ''
-                      }}
-                      onFollow={() => handleFollow(follower.id)}
-                    />
-                  ))
-                )}
-              </div>
-            ) : (
-              <ul className="max-h-[calc(100svh-68px)] overflow-y-scroll no-scrollbar">
-                {/* {posts.map((post) => (
-                  <li key={post.id} className="mb-2">
-                    <TrendingPostCard
-                      alt={post.id}
-                      author={post.author}
-                      image={post.image ?? ''}
-                      content={post.content}
-                      time={post.createdAt}
-                    />
-                  </li>
-                ))} */}
-              </ul>
-            )}
-          </>
-        )}
+            ))
+          )}
+        </div>
       </div>
     </section>
   );
