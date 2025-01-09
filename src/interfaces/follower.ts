@@ -4,7 +4,9 @@ export interface IFollower {
   id: string;
   username: string;
   address: string;
-  avatar: string;
+  photo: {
+    url?: string;
+  }
 }
 
 export interface IFollowing {

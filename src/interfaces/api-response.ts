@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IPaging } from './paging';
+import { OutputPagination } from '@/apis/dto/pagination.dto';
 
 //----------------------------------------------------------------------------
 
 export interface IApiResponse<T> {
   data: T;
-  paging: IPaging;
+  paging: OutputPagination;
   total: number;
   filter: Record<string, any>;
 }

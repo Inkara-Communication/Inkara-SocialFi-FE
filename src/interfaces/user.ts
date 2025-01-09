@@ -17,10 +17,6 @@ export interface IUserProfile {
   role: string;
   address: string
   bio?: string;
-  websiteUrl?: string;
-  followerCount: number;
-  postCount: number;
-  status: string;
   createdAt: string;
   updatedAt: string;
   photo: {

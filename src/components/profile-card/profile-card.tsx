@@ -36,7 +36,7 @@ export default function ProfileCard({
         <div className="profile-info flex items-start gap-3">
           <div id="avatar-user" className="relative">
             <Avatar
-              src={user.photo.url ? user.photo.url : '/img/default-avatar.jpg'}
+              src={user.photo?.url ? user.photo?.url : '/img/default-avatar.jpg'}
               alt={`Avatar of ${user.username}`}
               className="size-[44px]"
             />

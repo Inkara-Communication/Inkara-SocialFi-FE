@@ -128,7 +128,7 @@ const SettingsView = () => {
                 router.replace(`${paths.settings}?view=${'account-settings'}`)
               }
             >
-              <Avatar src={userProfile?.photo.url || USER_AVATAR_PLACEHOLDER } alt={userProfile.username} />
+              <Avatar src={userProfile?.photo?.url || USER_AVATAR_PLACEHOLDER } alt={userProfile.username} />
               <div className="flex-1 flex flex-col items-start">
                 <Typography
                   level="baser"

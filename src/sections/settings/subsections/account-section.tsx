@@ -1,7 +1,6 @@
 // import Image from 'next/image';
 import React from 'react';
 
-import { updateUserProfile } from '@/apis/user';
 import { useUserProfile } from '@/context/user-context';
 
 import {
@@ -43,27 +42,13 @@ export const AccountsSection = () => {
   const [password, setPassword] = React.useState('');
   const [loading, setLoading] = React.useState(false);
 
-  const handleSavePassword = async () => {
-    if (!password) return;
-
-    setLoading(true);
-    try {
-      await updateUserProfile({ password });
-      setPassword('');
-    } catch (error) {
-      console.error('Failed to update password', error);
-      alert('Failed to update password');
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <section className="flex-1 flex flex-col h-full gap-3 overflow-auto no-scrollbar">
       <SettingCard className="p-8 gap-7 flex flex-col h-[256px]  items-center justify-center">
         <div className="inline-block relative rounded-full bg-green-200 z-20">
           <Avatar
             size={64}
-            src={userProfile?.photo.url || USER_AVATAR_PLACEHOLDER}
+            src={userProfile?.photo?.url || USER_AVATAR_PLACEHOLDER}
             alt="Avatar"
             className="z-10 relative"
           />
@@ -133,12 +118,6 @@ export const AccountsSection = () => {
                 <AlertDialogCancel className="bg-red-500 text-white hover:bg-red-600">
                   Cancel
                 </AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={handleSavePassword}
-                  disabled={loading}
-                >
-                  Change
-                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

@@ -1,2 +1,5 @@
-export const DEFAULT_PAGE_INDEX = 0;
-export const DEFAULT_PAGE_SIZE = 10;
+export const DEFAULT_PAGINATION_PARAMS = {
+    startId: 0,
+    offset: 1,
+    limit: 10
+};

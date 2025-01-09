@@ -4,6 +4,9 @@ import {
   default as axiosInstance,
   endpoints,
 } from '@/utils/axios';
+import { InputFilter } from './dto/filter.dto';
+import { InputPagination } from './dto/pagination.dto';
+import { IFollowing } from '@/interfaces/follower';
 
 // ----------------------------------------------------------------------
 
@@ -23,14 +26,13 @@ export const hasFollowed = async (id: string): Promise<boolean> => {
 };
 
 export const listFollows = async (
-  period: 'DAY',
-  filterBy: string,
-  startId: 0,
-  offset: 1,
-  limit: 5,
-): Promise<IApiResponse<any>> => {
+  { filterBy }: InputFilter,
+  { startId,
+    offset,
+    limit }: InputPagination
+): Promise<IApiResponse<IFollowing[]>> => {
   const filter = {
-    period,
+    period: 'ALL',
     filterBy,
   }
   const pagination = {
@@ -38,7 +40,7 @@ export const listFollows = async (
     offset,
     limit,
   }
-  const response = await axiosInstance.get<IApiResponse<any>>(
+  const response = await axiosInstance.get<IApiResponse<IFollowing[]>>(
     endpoints.follow.listFollows,
     {
       params: {
@@ -46,5 +48,12 @@ export const listFollows = async (
         ...pagination
       }
     });
+  return response.data;
+}
+
+export const whoToFollow = async (): Promise<IApiResponse<any>> => {
+  const response = await axiosInstance.get<IApiResponse<any>>(
+    endpoints.follow.whoToFollow
+  );
   return response.data;
 }

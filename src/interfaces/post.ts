@@ -6,7 +6,7 @@ export interface ILikes {
   id: string;
   userId: string;
   postId: string;
-  type: 'post' | 'comment';
+  type: 'post' | 'nft';
   createdAt: string;
   updatedAt: string;
 }
@@ -32,9 +32,4 @@ export interface IPost {
   likes: ILikes[]
   comments?: Comment[];
   user: IUserSimple;
-}
-
-export enum GetPostType {
-  FOLLOWING = 'FOLLOWING',
-  EXPLORER = 'EXPLORER'
 }

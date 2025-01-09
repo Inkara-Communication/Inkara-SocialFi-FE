@@ -50,7 +50,7 @@ const MobileSidebar = ({ onClose, className }: MobileSidebarProps) => {
       <div className="p-3 flex flex-col gap-2 items-center justify-center">
         {userProfile && (
           <div className="flex p-1.5 gap-3 w-full items-center justify-center">
-            <Avatar src={userProfile.photo.url || USER_AVATAR_PLACEHOLDER} alt='' />
+            <Avatar src={userProfile.photo?.url || USER_AVATAR_PLACEHOLDER} alt='' />
 
             <div className="flex flex-1 items-center bg-red-100">
               <span className="flex-grow">

@@ -184,7 +184,7 @@ export function UserSection({ isExpanded, user }: UserSectionProps) {
         className={`relative z-20 flex p-1.5 gap-3 w-full items-center justify-center backdrop-blur-16  hover:bg-neutral1-5 active:bg-neutral4-30 ${isExpanded ? 'rounded-xl' : 'rounded-full '}`}
       >
         <Avatar
-          src={user.photo.url || USER_AVATAR_PLACEHOLDER}
+          src={user.photo?.url || USER_AVATAR_PLACEHOLDER}
           alt={user.username}
           size={32}
         />

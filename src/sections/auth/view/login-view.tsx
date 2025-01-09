@@ -24,7 +24,6 @@ import {
 
 import styled from '@/styles/auth.module.css';
 import {
-  ConnectPublicClient,
   ConnectWalletClient,
 } from '@/apis/configs/client';
 

@@ -1,5 +1,7 @@
 'use client';
+import { FilterType, UserFilterByOption } from '@/apis/dto/filter.dto';
 import { getPosts } from '@/apis/post';
+import { DEFAULT_PAGINATION_PARAMS } from '@/constant';
 import { IPost } from '@/interfaces/post';
 import React from 'react';
 
@@ -8,19 +10,12 @@ interface PostContextType {
   posts: IPost[];
   filter: FilterType;
   setFilter: React.Dispatch<React.SetStateAction<FilterType>>;
-  addPost: (newPost: any) => void;
+  addPost: (newPost: IPost) => void;
   updatePostCtx: (updatedPost: IPost) => void;
   setPosts: (posts: IPost[]) => void;
   isLoading: boolean;
   error: Error | null;
   refreshPosts: () => Promise<void>;
-}
-
-interface FilterType {
-  str?: string;
-  limit?: number;
-  userId?: string;
-  type?: string;
 }
 
 const PostContext = React.createContext<PostContextType | undefined>(undefined);
@@ -34,10 +29,10 @@ function usePostsManager(initialFilter: FilterType) {
   const fetchPosts = React.useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await getPosts('DAY', 'EXPLORER',
-        0,
-        1,
-        5);
+      const response = await getPosts(
+        { filterBy: UserFilterByOption.EXPLORER },
+        filter
+      );
       setPosts(response.data);
       setError(null);
     } catch (error) {
@@ -76,7 +71,7 @@ function usePostsManager(initialFilter: FilterType) {
 }
 
 export function PostProvider({ children }: { children: React.ReactNode }) {
-  const postManager = usePostsManager({});
+  const postManager = usePostsManager(DEFAULT_PAGINATION_PARAMS);
 
   return (
     <PostContext.Provider value={postManager}>{children}</PostContext.Provider>

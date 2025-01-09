@@ -4,18 +4,19 @@ import { endpoints } from '@/utils/axios';
 import { IPost } from '@/interfaces/post';
 import { IApiResponse } from '@/interfaces/api-response';
 import { CreatePost, UpdatePost } from '@/schema/posts-schema';
+import { InputFilter } from './dto/filter.dto';
+import { InputPagination } from './dto/pagination.dto';
 
 //--------------------------------------------------------------------------------------------
 
 export const getPosts = async (
-  period: 'DAY',
-  filterBy: 'EXPLORER',
-  startId: 0,
-  offset: 1,
-  limit: 5,
-): Promise<IApiResponse<any>> => {
+  { filterBy }: InputFilter,
+  { startId,
+    offset,
+    limit }: InputPagination
+): Promise<IApiResponse<IPost[]>> => {
   const filter = {
-    period,
+    period: 'ALL',
     filterBy,
   }
   const pagination = {
@@ -23,7 +24,7 @@ export const getPosts = async (
     offset,
     limit,
   }
-  const response = await axiosInstance.get<IApiResponse<any>>(
+  const response = await axiosInstance.get<IApiResponse<IPost[]>>(
     endpoints.post.getMany,
     {
       params: {

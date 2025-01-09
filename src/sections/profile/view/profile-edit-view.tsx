@@ -19,11 +19,8 @@ export default function ProfileEditView() {
   const { userProfile, setUserProfile } = useUserProfile();
   const [loading, setLoading] = React.useState(false);
   const [profileData, setProfileData] = React.useState({
-    firstName: userProfile?.firstName || '',
-    lastName: userProfile?.lastName || '',
     username: userProfile?.username || '',
-    bio: userProfile?.bio || '',
-    websiteUrl: userProfile?.websiteUrl || '',
+    bio: userProfile?.bio || ''
   });
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
@@ -43,7 +40,7 @@ export default function ProfileEditView() {
     setProfileData((prevData) => ({ ...prevData, ...updatedData }));
   };
 
-  const handleCoverUpdate = async (file: File) => {
+  const handleAvatarUpdate = async (file: File) => {
     if (file) {
       try {
         if (!file.type.startsWith('image/')) {
@@ -57,7 +54,7 @@ export default function ProfileEditView() {
         const response = await uploadImage(file);
         const newAvatarUrl = response.data.url;
 
-        await updateUserProfile({ cover: newAvatarUrl });
+        await updateUserProfile({ avatarId: newAvatarUrl });
 
         setUserProfile({
           ...userProfile,
@@ -80,12 +77,12 @@ export default function ProfileEditView() {
           width={1280}
           height={180}
           src={
-            '/img/default-cover.jpg'
+            '/img/default-avatar.jpg'
           }
           className="max-h-[11.25rem] w-full object-cover"
-          alt="cover"
+          alt="avatar"
         />
-        <AvatarProfile avatar={userProfile?.photo.url} canEdit={true} />
+        <AvatarProfile avatar={userProfile?.photo?.url} canEdit={true} />
       </div>
       {userProfile && (
         <EditForm
@@ -98,9 +95,9 @@ export default function ProfileEditView() {
       <AvatarUpdateDialog
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
-        onUpdateAvatar={handleCoverUpdate}
-        currentAvatar={userProfile?.photo.url || '/img/default-cover.jpg'}
-        type="cover"
+        onUpdateAvatar={handleAvatarUpdate}
+        currentAvatar={userProfile?.photo?.url || '/img/default-avatar.jpg'}
+        type="avatar"
       />
     </section>
   );

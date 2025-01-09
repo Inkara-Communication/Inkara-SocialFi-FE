@@ -212,7 +212,7 @@ export default function Post({
             </Typography>
           </Link>
 
-          {(localData as IPost).photo.url && (
+          {(localData as IPost).photo?.url && (
             <Link href={`/posts/${localData.id}`}>
               <Image
                 width={400}

@@ -58,7 +58,7 @@ export const endpoints = {
   user: {
     me: `/user/me`,
     create: `/profile/`,
-    update: `/profile`,
+    update: `/user/update-profile`,
     profile: (id: string) => `user/${id}`,
     profileById: (id: string) => `/user/${id}`,
   },
@@ -66,7 +66,8 @@ export const endpoints = {
   follow: {
     hasFollowed: (id: string) => `/follow/check/${id}`,
     followAction: (followingId: string) => `/follow/${followingId}`,
-    listFollows: `/follow/list`
+    listFollows: `/follow/list`,
+    whoToFollow: `/follow/who-to-follow`,
   },
 
   post: {
