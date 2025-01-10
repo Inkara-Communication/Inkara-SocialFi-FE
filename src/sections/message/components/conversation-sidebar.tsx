@@ -33,7 +33,7 @@ export default function ConversationSidebar({
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Inkara</AlertDialogTitle>
+              <AlertDialogTitle>Notification</AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogDescription>
               Hiện tại tính năng này chưa được hỗ trợ

@@ -20,15 +20,15 @@ export const hasFollowed = async (id: string): Promise<boolean> => {
   try {
     const response = await axiosInstance.get(endpoints.follow.hasFollowed(id));
     return response.data;
-  } catch (error) {
-    console.log('error', error);
+  } catch {
     return false;
   }
 };
 
 export const listFollows = async (
   { filterBy }: InputFilter,
-  { startId, offset, limit }: InputPagination
+  { startId, offset, limit }: InputPagination,
+  userId?: string
 ): Promise<IApiResponse<IFollowing[]>> => {
   const filter = {
     period: 'ALL',
@@ -43,6 +43,7 @@ export const listFollows = async (
     endpoints.follow.listFollows,
     {
       params: {
+        userId,
         ...filter,
         ...pagination,
       },

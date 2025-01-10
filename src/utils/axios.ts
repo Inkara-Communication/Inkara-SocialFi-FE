@@ -1,9 +1,9 @@
 'use client';
 
 import axios, { AxiosRequestConfig } from 'axios';
-import { useRouter } from 'next/navigation';
 
 import { HOST_API } from '../global-config';
+import { AUTH_TOKEN } from '@/constant';
 
 //----------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ const axiosInstance = axios.create({ baseURL: HOST_API });
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(AUTH_TOKEN);
     if (token && config.headers) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -25,9 +25,8 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       if (typeof window !== 'undefined') {
-        const router = useRouter();
-        router.push('/login');
-      }
+          window.location.href = '/login';
+        }
     }
     return Promise.reject(
       (error.response && error.response.data) || 'Something went wrong'

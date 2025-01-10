@@ -4,6 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useAuth } from '@/context/auth-context';
+import withAuth from '@/HOC/with-auth';
 
 //-----------------------------------------------------------------------------------------------
 
@@ -24,4 +25,4 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   return <>{children}</>;
 };
 
-export default ProtectedRoute;
+export default withAuth(ProtectedRoute);

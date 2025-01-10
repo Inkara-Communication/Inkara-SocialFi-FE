@@ -2,7 +2,6 @@ import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/button';
 import { ArrowBackIcon } from '@/components/icons';
-import { Typography } from '@/components/typography';
 
 //-------------------------------------------------------------------------
 
@@ -16,9 +15,6 @@ export default function HeaderFollowers() {
         onClick={() => router.back()}
         className="size-[44px]"
       />
-      <Typography level="title" className="text-secondary">
-        Inkara
-      </Typography>
     </section>
   );
 }

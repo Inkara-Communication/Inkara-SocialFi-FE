@@ -1,11 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import React from 'react';
 import { useParams } from 'next/navigation';
 
-import { getUserFollower, getUserFollowing } from '@/apis/user';
-import { IFollower } from '@/interfaces/follower';
+import { IFollowing } from '@/interfaces/follower';
 
 import EmptyContent from '@/components/empty-content/empty-content';
 import ProfileCard from '@/components/profile-card/profile-card';
@@ -14,14 +12,17 @@ import { Typography } from '@/components/typography';
 import HeaderFollowers from '../header';
 import ToggleGroup from '@/components/toggle-group/toggle-group';
 import { SplashScreen } from '@/components/loading-screen';
+import { followAction, listFollows } from '@/apis/follow';
+import { UserFilterByOption } from '@/apis/dto/filter.dto';
+import { USER_AVATAR_PLACEHOLDER } from '@/constant';
 
 //-------------------------------------------------------------------------
 
 export default function FollowersView() {
   const params = useParams();
   const userId = params?.id as string;
-  const [followers, setFollowers] = React.useState<IFollower[]>([]);
-  const [following, setFollowing] = React.useState<IFollower[]>([]);
+  const [followers, setFollowers] = React.useState<IFollowing[]>([]);
+  const [following, setFollowings] = React.useState<IFollowing[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const [tab, setTab] = React.useState('1'); // '1' for Followers, '2' for Following
@@ -32,7 +33,11 @@ export default function FollowersView() {
 
       setIsLoading(true);
       try {
-        const response = await getUserFollower(userId);
+        const response = await listFollows(
+          { filterBy: UserFilterByOption.LIST_FOLLOWERS },
+          { startId: 0, offset: 1, limit: 10 },
+          userId
+        );
         setFollowers(response.data);
       } catch (error) {
         console.error('Error fetching followers:', error);
@@ -51,8 +56,12 @@ export default function FollowersView() {
 
       setIsLoading(true);
       try {
-        const response = await getUserFollowing(userId);
-        setFollowing(response.data);
+        const response = await listFollows(
+          { filterBy: UserFilterByOption.LIST_FOLLOWINGS },
+          { startId: 0, offset: 1, limit: 10 },
+          userId
+        );
+        setFollowings(response.data);
       } catch (error) {
         console.error('Error fetching following:', error);
         setError('Failed to load following.');
@@ -63,6 +72,17 @@ export default function FollowersView() {
 
     fetchFollowingData();
   }, [userId]);
+
+  const handleFollow = async (id: string) => {
+    try {
+      await followAction(id);
+      setFollowings((prevFollowers) =>
+        prevFollowers.map((following) => following)
+      );
+    } catch (error) {
+      console.error('Failed to follow user:', error);
+    }
+  };
 
   return (
     <section className="w-full max-h-full min-h-full p-3 pb-[5rem] md:pb-0 transition-all duration-[0.5s]">
@@ -100,20 +120,22 @@ export default function FollowersView() {
           />
         ) : (
           <ul className="max-h-[calc(100svh-100px)] mt-3">
-            {followers.map((follower: IFollower) => (
+            {followers.map((follower: IFollowing) => (
               <li key={follower.id} className="mb-2">
-                <Link href={`/profile/${follower.id}`}>
-                  <ProfileCard
-                    user={{
-                      id: follower.id,
-                      username: follower.username,
-                      firstName: follower.firstName,
-                      lastName: follower.lastName,
-                      avatar: follower.avatar,
-                    }}
-                    hasFollowedBack={follower.hasFollowedBack}
-                  />
-                </Link>
+                <ProfileCard
+                  user={{
+                    id: follower.id,
+                    username: follower.following.username,
+                    photo: {
+                      url:
+                        follower.following.photo?.url ||
+                        USER_AVATAR_PLACEHOLDER,
+                    },
+                    address: follower.following.address,
+                  }}
+                  types="follower"
+                  onFollow={() => handleFollow(follower.id)}
+                />
               </li>
             ))}
           </ul>
@@ -134,20 +156,21 @@ export default function FollowersView() {
         />
       ) : (
         <ul className="max-h-[calc(100svh-100px)] mt-3">
-          {following.map((followed: IFollower) => (
+          {following.map((followed: IFollowing) => (
             <li key={followed.id} className="mb-2">
-              <Link href={`/profile/${followed.id}`}>
-                <ProfileCard
-                  user={{
-                    id: followed.id,
-                    username: followed.username,
-                    firstName: followed.firstName,
-                    lastName: followed.lastName,
-                    avatar: followed.avatar,
-                  }}
-                  hasFollowedBack={followed.hasFollowedBack}
-                />
-              </Link>
+              <ProfileCard
+                user={{
+                  id: followed.following.id,
+                  username: followed.following.username,
+                  photo: {
+                    url:
+                      followed.following.photo?.url || USER_AVATAR_PLACEHOLDER,
+                  },
+                  address: followed.following.address,
+                }}
+                types="following"
+                onFollow={() => handleFollow(followed.following.id)}
+              />
             </li>
           ))}
         </ul>

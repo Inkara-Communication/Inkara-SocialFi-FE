@@ -26,9 +26,8 @@ export const getUserList = async <T>({
 };
 
 export const getUserProfile = async (): Promise<IApiResponse<IUserProfile>> => {
-  const { data } = await axiosInstance.get(endpoints.user.me);
-
-  return data;
+  const response = await axiosInstance.get(endpoints.user.me);
+  return response.data;
 };
 
 export const updateUserProfile = async (

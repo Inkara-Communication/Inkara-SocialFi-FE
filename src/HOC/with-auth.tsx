@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '@/context/auth-context';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 //-----------------------------------------------------------------------------------------------
 

@@ -41,7 +41,6 @@ export default function InfoUser({ user }: UserInfoProps) {
   }, [user]);
 
   const handleFollow = async () => {
-    console.log(user);
     if (isFollowed) {
       await followAction(user.id);
       setIsFollowed(false);
@@ -143,7 +142,7 @@ export default function InfoUser({ user }: UserInfoProps) {
                 level="base2r"
                 className="text-primary flex items-center gap-2"
               >
-                {user.postCount}
+                {user.postCount}111
                 <Typography level="base2r" className="text-tertiary">
                   posts
                 </Typography>
@@ -157,7 +156,7 @@ export default function InfoUser({ user }: UserInfoProps) {
                   level="base2r"
                   className="text-primary flex items-center gap-2"
                 >
-                  {user.followerCount}
+                  {user.followerCount}222
                   <Typography level="base2r" className="text-tertiary">
                     followers
                   </Typography>
@@ -174,7 +173,7 @@ export default function InfoUser({ user }: UserInfoProps) {
                   level="base2r"
                   className="text-primary flex items-center gap-2"
                 >
-                  {user.websiteUrl}
+                  {user.websiteUrl}abcaaaaa
                 </Typography>
               </a>
             </div>

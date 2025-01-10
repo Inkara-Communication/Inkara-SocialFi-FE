@@ -74,6 +74,7 @@ import React from 'react';
 
 import { getUserProfile } from '@/apis/user';
 import { IUserProfile } from '@/interfaces/user';
+import { USER_INFO } from '@/constant';
 
 //-----------------------------------------------------------------------------------------------
 
@@ -91,7 +92,10 @@ const UserProfileContext = React.createContext<
 
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const [userProfile, setUserProfile] = React.useState<IUserProfile | null>(
-    null
+    () => {
+      const storedUserProfile = localStorage.getItem('USER_INFO');
+      return storedUserProfile ? JSON.parse(storedUserProfile) : null;
+    }
   );
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<Error | null>(null);
@@ -101,6 +105,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     try {
       const res = await getUserProfile();
       setUserProfile(res.data);
+      localStorage.setItem(USER_INFO, JSON.stringify(res.data));
       setError(null);
     } catch (err) {
       setError(err as Error);

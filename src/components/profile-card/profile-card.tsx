@@ -25,6 +25,7 @@ export default function ProfileCard({
   types,
   onFollow,
 }: ProfileCardProps) {
+  if (!user) return null;
   return (
     <Link href={`/profile/${user.id}`}>
       <div
