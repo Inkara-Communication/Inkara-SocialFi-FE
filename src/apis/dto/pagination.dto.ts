@@ -1,12 +1,12 @@
 export interface InputPagination {
-    startId: number
-    offset: number
-    limit: number
+  startId: number;
+  offset: number;
+  limit: number;
 }
 
 export interface OutputPagination {
-    page: number;
-    limit: number;
-    sort: string;
-    order: string;
-  }
+  page: number;
+  limit: number;
+  sort: string;
+  order: string;
+}

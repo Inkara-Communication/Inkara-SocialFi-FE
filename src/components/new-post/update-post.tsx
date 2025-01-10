@@ -70,7 +70,7 @@ export default function UpdatePost({
 
       const postData: UpdatePost = {
         content: content.trim(),
-        image: uploadedImage || ''
+        image: uploadedImage || '',
       };
 
       const validatedData = updatePostSchema.parse(postData);

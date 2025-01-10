@@ -21,10 +21,7 @@ export default function ExploreCard({ post }: IExploreCardProps) {
     >
       <Image
         src={post.image ?? ''}
-        alt={
-          'Image post by user ' +
-          post.author.username
-        }
+        alt={'Image post by user ' + post.author.username}
         height={500}
         width={900}
         style={{

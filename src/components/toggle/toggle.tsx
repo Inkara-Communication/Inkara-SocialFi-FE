@@ -1,7 +1,7 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes } from 'react';
 
-type Props = HTMLAttributes<HTMLInputElement> &{};
-function Toggle({...props}: Props) {
+type Props = HTMLAttributes<HTMLInputElement> & {};
+function Toggle({ ...props }: Props) {
   return (
     <label className="switch inline-flex items-center cursor-pointer">
       <input {...props} type="checkbox" value="" className="sr-only peer" />

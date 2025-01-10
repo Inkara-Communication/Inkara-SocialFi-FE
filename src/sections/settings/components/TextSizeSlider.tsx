@@ -1,10 +1,10 @@
 import { Typography } from '@/components/typography';
 import React, { useState } from 'react';
-import style from "@/styles/preferences-setting.module.css";
+import style from '@/styles/preferences-setting.module.css';
 interface TextSizeSliderProps {
-  minValue?: number;  // Minimum font size
-  maxValue?: number;  // Maximum font size
-  initialValue?: number;  // Initial font size
+  minValue?: number; // Minimum font size
+  maxValue?: number; // Maximum font size
+  initialValue?: number; // Initial font size
 }
 
 const TextSizeSlider: React.FC<TextSizeSliderProps> = ({
@@ -19,8 +19,13 @@ const TextSizeSlider: React.FC<TextSizeSliderProps> = ({
   };
 
   return (
-    <div className={`${style.textSizeSlider} flex gap-1 items-center`} style={{ width: '168px' }}>
-        <Typography level="captionr" className=" text-tertiary">A</Typography>
+    <div
+      className={`${style.textSizeSlider} flex gap-1 items-center`}
+      style={{ width: '168px' }}
+    >
+      <Typography level="captionr" className=" text-tertiary">
+        A
+      </Typography>
       <input
         id="text-size-slider"
         type="range"
@@ -29,8 +34,9 @@ const TextSizeSlider: React.FC<TextSizeSliderProps> = ({
         value={textSize}
         onChange={handleSliderChange}
       />
-        <Typography level="base2r" className=" text-tertiary">A</Typography>
-
+      <Typography level="base2r" className=" text-tertiary">
+        A
+      </Typography>
     </div>
   );
 };

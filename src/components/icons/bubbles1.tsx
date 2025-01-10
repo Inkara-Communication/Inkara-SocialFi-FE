@@ -1,4 +1,3 @@
-
 function Bubbles1({ className }: { className?: string }) {
   return (
     <svg

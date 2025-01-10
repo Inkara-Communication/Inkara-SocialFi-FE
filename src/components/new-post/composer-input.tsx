@@ -107,8 +107,7 @@ export default function ComposerInput({
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
-    } 
-    catch (error) {
+    } catch (error) {
       if (error instanceof z.ZodError) {
         const errorMessage = error.errors.map((err) => err.message).join(', ');
         console.log(`Validation error: ${errorMessage}`);

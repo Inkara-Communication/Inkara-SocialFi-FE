@@ -67,7 +67,7 @@ const AvatarProfile = ({ avatar, canEdit }: AvatarProfileProps) => {
         onClose={() => setIsDialogOpen(false)}
         onUpdateAvatar={handleUpdateAvatar}
         currentAvatar={avatar || USER_AVATAR_PLACEHOLDER}
-        type='avatar'
+        type="avatar"
       />
     </>
   );

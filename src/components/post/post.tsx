@@ -180,7 +180,11 @@ export default function Post({
           href={`/profile/${localData.creatorId}`}
           className="cursor-pointer"
         >
-          <Avatar alt="avatar" src={localData?.user?.photo?.url || ''} size={44} />
+          <Avatar
+            alt="avatar"
+            src={localData?.user?.photo?.url || ''}
+            size={44}
+          />
         </Link>
         <div className="w-full flex flex-col gap-2">
           <div className="relative z-0 flex justify-items-auto items-center">

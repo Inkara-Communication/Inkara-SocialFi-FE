@@ -36,7 +36,9 @@ export default function ProfileCard({
         <div className="profile-info flex items-start gap-3">
           <div id="avatar-user" className="relative">
             <Avatar
-              src={user.photo?.url ? user.photo?.url : '/img/default-avatar.jpg'}
+              src={
+                user.photo?.url ? user.photo?.url : '/img/default-avatar.jpg'
+              }
               alt={`Avatar of ${user.username}`}
               className="size-[44px]"
             />
@@ -46,7 +48,7 @@ export default function ProfileCard({
               {user.username}
             </Typography>
             <Typography className="text-tertiary opacity-80" level="captionr">
-            {`${user.address.slice(0, 12)}...${user.address.slice(-12)}`}
+              {`${user.address.slice(0, 12)}...${user.address.slice(-12)}`}
             </Typography>
           </div>
 

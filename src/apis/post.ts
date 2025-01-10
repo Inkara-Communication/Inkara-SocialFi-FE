@@ -11,26 +11,24 @@ import { InputPagination } from './dto/pagination.dto';
 
 export const getPosts = async (
   { filterBy }: InputFilter,
-  { startId,
-    offset,
-    limit }: InputPagination
+  { startId, offset, limit }: InputPagination
 ): Promise<IApiResponse<IPost[]>> => {
   const filter = {
     period: 'ALL',
     filterBy,
-  }
+  };
   const pagination = {
     startId,
     offset,
     limit,
-  }
+  };
   const response = await axiosInstance.get<IApiResponse<IPost[]>>(
     endpoints.post.getMany,
     {
       params: {
         ...filter,
-        ...pagination
-      }
+        ...pagination,
+      },
     }
   );
   return response.data;
@@ -95,9 +93,7 @@ export const updatePost = async (
   return response.data;
 };
 
-export const deletePost = async (
-  id: string
-): Promise<IApiResponse<string>> => {
+export const deletePost = async (id: string): Promise<IApiResponse<string>> => {
   const response = await axiosInstance.delete(endpoints.post.update(id));
 
   return response.data;

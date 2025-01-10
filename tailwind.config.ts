@@ -243,7 +243,7 @@ const config: Config = {
       backdropBlur: {
         50: 'blur(50px)',
         16: 'blur(16px)',
-        35 :'blur(35.135135650634766px)',
+        35: 'blur(35.135135650634766px)',
       },
       zIndex: {
         999999: '999999',

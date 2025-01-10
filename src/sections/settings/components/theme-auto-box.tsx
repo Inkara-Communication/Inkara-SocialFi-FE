@@ -18,7 +18,10 @@ export default function ThemeAutoBox() {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <g className={style.browserGlow} filter="url(#filter0_bdi_12579_54372)">
+            <g
+              className={style.browserGlow}
+              filter="url(#filter0_bdi_12579_54372)"
+            >
               <g clip-path="url(#clip0_12579_54372)">
                 <rect
                   x="4"

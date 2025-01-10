@@ -46,7 +46,7 @@ export default function NewPost({ onBack }: INewPostProps) {
 
       const postData = {
         content: content.trim(),
-        image: uploadedImage || null
+        image: uploadedImage || null,
       };
 
       const validatedData = createPostSchema.parse(postData);

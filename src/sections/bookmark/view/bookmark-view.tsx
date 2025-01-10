@@ -72,10 +72,7 @@ export default function BookmarkView() {
       </div>
 
       <div className="max-h-svh overflow-y-scroll no-scrollbar">
-        <ActivityFeed
-          contentType="post"
-          data={filteredBookmarks}
-        />
+        <ActivityFeed contentType="post" data={filteredBookmarks} />
       </div>
     </section>
   );

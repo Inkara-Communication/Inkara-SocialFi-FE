@@ -19,7 +19,7 @@ const SettingCard = ({
       <div
         className={cn(
           `relative z-9 flex flex-col items-start self-stretch rounded-[20px] bg-neutral2-2 transition-all ease-in-out ${expanded ? 'max-h-full' : 'max-h-10'} first:rounded-t-[20px] last:rounded-b-[20px]`,
-          className,
+          className
         )}
       >
         {settingLabel && (
@@ -56,16 +56,18 @@ const SettingCard = ({
   );
 };
 
-type SettingCardItemProps = HTMLAttributes<HTMLDivElement> & {
-  
-};
+type SettingCardItemProps = HTMLAttributes<HTMLDivElement> & {};
 
-const SettingCardItem = ({ className, children,...props }: SettingCardItemProps) => {
+const SettingCardItem = ({
+  className,
+  children,
+  ...props
+}: SettingCardItemProps) => {
   return (
     <div
       className={cn(
         'flex w-full p-4 border-t border-t-neutral2-2 hover:bg-neutral2-2 items-center justify-between first:rounded-t-[20px] first:border-t-0 last:rounded-b-[20px]',
-        className,
+        className
       )}
       {...props}
     >

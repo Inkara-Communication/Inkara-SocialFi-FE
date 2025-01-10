@@ -1,6 +1,6 @@
 // import { ICommment } from './comment';
 
-import { IUserSimple } from "./user";
+import { IUserSimple } from './user';
 
 export interface ILikes {
   id: string;
@@ -29,7 +29,7 @@ export interface IPost {
   type: 'text' | 'media';
   createdAt: string;
   updatedAt: string;
-  likes: ILikes[]
+  likes: ILikes[];
   comments?: Comment[];
   user: IUserSimple;
 }

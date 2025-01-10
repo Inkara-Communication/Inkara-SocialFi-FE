@@ -12,12 +12,12 @@ export enum UserFilterByOption {
   HIDDEN = 'HIDDEN',
   LISTING = 'LISTING',
   BUY_OFFER = 'BUY_OFFER',
-  SELL_OFFER = 'SELL_OFFER'
+  SELL_OFFER = 'SELL_OFFER',
 }
 
 export interface InputFilter {
-    period?: string;
-    filterBy: UserFilterByOption;
+  period?: string;
+  filterBy: UserFilterByOption;
 }
 
 export interface FilterType {

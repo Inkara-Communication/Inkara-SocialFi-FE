@@ -1,6 +1,6 @@
-import { createWalletClient, createPublicClient, custom, http } from "viem";
-import { sepolia } from "viem/chains";
-import "viem/window";
+import { createWalletClient, createPublicClient, custom, http } from 'viem';
+import { sepolia } from 'viem/chains';
+import 'viem/window';
 
 export async function ConnectWalletClient() {
   // Check for window.ethereum
@@ -12,7 +12,7 @@ export async function ConnectWalletClient() {
   } else {
     // If window.ethereum is not available, throw an error
     const errorMessage =
-      "MetaMask or another web3 wallet is not installed. Please install one to proceed.";
+      'MetaMask or another web3 wallet is not installed. Please install one to proceed.';
     throw new Error(errorMessage);
   }
 
@@ -32,7 +32,9 @@ export function ConnectPublicClient() {
   // This creates a public client using the Sepolia chain and an HTTP transport
   const publicClient = createPublicClient({
     chain: sepolia,
-    transport: http("https://sepolia.infura.io/v3/335f71a625f94f5dbe41892b802d7bcd"),
+    transport: http(
+      'https://sepolia.infura.io/v3/335f71a625f94f5dbe41892b802d7bcd'
+    ),
   });
 
   // Return the public client

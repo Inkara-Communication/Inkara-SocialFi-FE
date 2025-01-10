@@ -20,7 +20,7 @@ export default function ProfileEditView() {
   const [loading, setLoading] = React.useState(false);
   const [profileData, setProfileData] = React.useState({
     username: userProfile?.username || '',
-    bio: userProfile?.bio || ''
+    bio: userProfile?.bio || '',
   });
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
@@ -76,9 +76,7 @@ export default function ProfileEditView() {
         <Image
           width={1280}
           height={180}
-          src={
-            '/img/default-avatar.jpg'
-          }
+          src={'/img/default-avatar.jpg'}
           className="max-h-[11.25rem] w-full object-cover"
           alt="avatar"
         />

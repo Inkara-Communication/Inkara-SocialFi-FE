@@ -14,7 +14,6 @@ export interface ICommment {
   children: IChilrenComment[];
 }
 
-
 export interface IChilrenComment {
   id: string;
   userId: string;

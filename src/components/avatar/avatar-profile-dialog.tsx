@@ -66,7 +66,9 @@ const AvatarUpdateDialog: React.FC<AvatarUpdateDialogProps> = ({
         </AlertDialogHeader>
 
         <div className="flex flex-col items-center gap-6 py-4">
-          <div className={`relative overflow-hidden bg-neutral2-5 ${type === 'avatar' ? 'w-40 h-40 rounded-full' : 'w-full h-40 rounded-md'}`}>
+          <div
+            className={`relative overflow-hidden bg-neutral2-5 ${type === 'avatar' ? 'w-40 h-40 rounded-full' : 'w-full h-40 rounded-md'}`}
+          >
             <Image
               src={previewUrl || currentAvatar}
               alt="Avatar preview"

@@ -1,1 +1,1 @@
-export {default as MobileSidebar} from './mobile-sidebar-trigger';
+export { default as MobileSidebar } from './mobile-sidebar-trigger';

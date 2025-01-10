@@ -74,7 +74,7 @@ export default function SidebarRight({ className }: SidebarRightProps) {
       console.error('Failed to follow user:', error);
     }
   };
-  
+
   const handleTabChange = (key: string) => {
     setActiveTab(key);
   };

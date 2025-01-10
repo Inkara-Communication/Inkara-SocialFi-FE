@@ -61,13 +61,9 @@ export const AccountsSection = () => {
         </div>
         <span className="flex flex-col items-center gap-2">
           <p className="font-rubik font-medium text-title text-primary self-center">
-            {userProfile
-              ? `${userProfile.username}`
-              : 'User'}
+            {userProfile ? `${userProfile.username}` : 'User'}
           </p>
-          <p className="text-tertiary opacity-80">
-            {userProfile?.address}
-          </p>
+          <p className="text-tertiary opacity-80">{userProfile?.address}</p>
         </span>
       </SettingCard>
       <SettingCard settingLabel="Account Settings">

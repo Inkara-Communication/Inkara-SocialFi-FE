@@ -23,16 +23,14 @@ import {
 } from '@/components/alert-dialog';
 
 import styled from '@/styles/auth.module.css';
-import {
-  ConnectWalletClient,
-} from '@/apis/configs/client';
+import { ConnectWalletClient } from '@/apis/configs/client';
 
 //----------------------------------------------------------------------
 
 export default function LoginView() {
   const { setToken } = useAuth();
   const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleMetaMaskLogin = async () => {
     setLoading(true);
@@ -48,7 +46,10 @@ export default function LoginView() {
     const [address] = await walletClient.requestAddresses();
     try {
       const { data: nonce } = await register({ address });
-      const messageHash = web3.utils.soliditySha3(address, nonce.toString()) as string;
+      const messageHash = web3.utils.soliditySha3(
+        address,
+        nonce.toString()
+      ) as string;
       const signature = await new Promise<string>((resolve, reject) => {
         if (window.ethereum) {
           window.ethereum
@@ -74,6 +75,8 @@ export default function LoginView() {
       router.push('/');
     } catch (err: any) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,17 +99,30 @@ export default function LoginView() {
                 type="button"
                 className="w-full px-[2rem] py-[0.875rem]"
                 onClick={handleMetaMaskLogin}
+                disabled={loading}
                 child={
                   <div className="flex items-center gap-3 justify-center">
-                    <Image
-                      src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg"
-                      alt="MetaMask Fox"
-                      width={25}
-                      height={25}
-                    />
-                    <Typography level="base2sm" className="text-secondary">
-                      Sign in with MetaMask
-                    </Typography>
+                    {loading ? (
+                      <div
+                        className="w-5 h-5 border-t-2 border-b-2 border-primary rounded-full animate-spin"
+                        style={{
+                          borderTopColor: '#f7f7f7',
+                          borderBottomColor: '#f7f7f7',
+                        }}
+                      ></div>
+                    ) : (
+                      <>
+                        <Image
+                          src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg"
+                          alt="MetaMask Fox"
+                          width={25}
+                          height={25}
+                        />
+                        <Typography level="base2sm" className="text-secondary">
+                          Sign in with MetaMask
+                        </Typography>
+                      </>
+                    )}
                   </div>
                 }
               />

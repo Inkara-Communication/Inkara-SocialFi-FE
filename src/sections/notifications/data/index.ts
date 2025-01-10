@@ -1,1 +1,1 @@
-export {type Notification, notificationsSchema} from './schema';
+export { type Notification, notificationsSchema } from './schema';

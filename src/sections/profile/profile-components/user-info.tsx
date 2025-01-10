@@ -41,7 +41,7 @@ export default function InfoUser({ user }: UserInfoProps) {
   }, [user]);
 
   const handleFollow = async () => {
-    console.log(user)
+    console.log(user);
     if (isFollowed) {
       await followAction(user.id);
       setIsFollowed(false);
@@ -67,7 +67,7 @@ export default function InfoUser({ user }: UserInfoProps) {
   return (
     <>
       <div className="w-full relative z-[2]">
-      <Image
+        <Image
           width={1280}
           height={180}
           src={'/img/default-cover.jpg'}
