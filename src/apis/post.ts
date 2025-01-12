@@ -98,3 +98,22 @@ export const deletePost = async (id: string): Promise<IApiResponse<string>> => {
 
   return response.data;
 };
+
+export const getPostsByUser = async (
+  { startId, offset, limit }: InputPagination,
+  userId: string
+): Promise<IApiResponse<IPost[]>> => {
+  const pagination = {
+    startId,
+    offset,
+    limit,
+  };
+  const response = await axiosInstance.get<IApiResponse<IPost[]>>(
+    endpoints.post.getMaynyByUser(userId), {
+    params: {
+      ...pagination,
+    },
+  }
+  );
+  return response.data;
+};

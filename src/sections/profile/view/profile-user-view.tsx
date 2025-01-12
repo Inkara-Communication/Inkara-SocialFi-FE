@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-import { getPosts } from '@/apis/post';
 import { getUserProfileById } from '@/apis/user';
 import { IPost } from '@/interfaces/post';
 import { IUserProfile } from '@/interfaces/user';
@@ -12,6 +11,7 @@ import ActivityFeed from '@/components/user-activity-feed/user-activity-feed';
 
 import ProfileHead from '../profile-components/header';
 import UserInfo from '../profile-components/user-info';
+import { getPostsByUser } from '@/apis/post';
 
 //--------------------------------------------------------------------------------------------------------
 
@@ -22,13 +22,13 @@ interface ProfileUserViewProps {
 export default function ProfileUserView({ userId }: ProfileUserViewProps) {
   const [user, setUser] = React.useState<IUserProfile | null>(null);
   const [posts, setPosts] = React.useState<IPost[]>([]);
-  const [postMedia, setPostMedia] = React.useState<IPost[]>([]);
+  const [nfts, setNfts] = React.useState<unknown[]>([]);
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [params, setParams] = React.useState<Record<string, string | boolean>>(
     {}
   );
-  const [contentType, setContentType] = React.useState<'post' | 'media'>(
+  const [contentType, setContentType] = React.useState<'post' | 'nfts'>(
     'post'
   );
 
@@ -49,23 +49,23 @@ export default function ProfileUserView({ userId }: ProfileUserViewProps) {
     fetchUserProfile();
   }, [userId]);
 
-  // React.useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     try {
-  //       const response = await getPosts('EXPLORER',
-  //         1,
-  //         5,
-  //         5);
-  //       setPosts(response.data);
-  //       setPostMedia(response.data.filter((post) => post.type === 'media'));
-  //     } catch (error) {
-  //       console.error('Error fetching posts:', error);
-  //       setError('Failed to load posts.');
-  //     }
-  //   };
+  React.useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await getPostsByUser(
+          { startId: 0, offset: 1, limit: 10 },
+          userId
+        );
+        setPosts(response.data);
+        setNfts(response.data.filter((post) => post.type === 'media'));
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+        setError('Failed to load posts.');
+      }
+    };
 
-  //   fetchPosts();
-  // }, [params, userId]);
+    fetchPosts();
+  }, [params, userId]);
 
   const handleToggle = (key: string) => {
     switch (key) {
@@ -73,13 +73,9 @@ export default function ProfileUserView({ userId }: ProfileUserViewProps) {
         setParams({});
         setContentType('post');
         break;
-      case 'featured':
-        setParams({ isFeatured: true });
-        setContentType('post');
-        break;
-      case 'media':
-        setParams({ type: 'media' });
-        setContentType('media');
+      case 'nft':
+        setParams({ type: 'nfts' });
+        setContentType('nfts');
         break;
       default:
         console.warn(`Unexpected key: ${key}`);
@@ -95,8 +91,7 @@ export default function ProfileUserView({ userId }: ProfileUserViewProps) {
       <ToggleGroup
         items={[
           { key: 'posts', label: 'Posts' },
-          { key: 'featured', label: 'Featured' },
-          { key: 'media', label: 'Media' },
+          { key: 'nfts', label: 'Nfts' },
         ]}
         className="z-[2] mb-3 relative"
         onChange={handleToggle}
@@ -104,7 +99,7 @@ export default function ProfileUserView({ userId }: ProfileUserViewProps) {
       <div className="px-3 gap-5 h-fit no-scrollbar">
         <ActivityFeed
           contentType={contentType}
-          data={contentType === 'media' ? postMedia : posts}
+          data={contentType === 'nfts' ? nfts : posts}
           loading={loading}
           err={error}
         />

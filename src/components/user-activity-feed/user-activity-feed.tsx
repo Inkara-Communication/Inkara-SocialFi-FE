@@ -10,8 +10,8 @@ import Link from 'next/link';
 //-----------------------------------------------------------------------------------------------
 
 interface NewFeedProps {
-  contentType: 'post' | 'media';
-  data: IPost[];
+  contentType: 'post' | 'nfts';
+  data: unknown[];
   loading?: boolean;
   err?: string | null;
   className?: string;
@@ -27,7 +27,7 @@ export default function ActivityFeed({
 }: NewFeedProps) {
   const posts = (
     <ul className="w-full h-full mt-3">
-      {data.map((post) => (
+      {(data as IPost[]).map((post) => (
         <li key={post.id} className="mb-2">
           <Post data={post} onDeleteSuccess={onDeleted} />
         </li>

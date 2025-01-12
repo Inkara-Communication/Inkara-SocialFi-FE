@@ -1,4 +1,3 @@
-import { IImage } from './image';
 import { IPost } from './post';
 
 //-----------------------------------------------------------------------------
@@ -23,5 +22,4 @@ export interface IUserProfile {
     url: string;
   };
   posts?: IPost[];
-  media?: IImage[];
 }
