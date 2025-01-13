@@ -3,6 +3,7 @@
 import React from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { AUTH_TOKEN } from '@/constant';
+import { refresh } from '@/apis/auth';
 
 //-----------------------------------------------------------------------------------------------
 
@@ -39,6 +40,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.removeItem(AUTH_TOKEN);
     }
   };
+
+  React.useEffect(() => {
+    if (token) {
+      const decodedToken = jwtDecode<{ exp: number }>(token);
+      const expiresInMs = decodedToken.exp * 1000 - Date.now();
+
+      if (expiresInMs >= 10 * 1000) {
+        const timeoutId = setTimeout(
+          async () => {
+            try {
+              await refresh();
+              const accessToken = localStorage.getItem(AUTH_TOKEN);
+              setToken(accessToken);
+            } catch (error) {
+              console.error('Auto-refresh token failed', error);
+              window.location.href = '/login';
+            }
+          },
+          expiresInMs - 10 * 1000
+        );
+
+        return () => clearTimeout(timeoutId);
+      }
+    }
+  }, [token]);
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {

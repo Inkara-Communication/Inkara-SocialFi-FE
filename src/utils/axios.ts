@@ -3,7 +3,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 import { HOST_API } from '../global-config';
-import { AUTH_TOKEN, USER_INFO } from '@/constant';
+import { AUTH_TOKEN } from '@/constant';
+import { refresh } from '@/apis/auth';
 
 //----------------------------------------------------------------------
 
@@ -19,8 +20,6 @@ axiosInstance.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-
-
 
 let isRefreshing = false;
 let failedQueue: { resolve: (token: string) => void; reject: (error: unknown) => void }[] = [];
@@ -42,47 +41,34 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         }).then((token) => {
+          originalRequest._retry = true;
           originalRequest.headers['Authorization'] = `Bearer ${token}`;
           return axiosInstance(originalRequest);
         }).catch((err) => Promise.reject(err));
       }
 
-      originalRequest._retry = true;
       isRefreshing = true;
 
       try {
-        const user = JSON.parse(localStorage.getItem(USER_INFO) || '{}');
-        if (!user) {
-          if (typeof window !== 'undefined') {
-            window.location.href = '/login';
-          }
-          return Promise.reject(error);
-        }
-        const response = await axiosInstance.post(endpoints.auth.refresh, {
-          user: {
-            id: user.id,
-            address: user.address
-          }
-        }, { withCredentials: true });
-        const accessToken = response.data.data.accessToken
-        localStorage.setItem(AUTH_TOKEN, accessToken);
-        processQueue(null, accessToken);
-        isRefreshing = false;
-
-        originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+        // await refresh();
+        // const accessToken = localStorage.getItem(AUTH_TOKEN);
+        // processQueue(null, accessToken);
+        // isRefreshing = false;
+        // originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
         return axiosInstance(originalRequest);
       } catch (err) {
         processQueue(err, null);
-        isRefreshing = false;
-
         if (typeof window !== 'undefined') {
           window.location.href = '/login';
         }
         return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
       }
     }
 
@@ -92,16 +78,18 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-
 export default axiosInstance;
 
 // ----------------------------------------------------------------------
 
 export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
   const [url, config] = Array.isArray(args) ? args : [args];
-  const res = await axiosInstance.get(url, { ...config });
-
-  return res.data;
+  try {
+    const res = await axiosInstance.get(url, { ...config });
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 // ----------------------------------------------------------------------
