@@ -27,6 +27,7 @@ export { default as Logo } from './logo';
 export { default as MessageIcon } from './message';
 export { default as MoreIcon } from './more';
 export { default as NewsIcon } from './news';
+export { default as NftIcon } from './nft';
 export { default as NotificationIcon } from './notification';
 export { default as OfflineIcon } from './offline-icon';
 export { default as OnlineIcon } from './online-icon';

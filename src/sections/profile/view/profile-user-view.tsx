@@ -57,7 +57,7 @@ export default function ProfileUserView({ userId }: ProfileUserViewProps) {
           userId
         );
         setPosts(response.data);
-        setNfts(response.data.filter((post) => post.type === 'media'));
+        setNfts(response.data);
       } catch (error) {
         console.error('Error fetching posts:', error);
         setError('Failed to load posts.');

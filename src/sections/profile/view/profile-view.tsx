@@ -68,7 +68,7 @@ export default function ProfileView() {
       <ToggleGroup
         items={[
           { key: 'posts', label: 'Posts' },
-          { key: 'media', label: 'Nfts' },
+          { key: 'nfts', label: 'Nfts' },
         ]}
         className="z-[2] mb-3 relative"
         onChange={handleToggle}

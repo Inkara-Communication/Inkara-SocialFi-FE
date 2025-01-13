@@ -35,21 +35,21 @@ export default function ActivityFeed({
     </ul>
   );
 
-  const media = (
-    <div className="w-full h-fit grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
-      {data.map((media, index) => (
-        <Link key={`${media.image}-${index}`} href={`/posts/${media.id}`}>
-          <Image
-            src={media.image}
-            width={633}
-            height={400}
-            alt={'media'}
-            className="w-full h-[12rem] rounded-[1.5rem] object-cover"
-          />
-        </Link>
-      ))}
-    </div>
-  );
+  // const media = (
+  //   <div className="w-full h-fit grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
+  //     {data.map((media, index) => (
+  //       <Link key={`${media.image}-${index}`} href={`/posts/${media.id}`}>
+  //         <Image
+  //           src={media.image}
+  //           width={633}
+  //           height={400}
+  //           alt={'media'}
+  //           className="w-full h-[12rem] rounded-[1.5rem] object-cover"
+  //         />
+  //       </Link>
+  //     ))}
+  //   </div>
+  // );
 
   return (
     <div className="">
@@ -68,7 +68,7 @@ export default function ActivityFeed({
       ) : contentType === 'post' ? (
         posts
       ) : (
-        media
+        posts
       )}
     </div>
   );

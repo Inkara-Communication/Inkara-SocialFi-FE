@@ -54,34 +54,6 @@ export const createPost = async (
   return response.data;
 };
 
-export const likePost = async (
-  postId: string
-): Promise<IApiResponse<string>> => {
-  const response = await axiosInstance.post(endpoints.post.like(postId));
-  return response.data;
-};
-
-export const unlikePost = async (
-  postId: string
-): Promise<IApiResponse<string>> => {
-  const response = await axiosInstance.delete(endpoints.post.unlike(postId));
-  return response.data;
-};
-
-export const savePost = async (
-  postId: string
-): Promise<IApiResponse<string>> => {
-  const response = await axiosInstance.post(endpoints.post.save(postId));
-  return response.data;
-};
-
-export const unsavePost = async (
-  postId: string
-): Promise<IApiResponse<string>> => {
-  const response = await axiosInstance.post(endpoints.post.unsave(postId));
-  return response.data;
-};
-
 export const updatePost = async (
   data: UpdatePost
 ): Promise<IApiResponse<string>> => {

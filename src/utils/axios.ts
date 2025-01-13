@@ -3,7 +3,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 import { HOST_API } from '../global-config';
-import { AUTH_TOKEN } from '@/constant';
+import { AUTH_TOKEN, USER_INFO } from '@/constant';
 
 //----------------------------------------------------------------------
 
@@ -20,19 +20,78 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+
+
+let isRefreshing = false;
+let failedQueue: { resolve: (token: string) => void; reject: (error: unknown) => void }[] = [];
+
+const processQueue = (error: unknown, token: string | null = null) => {
+  failedQueue.forEach((promise) => {
+    if (token) {
+      promise.resolve(token);
+    } else {
+      promise.reject(error);
+    }
+  });
+  failedQueue = [];
+};
+
 axiosInstance.interceptors.response.use(
   (res) => res,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      if (typeof window !== 'undefined') {
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        }).then((token) => {
+          originalRequest.headers['Authorization'] = `Bearer ${token}`;
+          return axiosInstance(originalRequest);
+        }).catch((err) => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const user = JSON.parse(localStorage.getItem(USER_INFO) || '{}');
+        if (!user) {
+          if (typeof window !== 'undefined') {
+            window.location.href = '/login';
+          }
+          return Promise.reject(error);
+        }
+        const response = await axiosInstance.post(endpoints.auth.refresh, {
+          user: {
+            id: user.id,
+            address: user.address
+          }
+        }, { withCredentials: true });
+        const accessToken = response.data.data.accessToken
+        localStorage.setItem(AUTH_TOKEN, accessToken);
+        processQueue(null, accessToken);
+        isRefreshing = false;
+
+        originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+        return axiosInstance(originalRequest);
+      } catch (err) {
+        processQueue(err, null);
+        isRefreshing = false;
+
+        if (typeof window !== 'undefined') {
           window.location.href = '/login';
         }
+        return Promise.reject(err);
+      }
     }
+
     return Promise.reject(
       (error.response && error.response.data) || 'Something went wrong'
     );
   }
 );
+
 
 export default axiosInstance;
 
@@ -52,6 +111,7 @@ export const endpoints = {
     login: `/auth/signin`,
     register: `/auth/signup`,
     logout: `/auth/signout`,
+    refresh: `/auth/refresh`
   },
 
   user: {
@@ -67,6 +127,7 @@ export const endpoints = {
     followAction: (followingId: string) => `/follow/${followingId}`,
     listFollows: `/follow/list`,
     whoToFollow: `/follow/who-to-follow`,
+    countFollows: (id: string) => `/follow/${id}/count`,
   },
 
   post: {
@@ -77,10 +138,7 @@ export const endpoints = {
     update: (id: string) => `/post/${id}`,
     delete: (id: string) => `/post/${id}`,
     detail: `/post/:id`,
-    like: (id: string) => `/post/${id}/like`,
-    unlike: (id: string) => `/post/${id}/unlike`,
-    save: (id: string) => `/post/${id}/save`,
-    unsave: (id: string) => `/post/${id}/unsave`,
+    countPosts: (id: string) => `/post/${id}/count`,
   },
   media: {
     upload: `/upload-file`,

@@ -154,11 +154,11 @@
 <circle cx="134.732" cy="75.7472" r="0.7328" transform="rotate(180 134.732 75.7472)" fill="#F8F8F8"/>
 <circle cx="114.771" cy="75.7868" r="0.6932" transform="rotate(180 114.771 75.7868)" fill="#F8F8F8"/>
 </g>
-<path opacity="0.5" d="M234 256.667L234 403.333M226 240L226 420M218 223.333L218 436.667M210 206.667L210 453.333M202 190L202 470M194 206.667L194 453.333M186 223.333L186 436.667M178 240L178 420M170 256.667L170 403.333" stroke="url(#paint2_linear_3_32474)" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M210 409L210 392" stroke="url(#paint3_linear_3_32474)" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M202 365L202 381" stroke="url(#paint4_linear_3_32474)" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M194 397L194 405" stroke="url(#paint5_linear_3_32474)" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M194 232L194 240" stroke="url(#paint6_linear_3_32474)" stroke-width="1.5" stroke-linecap="round"/>
+<path opacity="0.5" d="M234 256.667L234 403.333M226 240L226 420M218 223.333L218 436.667M210 206.667L210 453.333M202 190L202 470M194 206.667L194 453.333M186 223.333L186 436.667M178 240L178 420M170 256.667L170 403.333" stroke="url(#paint2_linear_3_32474)" stroke-width="1.5" strokeLinecap="round"/>
+<path d="M210 409L210 392" stroke="url(#paint3_linear_3_32474)" stroke-width="1.5" strokeLinecap="round"/>
+<path d="M202 365L202 381" stroke="url(#paint4_linear_3_32474)" stroke-width="1.5" strokeLinecap="round"/>
+<path d="M194 397L194 405" stroke="url(#paint5_linear_3_32474)" stroke-width="1.5" strokeLinecap="round"/>
+<path d="M194 232L194 240" stroke="url(#paint6_linear_3_32474)" stroke-width="1.5" strokeLinecap="round"/>
 <path opacity="0.8" d="M291 460L222.306 391.252C216.31 385.251 212.943 377.116 212.943 368.633L212.943 295L191.057 295L191.057 368.633C191.057 377.116 187.689 385.251 181.694 391.252L113 460L291 460Z" fill="url(#paint7_linear_3_32474)"/>
 <ellipse opacity="0.5" cx="0.441978" cy="0.442081" rx="0.441978" ry="0.442081" transform="matrix(-0.8035 -0.595304 0.594693 -0.803953 198.226 412.766)" fill="url(#paint8_linear_3_32474)"/>
 <ellipse opacity="0.5" cx="0.441978" cy="0.442081" rx="0.441978" ry="0.442081" transform="matrix(-0.8035 -0.595304 0.594693 -0.803953 209.715 388.003)" fill="url(#paint9_linear_3_32474)"/>
@@ -292,8 +292,8 @@
 <g opacity="0.1" filter="url(#filter26_bdi_3_32474)">
 <path d="M295 440C295 443.314 297.686 446 301 446C304.314 446 307 443.314 307 440C307 436.686 304.314 434 301 434C297.686 434 295 436.686 295 440Z" fill="#F8F8F8" fill-opacity="0.01" shape-rendering="crispEdges"/>
 </g>
-<path d="M202 220L202 228" stroke="url(#paint43_linear_3_32474)" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M210 232L210 240" stroke="url(#paint44_linear_3_32474)" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M202 220L202 228" stroke="url(#paint43_linear_3_32474)" stroke-width="1.5" strokeLinecap="round"/>
+<path d="M210 232L210 240" stroke="url(#paint44_linear_3_32474)" stroke-width="1.5" strokeLinecap="round"/>
 <g opacity="0.5">
 <path d="M248.25 256C248.25 257.888 247.127 259.8 244.836 261.644C242.552 263.482 239.2 265.171 234.992 266.604C226.584 269.466 214.919 271.25 202 271.25C189.081 271.25 177.416 269.466 169.008 266.604C164.8 265.171 161.448 263.482 159.164 261.644C156.873 259.8 155.75 257.888 155.75 256C155.75 254.112 156.873 252.2 159.164 250.356C161.448 248.518 164.8 246.829 169.008 245.396C177.416 242.534 189.081 240.75 202 240.75C214.919 240.75 226.584 242.534 234.992 245.396C239.2 246.829 242.552 248.518 244.836 250.356C247.127 252.2 248.25 254.112 248.25 256Z" stroke="url(#paint45_linear_3_32474)" stroke-width="1.5"/>
 <path d="M248.25 256C248.25 257.888 247.127 259.8 244.836 261.644C242.552 263.482 239.2 265.171 234.992 266.604C226.584 269.466 214.919 271.25 202 271.25C189.081 271.25 177.416 269.466 169.008 266.604C164.8 265.171 161.448 263.482 159.164 261.644C156.873 259.8 155.75 257.888 155.75 256C155.75 254.112 156.873 252.2 159.164 250.356C161.448 248.518 164.8 246.829 169.008 245.396C177.416 242.534 189.081 240.75 202 240.75C214.919 240.75 226.584 242.534 234.992 245.396C239.2 246.829 242.552 248.518 244.836 250.356C247.127 252.2 248.25 254.112 248.25 256Z" stroke="url(#paint46_linear_3_32474)" stroke-opacity="0.2" stroke-width="1.5"/>

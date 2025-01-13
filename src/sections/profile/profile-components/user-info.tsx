@@ -14,6 +14,7 @@ import {
   CommentIcon,
   EditIcon,
   LinkIcon,
+  NftIcon,
   ProfileIcon,
   ShareIcon,
 } from '@/components/icons';
@@ -35,6 +36,7 @@ export default function InfoUser({ user }: UserInfoProps) {
   const [isCopied, setIsCopied] = React.useState<boolean>(false);
 
   React.useEffect(() => {
+    if (!user) return;
     (async () => {
       setIsFollowed(await hasFollowed(user.id));
     })();
@@ -137,12 +139,11 @@ export default function InfoUser({ user }: UserInfoProps) {
           <div className="flex gap-6">
             <div className="flex items-center gap-2 text-sm base opacity-80 cursor-pointer rounded-button px-3 py-2 hover:bg-neutral2-5">
               <CommentIcon />
-
               <Typography
                 level="base2r"
                 className="text-primary flex items-center gap-2"
               >
-                {user.postCount}111
+                {user.postCount}
                 <Typography level="base2r" className="text-tertiary">
                   posts
                 </Typography>
@@ -156,13 +157,26 @@ export default function InfoUser({ user }: UserInfoProps) {
                   level="base2r"
                   className="text-primary flex items-center gap-2"
                 >
-                  {user.followerCount}222
+                  {user.followerCount}
                   <Typography level="base2r" className="text-tertiary">
                     followers
                   </Typography>
                 </Typography>
               </div>
             </Link>
+
+            <div className="flex items-center gap-2 text-sm base opacity-80 cursor-pointer rounded-button px-3 py-2 hover:bg-neutral2-5">
+              <NftIcon />
+              <Typography
+                level="base2r"
+                className="text-primary flex items-center gap-2"
+              >
+                {user.nftCount}xxx
+                <Typography level="base2r" className="text-tertiary">
+                  nfts
+                </Typography>
+              </Typography>
+            </div>
           </div>
 
           {user.websiteUrl && (
