@@ -15,13 +15,12 @@ interface SignUpParams {
 
 interface ITokens {
   accessToken: string;
-  refreshToken: string;
 }
 
 export const login = async ({
   address,
   signature,
-}: SignInParams): Promise<IApiResponse<ITokens>> => {
+}: SignInParams): Promise<ITokens> => {
   const response = await axiosInstance.post(endpoints.auth.login, {
     address,
     signature,
@@ -42,13 +41,7 @@ export const logout = async (): Promise<IApiResponse<string>> => {
 };
 
 export const refresh = async (): Promise<void> => {
-  const user = JSON.parse(localStorage.getItem(USER_INFO) || '{}');
-  const response = await axiosInstance.post(endpoints.auth.refresh, {
-    user: {
-      id: user.id,
-      address: user.address
-    }
-  }, { withCredentials: true });
+  const response = await axiosInstance.post(endpoints.auth.refresh, {}, { withCredentials: true });
   const { accessToken } = response.data;
   localStorage.setItem(AUTH_TOKEN, accessToken);
 }

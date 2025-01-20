@@ -66,15 +66,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [token]);
 
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedToken = localStorage.getItem(AUTH_TOKEN);
-      if (storedToken !== token) {
-        setTokenState(storedToken);
-      }
-    }
-  }, [token]);
-
   const isAuthenticated = !!token && !isTokenExpired(token);
   return (
     <AuthContext.Provider value={{ token, setToken, isAuthenticated }}>

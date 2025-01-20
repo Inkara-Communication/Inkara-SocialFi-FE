@@ -8,7 +8,10 @@ import { refresh } from '@/apis/auth';
 
 //----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL: HOST_API });
+const axiosInstance = axios.create({ 
+  baseURL: HOST_API,
+  withCredentials: true
+ });
 
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -55,11 +58,10 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        // await refresh();
-        // const accessToken = localStorage.getItem(AUTH_TOKEN);
-        // processQueue(null, accessToken);
-        // isRefreshing = false;
-        // originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+        await refresh();
+        const accessToken = localStorage.getItem(AUTH_TOKEN);
+        processQueue(null, accessToken);
+        originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
         return axiosInstance(originalRequest);
       } catch (err) {
         processQueue(err, null);

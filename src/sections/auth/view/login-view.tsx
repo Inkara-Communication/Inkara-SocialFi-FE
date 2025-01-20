@@ -71,8 +71,8 @@ export default function LoginView() {
         }
       });
 
-      const authTokens = await login({ address, signature });
-      setToken(authTokens.data.accessToken);
+      const response = await login({ address, signature });
+      setToken(response.accessToken);
       router.push('/');
     } catch (err: any) {
       console.error(err);
