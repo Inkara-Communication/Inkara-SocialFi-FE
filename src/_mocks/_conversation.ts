@@ -21,27 +21,27 @@ interface IMessage {
 const messages = [
   {
     user: {
-      avatarUrl: 'https://i.pravatar.cc/150?img=1',
-      name: 'Apple hi',
+      avatarUrl: '',
+      name: 'Test 1',
     },
-    content: 'Hello, how can I help you today?',
+    content: 'Hello world',
     time: '8:30 AM',
-    imageUrl: 'https://i.pravatar.cc/600?img=2',
+    imageUrl: '',
   },
   {
     user: {
-      avatarUrl: 'https://i.pravatar.cc/150?img=2',
-      name: 'Samsung',
+      avatarUrl: '',
+      name: 'Test 2',
     },
-    content: 'Hello, how can I help you today?',
+    content: 'Hello world',
     time: '8:30 AM',
   },
   {
     user: {
-      avatarUrl: 'https://i.pravatar.cc/150?img=1',
-      name: 'Apple Releases',
+      avatarUrl: '',
+      name: 'Test 3',
     },
-    content: 'Hello, can I help you?',
+    content: 'Hello world',
     time: '8:30 AM',
   },
 ];
@@ -50,8 +50,8 @@ export const _conversations: IConversation[] = [
   {
     id: 1,
     user: {
-      avatarUrl: 'https://i.pravatar.cc/150?img=1',
-      name: 'John Doe',
+      avatarUrl: '',
+      name: 'Test 1',
     },
     content: 'Test content',
     messages: messages,
@@ -59,8 +59,8 @@ export const _conversations: IConversation[] = [
   {
     id: 2,
     user: {
-      avatarUrl: 'https://i.pravatar.cc/150?img=3',
-      name: 'John Doe 2',
+      avatarUrl: '',
+      name: 'Test 2',
     },
     content: 'Test content 2',
   },

@@ -37,13 +37,13 @@ export const getPosts = async (
 export const getPostDetail = async (
   id: string
 ): Promise<IApiResponse<IPost>> => {
-  const response = await axiosInstance.get(`${endpoints.post.getById}/${id}`);
+  const response = await axiosInstance.get(endpoints.post.getById(id));
   return response.data;
 };
 
 export const createPost = async (
   data: CreatePost
-): Promise<IApiResponse<string>> => {
+): Promise<IApiResponse<IPost>> => {
   const { image, ...rest } = data;
 
   const response = await axiosInstance.post(
@@ -55,10 +55,11 @@ export const createPost = async (
 };
 
 export const updatePost = async (
+  id: string,
   data: UpdatePost
 ): Promise<IApiResponse<string>> => {
   const response = await axiosInstance.patch(
-    endpoints.post.update(data.id as string),
+    endpoints.post.update(id),
     data
   );
 
@@ -66,7 +67,7 @@ export const updatePost = async (
 };
 
 export const deletePost = async (id: string): Promise<IApiResponse<string>> => {
-  const response = await axiosInstance.delete(endpoints.post.update(id));
+  const response = await axiosInstance.delete(endpoints.post.delete(id));
 
   return response.data;
 };

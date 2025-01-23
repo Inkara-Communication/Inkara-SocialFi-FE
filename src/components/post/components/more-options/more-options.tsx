@@ -1,5 +1,6 @@
 import { TrashIcon, LockIcon } from '@/components/icons';
 import MoreItem from './more-item';
+import EditProfile from '@/components/icons/edit';
 
 //--------------------------------------------------------------------------------------------------------
 
@@ -12,7 +13,7 @@ export default function MoreOptions({ onEdit, onDelete }: MoreOptionsProps) {
   const _moreOptions = [
     {
       title: 'Edit',
-      icon: <LockIcon />,
+      icon: <EditProfile />,
       onClick: onEdit,
     },
     {

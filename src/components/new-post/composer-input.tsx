@@ -8,7 +8,6 @@ import { createComment } from '@/apis/comment';
 import { createPost } from '@/apis/post';
 import { usePost } from '@/context/post-context';
 import { useUserProfile } from '@/context/user-context';
-import { IPost } from '@/interfaces/post';
 import { CreatePost, createPostSchema } from '@/schema/posts-schema';
 
 import { Avatar } from '@/components/avatar';
@@ -96,9 +95,8 @@ export default function ComposerInput({
         return;
       }
 
-      addPost(newPost);
-
-      await createPost(validatedData);
+      const posts = await createPost(validatedData);
+      addPost(posts.data);
 
       setContent('');
       setPreviewUrl('');

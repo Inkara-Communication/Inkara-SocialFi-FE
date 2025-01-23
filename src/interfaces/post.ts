@@ -22,7 +22,8 @@ export interface Comment {
 export interface IPost {
   id: string;
   content: string;
-  photo: {
+  photo?: {
+    id?: string
     url?: string;
   };
   creatorId: string;

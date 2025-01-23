@@ -22,7 +22,6 @@ export default function ConversationDetailPage({
 }: ConversationDetailPageProps) {
   const router = useRouter();
 
-  // Chuyển đổi `id` sang kiểu số và tìm kiếm cuộc trò chuyện
   const conversationId = Number(id);
   const conversation = fakeConversation.find(
     (item: any) => item.id === conversationId

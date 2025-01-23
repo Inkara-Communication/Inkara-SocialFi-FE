@@ -4,14 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import {
-  deletePost,
-  likePost,
-  savePost,
-  unlikePost,
-  unsavePost,
-} from '@/apis/post';
-import { IChilrenComment, ICommment } from '@/interfaces/comment';
+import { deletePost } from '@/apis/post';
 import { IPost } from '@/interfaces/post';
 import { IUserProfile } from '@/interfaces/user';
 import { useUserProfile } from '@/context/user-context';
@@ -20,7 +13,7 @@ import { cn } from '@/lib/utils';
 import { relativeTime } from '@/utils/relative-time';
 
 import { Avatar } from '../avatar';
-import { BookmarkIcon, CommentIcon, HeartIcon, MoreIcon } from '../icons';
+import { HeartIcon, MoreIcon } from '../icons';
 import UpdatePost from '../new-post/update-post';
 import { Portal } from '../portal';
 import { Typography } from '../typography';
@@ -35,6 +28,7 @@ import {
   AlertDialogDescription,
 } from '../alert-dialog';
 import { Button } from '../button';
+import { usePost } from '@/context/post-context';
 
 //-------------------------------------------------------------------------
 
@@ -58,6 +52,7 @@ export default function Post({
   setOpenMoreOptionsId,
 }: PostProps) {
   const { userProfile } = useUserProfile();
+  const { posts } = usePost();
   const [localData, setLocalData] = React.useState(data);
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [isConfirm, setIsConfirm] = React.useState<boolean>(false);
@@ -87,7 +82,7 @@ export default function Post({
   //       onUpdatePost(localData as IPost);
   //     }
   //   }
-  // };
+  // };localData?.user?
 
   const handleMoreOptions = () => {
     setOpenMoreOptionsId?.(openMoreOptionsId === data.id ? null : data.id);
@@ -196,7 +191,7 @@ export default function Post({
                 level="base2m"
                 className="text-primary font-bold justify-self-start opacity-80 mr-4"
               >
-                {localData?.user.username}
+                {localData?.user?.username}
               </Typography>
             </Link>
             <Typography
@@ -208,6 +203,12 @@ export default function Post({
 
             {data.creatorId === (userProfile as IUserProfile).id && (
               <MoreIcon onClick={handleMoreOptions} />
+            )}
+            {openMoreOptionsId === data.id && (
+              <div
+              className="fixed inset-0 z-10"
+              onClick={() => setOpenMoreOptionsId?.(null)}
+              />
             )}
           </div>
           <Link href={`/posts/${localData.id}`} className="cursor-pointer">
@@ -221,10 +222,7 @@ export default function Post({
               <Image
                 width={400}
                 height={400}
-                src={
-                  localData?.photo?.url ||
-                  'https://i.pinimg.com/originals/d3/6f/ef/d36fef4f4885354afcfd3753dee95741.jpg'
-                }
+                src={localData?.photo?.url || ''}
                 alt="post-image"
                 className="max-h-[400px] w-full rounded-[1.5rem] object-cover"
               />

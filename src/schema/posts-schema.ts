@@ -26,9 +26,8 @@ export type CreatePost = z.infer<typeof createPostSchema>;
 
 export const updatePostSchema = z
   .object({
-    id: z.string(),
     content: z.string().optional(),
-    image: z.string().nullable(),
+    photoId: z.string().nullable(),
   })
   .partial();
 

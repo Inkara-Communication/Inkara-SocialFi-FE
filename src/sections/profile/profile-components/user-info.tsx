@@ -38,9 +38,13 @@ export default function InfoUser({ user }: UserInfoProps) {
   React.useEffect(() => {
     if (!user) return;
     (async () => {
-      setIsFollowed(await hasFollowed(user.id));
+      if (user.id !== userProfile?.id) {
+        setIsFollowed(await hasFollowed(user.id));
+      } else {
+        setIsFollowed(false);
+      }
     })();
-  }, [user]);
+  }, [user, userProfile?.id]);
 
   const handleFollow = async () => {
     if (isFollowed) {
@@ -104,15 +108,27 @@ export default function InfoUser({ user }: UserInfoProps) {
           />
 
           {user.id !== userProfile?.id && (
-            <Button
-              child={
-                <Typography level="base2r" className="text-tertiary">
-                  {isFollowed ? 'Unfollow' : 'Follow'}
-                </Typography>
-              }
-              className="p-2.5"
-              onClick={handleFollow}
-            />
+            <>
+              <Button
+                child={
+                  <Typography level="base2r" className="text-tertiary">
+                    {isFollowed ? 'Unfollow' : 'Follow'}
+                  </Typography>
+                }
+                className="p-2.5"
+                onClick={handleFollow}
+              />
+              <Link href={`/messages/`}>
+                <Button
+                  child={
+                    <Typography level="base2r" className="text-tertiary">
+                      Chat
+                    </Typography>
+                  }
+                  className="p-2.5"
+                />
+              </Link>
+            </>
           )}
 
           {user.id === userProfile?.id && (

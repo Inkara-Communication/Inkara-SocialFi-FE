@@ -15,9 +15,7 @@ import { UploadImgButton } from '@/components/new-post/post-control';
 import { Typography } from '@/components/typography';
 
 import { Button } from '../button';
-import { Dropdown } from '../dropdown';
 import { DebouncedInput } from '../input';
-import { SplashScreen } from '../loading-screen';
 
 //-------------------------------------------------------------------------
 
@@ -40,9 +38,6 @@ export default function UpdatePost({
   const { userProfile } = useUserProfile();
   const { posts, updatePostCtx } = usePost();
 
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [error, setError] = React.useState<string>('');
-
   const [content, setContent] = React.useState<string>('');
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
 
@@ -55,9 +50,9 @@ export default function UpdatePost({
   React.useEffect(() => {
     if (post) {
       setContent(post.content);
-      if (post.image) {
-        setPreviewUrl(post.image);
-        setUploadedImage(post.image);
+      if (post.photo?.url) {
+        setPreviewUrl(post.photo?.url);
+        setUploadedImage(post.photo?.id || '');
       }
     }
   }, [post]);
@@ -70,7 +65,7 @@ export default function UpdatePost({
 
       const postData: UpdatePost = {
         content: content.trim(),
-        image: uploadedImage || '',
+        photoId: uploadedImage || '',
       };
 
       const validatedData = updatePostSchema.parse(postData);
@@ -78,7 +73,7 @@ export default function UpdatePost({
       const optimisticPost: IPost = {
         ...post,
         content: content.trim(),
-        image: uploadedImage,
+        photo: { url: previewUrl || '' },
       };
 
       updatePostCtx(optimisticPost);
@@ -86,7 +81,7 @@ export default function UpdatePost({
         onUpdateSuccess(optimisticPost);
       }
 
-      await updatePost({ ...validatedData, id: post.id });
+      await updatePost(post.id, validatedData);
 
       if (onClose) onClose();
     } catch (error) {
@@ -114,8 +109,6 @@ export default function UpdatePost({
     }
   };
 
-  if (loading) return <SplashScreen />;
-  if (error) return <div>{error}</div>;
   if (!post) return <div>Post not found</div>;
 
   return (
@@ -147,7 +140,8 @@ export default function UpdatePost({
                 size={44}
                 className="max-h-[44px]"
                 alt="avatar"
-                src={userProfile?.avatar}
+                src={userProfile?.photo.url
+                }
               />
               <div className="grow">
                 <DebouncedInput

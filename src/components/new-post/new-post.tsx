@@ -5,8 +5,7 @@ import { z } from 'zod';
 import { createPost } from '@/apis/post';
 import { usePost } from '@/context/post-context';
 import { useUserProfile } from '@/context/user-context';
-import { IPost } from '@/interfaces/post';
-import { CreatePost, createPostSchema } from '@/schema/posts-schema';
+import { createPostSchema } from '@/schema/posts-schema';
 
 import { Avatar } from '@/components/avatar';
 import { ArrowBackIcon } from '@/components/icons';
@@ -15,9 +14,7 @@ import { UploadImgButton } from '@/components/new-post/post-control';
 import { Typography } from '@/components/typography';
 
 import { Button } from '../button';
-import { Dropdown } from '../dropdown';
 import { DebouncedInput } from '../input';
-import { SplashScreen } from '../loading-screen';
 
 //----------------------------------------------------------------------------------
 
@@ -34,9 +31,6 @@ export default function NewPost({ onBack }: INewPostProps) {
   const { userProfile } = useUserProfile();
   const { addPost } = usePost();
 
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [error, setError] = React.useState<string>('');
-
   const [content, setContent] = React.useState<string>('');
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
 
@@ -50,29 +44,9 @@ export default function NewPost({ onBack }: INewPostProps) {
       };
 
       const validatedData = createPostSchema.parse(postData);
-      const tempId = Math.random().toString(36).substring(2, 15);
 
-      const newPost = {
-        id: tempId,
-        content: content.trim(),
-        image: uploadedImage,
-        author: {
-          id: userProfile?.id || '',
-          username: userProfile?.username || '',
-          firstName: userProfile?.firstName || '',
-          lastName: userProfile?.lastName || '',
-          avatar: userProfile?.avatar || null,
-        },
-        commentCount: 0,
-        likedCount: 0,
-        type: uploadedImage === 'post' ? 'media' : 'text',
-        hasLiked: false,
-        hasSaved: false,
-      };
-
-      addPost(newPost);
-
-      await createPost(validatedData);
+      const posts = await createPost(validatedData);
+      addPost(posts.data);
 
       setContent('');
       setPreviewUrl('');
@@ -101,9 +75,6 @@ export default function NewPost({ onBack }: INewPostProps) {
       fileInputRef.current.value = '';
     }
   };
-
-  if (loading) return <SplashScreen />;
-  if (error) return <div>{error}</div>;
 
   return (
     <div className="fixed w-full h-full top-0 left-0 bg-[#444444] z-20 md:bg-[#12121299] shadow-stack">
@@ -134,7 +105,7 @@ export default function NewPost({ onBack }: INewPostProps) {
                 size={44}
                 className="max-h-[44px]"
                 alt="avatar"
-                src={userProfile?.avatar}
+                src={userProfile?.photo?.url}
               />
               <div className="flex-1">
                 <DebouncedInput

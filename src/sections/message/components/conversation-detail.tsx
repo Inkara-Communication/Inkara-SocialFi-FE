@@ -11,16 +11,16 @@ import ChatInput from './chat-input';
 const messages = [
   {
     user: {
-      avatarUrl: 'https://i.pravatar.cc/150?img=1',
+      avatarUrl: '',
       name: 'Apple hi',
     },
     content: 'Hello, how can I help you today?',
     time: '8:30 AM',
-    imageUrl: 'https://i.pravatar.cc/600?img=2',
+    imageUrl: '',
   },
   {
     user: {
-      avatarUrl: 'https://i.pravatar.cc/150?img=2',
+      avatarUrl: '',
       name: 'Samsung',
     },
     content: 'Hello, how can I help you today?',
@@ -28,7 +28,7 @@ const messages = [
   },
   {
     user: {
-      avatarUrl: 'https://i.pravatar.cc/150?img=1',
+      avatarUrl: '',
       name: 'Apple Releases',
     },
     content: 'Hello, can I help you?',
@@ -40,7 +40,7 @@ const _conversations = [
   {
     id: 1,
     user: {
-      avatarUrl: 'https://i.pravatar.cc/150?img=1',
+      avatarUrl: '',
       name: 'John Doe',
     },
     content: 'Test content',
@@ -49,7 +49,7 @@ const _conversations = [
   {
     id: 2,
     user: {
-      avatarUrl: 'https://i.pravatar.cc/150?img=3',
+      avatarUrl: '',
       name: 'John Doe 2',
     },
     content: 'Test content 2',
@@ -67,7 +67,7 @@ export default function ConversationDetail() {
         id="conversation-header"
         className="w-full flex items-center gap-4 py-3 pr-6 pl-3"
       >
-        <Avatar src="https://i.pravatar.cc/150?img=1" alt="avatar" size={40} />
+        <Avatar src="" alt="avatar" size={40} />
 
         <Typography level="base2m" className="text-primary grow">
           {_conversations[0].user.name}
