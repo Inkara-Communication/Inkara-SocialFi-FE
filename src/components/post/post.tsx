@@ -4,7 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import { deletePost } from '@/apis/post';
+import {
+  deletePost
+} from '@/apis/post';
+import { IChilrenComment, ICommment } from '@/interfaces/comment';
 import { IPost } from '@/interfaces/post';
 import { IUserProfile } from '@/interfaces/user';
 import { useUserProfile } from '@/context/user-context';
@@ -36,7 +39,7 @@ interface PostProps {
   data: IPost;
   className?: string;
   onUpdatePost?: (updatedPost: IPost) => void;
-  setParentComment?: (parentComment: { id: string; fullname: string }) => void;
+  setParentComment?: (parentComment: { id: string; username: string }) => void;
   onDeleteSuccess?: (isDeleted: boolean) => void;
   type?: string;
   openMoreOptionsId?: string | null;

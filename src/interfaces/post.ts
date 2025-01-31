@@ -1,5 +1,6 @@
 // import { ICommment } from './comment';
 
+import { ICommment } from './comment';
 import { IUserSimple } from './user';
 
 export interface ILikes {
@@ -31,6 +32,6 @@ export interface IPost {
   createdAt: string;
   updatedAt: string;
   likes: ILikes[];
-  comments?: Comment[];
+  comments?: ICommment[];
   user: IUserSimple;
 }

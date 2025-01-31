@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 interface commentListProps {
   comments: ICommment[];
   className?: string;
-  setParentComment?: (parentComment: { id: string; fullname: string }) => void;
+  setParentComment?: (parentComment: { id: string; username: string }) => void;
 }
 
 export default function CommentList({

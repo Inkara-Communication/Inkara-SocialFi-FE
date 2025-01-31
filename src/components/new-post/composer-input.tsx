@@ -83,12 +83,12 @@ export default function ComposerInput({
           fileInputRef.current.value = '';
         }
         const commentData = {
-          id: postId as string,
           parentId: parentComment?.id ?? null,
           content: validatedData.content,
         };
 
         await createComment(
+          postId as string,
           parentComment?.id ? commentData : { ...commentData, parentId: null }
         );
         onCreated?.(true);

@@ -2,15 +2,11 @@ import { IUserSimple } from './user';
 
 export interface ICommment {
   id: string;
-  userId: string;
   postId: string;
+  userId: string;
   content: string;
-  likedCount: number;
-  replyCount?: number;
   createdAt: string;
   updatedAt: string;
-  author: IUserSimple;
-  user: IUserSimple;
   children: IChilrenComment[];
 }
 
@@ -19,9 +15,7 @@ export interface IChilrenComment {
   userId: string;
   postId: string;
   content: string;
-  likedCount: number;
   createdAt: string;
   updatedAt: string;
-  author: IUserSimple;
   user: IUserSimple;
 }

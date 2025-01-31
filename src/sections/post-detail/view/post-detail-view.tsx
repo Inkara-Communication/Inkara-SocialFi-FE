@@ -23,6 +23,7 @@ import styles from '@/styles/post-detail.module.css';
 
 export default function PostDetailView({ id }: { id: string }) {
   const { posts } = usePost();
+  console.log(posts)
   const post = posts.find((post) => post.id === id);
 
   const [data, setData] = React.useState<IPost | null>(null);
@@ -31,8 +32,8 @@ export default function PostDetailView({ id }: { id: string }) {
   const [isCreated, setIsCreated] = React.useState(false);
   const [parentComment, setParentComment] = React.useState<{
     id: string;
-    fullname: string;
-  }>({ id: '', fullname: '' });
+    username: string;
+  }>({ id: '', username: '' });
 
   const handleViewFullPost = () => {
     const newIsViewFull = !isViewFull;
@@ -48,7 +49,7 @@ export default function PostDetailView({ id }: { id: string }) {
         return response.data;
       })
       .then((res) => {
-        getCommennts(res.id).then((response) => {
+        getCommennts(res.id, { startId: 0, offset: 1, limit: 10 }).then((response) => {
           const cmts = response.data.reverse().map((comment) => {
             return {
               ...comment,

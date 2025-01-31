@@ -141,6 +141,7 @@ export const endpoints = {
   },
 
   comment: {
-    get: `/comments`,
+    get: (id: string) => `/post/${id}/comments`,
+    create: (id: string) => `/post/${id}/comment`,
   },
 };
