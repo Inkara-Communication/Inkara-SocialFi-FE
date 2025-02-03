@@ -7,7 +7,6 @@ import React from 'react';
 import {
   deletePost
 } from '@/apis/post';
-import { IChilrenComment, ICommment } from '@/interfaces/comment';
 import { IPost } from '@/interfaces/post';
 import { IUserProfile } from '@/interfaces/user';
 import { useUserProfile } from '@/context/user-context';
@@ -60,72 +59,38 @@ export default function Post({
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [isConfirm, setIsConfirm] = React.useState<boolean>(false);
 
-  // const handleLikeClick = async () => {
-  //   if (!isPostType) return;
+  const isPostType = data.type === 'text' || data.type === 'media';
 
-  //   const updatedData = {
-  //     ...localData
-  //   } as IPost;
+  const handleLikeClick = async () => {
+    if (!isPostType) return;
 
-  //   setLocalData(updatedData);
-  //   if (onUpdatePost) {
-  //     onUpdatePost(updatedData);
-  //   }
+    const updatedData = {
+      ...localData
+    } as IPost;
 
-  //   try {
-  //     if ((localData as IPost).hasLiked) {
-  //       await unlikePost(localData.id);
-  //     } else {
-  //       await likePost(localData.id);
-  //     }
-  //   } catch (error) {
-  //     console.error('Failed to update like status:', error);
-  //     setLocalData(localData);
-  //     if (onUpdatePost) {
-  //       onUpdatePost(localData as IPost);
-  //     }
-  //   }
-  // };localData?.user?
+    setLocalData(updatedData);
+    if (onUpdatePost) {
+      onUpdatePost(updatedData);
+    }
+
+    try {
+      if ((localData as IPost).hasLiked) {
+        await unlikePost(localData.id);
+      } else {
+        await likePost(localData.id);
+      }
+    } catch (error) {
+      console.error('Failed to update like status:', error);
+      setLocalData(localData);
+      if (onUpdatePost) {
+        onUpdatePost(localData as IPost);
+      }
+    }
+  };
 
   const handleMoreOptions = () => {
     setOpenMoreOptionsId?.(openMoreOptionsId === data.id ? null : data.id);
   };
-
-  // const handleBookmarkClick = async () => {
-  //   if (!isPostType) return;
-
-  //   const updatedData = {
-  //     ...localData,
-  //     hasSaved: !(localData as IPost).hasSaved,
-  //   } as IPost;
-
-  //   setLocalData(updatedData);
-  //   if (onUpdatePost) {
-  //     onUpdatePost(updatedData);
-  //   }
-
-  //   try {
-  //     if ((localData as IPost).hasSaved) {
-  //       await unsavePost(localData.id);
-  //     } else {
-  //       await savePost(localData.id);
-  //     }
-  //   } catch (error) {
-  //     console.error('Failed to update bookmark status:', error);
-  //     setLocalData(localData);
-  //     if (onUpdatePost) {
-  //       onUpdatePost(localData as IPost);
-  //     }
-  //   }
-  // };
-
-  // const handleReplyComment = () => {
-  //   if (isPostType) return;
-  //   setParentComment?.({
-  //     id: data.id,
-  //     fullname: `${data.author.firstName} ${data.author.lastName}`,
-  //   });
-  // };
 
   const handleUpdatePost = (updatedPost: IPost) => {
     setLocalData(updatedPost);
@@ -242,16 +207,14 @@ export default function Post({
 
       <div className="flex justify-end items-center md:justify-start md:pl-[48px]">
         <ReactItem
-          // value={localData.likedCount}
-          value={0}
+          value={localData.likedCount}
           icon={
-            // <HeartIcon isActive={isPostType && (localData as IPost).hasLiked} />
-            <HeartIcon isActive={false} />
+            <HeartIcon isActive={isPostType && (localData as IPost).hasLiked} />
           }
-          // onClick={handleLikeClick}
+          onClick={handleLikeClick}
         />
 
-        {/* {isPostType ? (
+        {isPostType ? (
           <ReactItem
             value={(localData as IPost).commentCount || 0}
             icon={<CommentIcon />}
@@ -260,23 +223,7 @@ export default function Post({
           <button onClick={handleReplyComment}>
             <CommentIcon />
           </button>
-        )} */}
-
-        {/* {isPostType && (
-          <div className="flex items-center md:grow justify-end gap-4">
-            <button
-              type="button"
-              className="size-[40px] flex justify-center items-center rounded-full hover:bg-neutral2-5"
-              onClick={handleBookmarkClick}
-            >
-              <BookmarkIcon
-                height={24}
-                width={24}
-                isActive={(localData as IPost).hasSaved}
-              />
-            </button>
-          </div>
-        )} */}
+        )}
       </div>
 
       {isEdit && (

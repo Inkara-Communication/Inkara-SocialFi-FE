@@ -8,7 +8,7 @@ import { createComment } from '@/apis/comment';
 import { createPost } from '@/apis/post';
 import { usePost } from '@/context/post-context';
 import { useUserProfile } from '@/context/user-context';
-import { CreatePost, createPostSchema } from '@/schema/posts-schema';
+import { createPostSchema } from '@/schema/posts-schema';
 
 import { Avatar } from '@/components/avatar';
 import { UploadImgButton } from '@/components/new-post/post-control';
@@ -18,7 +18,6 @@ import { cn } from '@/lib';
 
 import { Button } from '../button';
 import { CloseIcon } from '../icons';
-import { SplashScreen } from '../loading-screen';
 
 //----------------------------------------------------------------------------------
 
@@ -41,9 +40,6 @@ export default function ComposerInput({
   const { addPost } = usePost();
   const [isInputFocused, setInputFocused] = React.useState<boolean>(false);
 
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [error, setError] = React.useState<string>('');
-
   const [previewUrl, setPreviewUrl] = React.useState<string>('');
   const [uploadedImage, setUploadedImage] = React.useState<string>('');
   const [isUploading, setIsUploading] = React.useState<boolean>(false);
@@ -63,18 +59,6 @@ export default function ComposerInput({
       };
 
       const validatedData = createPostSchema.parse(postData);
-
-      const tempId = Math.random().toString(36).substring(2, 15);
-
-      const newPost = {
-        id: tempId,
-        content: content.trim(),
-        image: uploadedImage,
-        creatorId: userProfile?.id || '',
-        type: uploadedImage === 'post' ? 'media' : 'text',
-        hasLiked: false,
-        hasSaved: false,
-      };
 
       if (usedBy !== 'post') {
         setContent('');
@@ -135,9 +119,6 @@ export default function ComposerInput({
       }
     }
   }, [parentComment]);
-
-  // if (loading) return <SplashScreen />;
-  if (error) return <div>{error}</div>;
 
   return (
     <div

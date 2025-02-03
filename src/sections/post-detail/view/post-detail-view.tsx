@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-
-import { ICommment } from '@/interfaces/comment';
+import { IComment } from '@/interfaces/comment';
 import { IPost } from '@/interfaces/post';
 
 import { getCommennts } from '@/apis/comment';
@@ -27,7 +26,7 @@ export default function PostDetailView({ id }: { id: string }) {
   const post = posts.find((post) => post.id === id);
 
   const [data, setData] = React.useState<IPost | null>(null);
-  const [comments, setComments] = React.useState<ICommment[]>([]);
+  const [comments, setComments] = React.useState<IComment[]>([]);
   const [isViewFull, setIsViewFull] = React.useState(false);
   const [isCreated, setIsCreated] = React.useState(false);
   const [parentComment, setParentComment] = React.useState<{
@@ -53,16 +52,16 @@ export default function PostDetailView({ id }: { id: string }) {
           const cmts = response.data.reverse().map((comment) => {
             return {
               ...comment,
-              author: comment.user,
-              children:
-                comment.children.length > 0
-                  ? comment.children.map((child) => {
-                      return {
-                        ...child,
-                        author: child.user,
-                      };
-                    })
-                  : [],
+              // author: comment.user,
+              // children:
+              //   comment.children.length > 0
+              //     ? comment.children.map((child) => {
+              //         return {
+              //           ...child,
+              //           author: child.user,
+              //         };
+              //       })
+              //     : [],
             };
           });
 

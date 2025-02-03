@@ -1,6 +1,6 @@
 // import { ICommment } from './comment';
 
-import { ICommment } from './comment';
+import { IComment } from './comment';
 import { IUserSimple } from './user';
 
 export interface ILikes {
@@ -8,14 +8,6 @@ export interface ILikes {
   userId: string;
   postId: string;
   type: 'post' | 'nft';
-  createdAt: string;
-  updatedAt: string;
-}
-export interface Comment {
-  id: string;
-  postId: string;
-  userId: string;
-  content: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -32,6 +24,6 @@ export interface IPost {
   createdAt: string;
   updatedAt: string;
   likes: ILikes[];
-  comments?: ICommment[];
+  comments: IComment[];
   user: IUserSimple;
 }
