@@ -144,4 +144,9 @@ export const endpoints = {
     get: (id: string) => `/post/${id}/comments`,
     create: (id: string) => `/post/${id}/comment`,
   },
+
+  like: {
+    likeAction: `/like`,
+    hasLiked: (id: string) => `/like/check/${id}`,
+  },
 };

@@ -4,9 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import {
-  deletePost
-} from '@/apis/post';
+import { deletePost } from '@/apis/post';
 import { IPost } from '@/interfaces/post';
 import { IUserProfile } from '@/interfaces/user';
 import { useUserProfile } from '@/context/user-context';
@@ -15,7 +13,7 @@ import { cn } from '@/lib/utils';
 import { relativeTime } from '@/utils/relative-time';
 
 import { Avatar } from '../avatar';
-import { HeartIcon, MoreIcon } from '../icons';
+import { CommentIcon, HeartIcon, MoreIcon } from '../icons';
 import UpdatePost from '../new-post/update-post';
 import { Portal } from '../portal';
 import { Typography } from '../typography';
@@ -31,6 +29,7 @@ import {
 } from '../alert-dialog';
 import { Button } from '../button';
 import { usePost } from '@/context/post-context';
+import { hasLiked, likeAction } from '@/apis/like';
 
 //-------------------------------------------------------------------------
 
@@ -58,14 +57,21 @@ export default function Post({
   const [localData, setLocalData] = React.useState(data);
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [isConfirm, setIsConfirm] = React.useState<boolean>(false);
-
+  const [isLiked, setIsLiked] = React.useState<boolean>(false);
   const isPostType = data.type === 'text' || data.type === 'media';
+
+  React.useEffect(() => {
+    if (!posts) return;
+    (async () => {
+      setIsLiked(await hasLiked('post', data.id));
+    })();
+  }, [data.id, posts, userProfile?.id]);
 
   const handleLikeClick = async () => {
     if (!isPostType) return;
 
     const updatedData = {
-      ...localData
+      ...localData,
     } as IPost;
 
     setLocalData(updatedData);
@@ -74,10 +80,12 @@ export default function Post({
     }
 
     try {
-      if ((localData as IPost).hasLiked) {
-        await unlikePost(localData.id);
+      if (isLiked) {
+        await likeAction('post', localData.id);
+        setIsLiked(false);
       } else {
-        await likePost(localData.id);
+        await likeAction('post', localData.id);
+        setIsLiked(true);
       }
     } catch (error) {
       console.error('Failed to update like status:', error);
@@ -174,8 +182,8 @@ export default function Post({
             )}
             {openMoreOptionsId === data.id && (
               <div
-              className="fixed inset-0 z-10"
-              onClick={() => setOpenMoreOptionsId?.(null)}
+                className="fixed inset-0 z-10"
+                onClick={() => setOpenMoreOptionsId?.(null)}
               />
             )}
           </div>
@@ -207,23 +215,21 @@ export default function Post({
 
       <div className="flex justify-end items-center md:justify-start md:pl-[48px]">
         <ReactItem
-          value={localData.likedCount}
-          icon={
-            <HeartIcon isActive={isPostType && (localData as IPost).hasLiked} />
-          }
+          value={(localData as IPost).likes.length}
+          icon={<HeartIcon isActive={isPostType && !isLiked} />}
           onClick={handleLikeClick}
         />
 
-        {isPostType ? (
-          <ReactItem
-            value={(localData as IPost).commentCount || 0}
-            icon={<CommentIcon />}
-          />
-        ) : (
+        {/* {isPostType ? ( */}
+        <ReactItem
+          value={(localData as IPost).comments.length || 0}
+          icon={<CommentIcon />}
+        />
+        {/* ) : (
           <button onClick={handleReplyComment}>
             <CommentIcon />
-          </button>
-        )}
+          </button> */}
+        {/* )} */}
       </div>
 
       {isEdit && (

@@ -21,6 +21,8 @@ export interface IPost {
   };
   creatorId: string;
   type: 'text' | 'media';
+  likeCount: number;
+  commentCount: number;
   createdAt: string;
   updatedAt: string;
   likes: ILikes[];
