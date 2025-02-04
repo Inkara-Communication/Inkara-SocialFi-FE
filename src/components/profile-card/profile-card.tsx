@@ -9,6 +9,7 @@ import { IUserSimple } from '@/interfaces/user';
 import { cn } from '@/lib/utils';
 
 import { Avatar } from '../avatar';
+import { USER_AVATAR_PLACEHOLDER } from '@/constant';
 
 //-------------------------------------------------------------------------
 
@@ -38,7 +39,7 @@ export default function ProfileCard({
           <div id="avatar-user" className="relative">
             <Avatar
               src={
-                user.photo?.url ? user.photo?.url : '/img/default-avatar.jpg'
+                user.photo?.url ? user.photo?.url : USER_AVATAR_PLACEHOLDER
               }
               alt={`Avatar of ${user.username}`}
               className="size-[44px]"

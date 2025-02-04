@@ -1,11 +1,8 @@
-import Image from 'next/image';
-
 import { IPost } from '@/interfaces/post';
 
 import { EmptyContent } from '../empty-content';
 import { Post } from '../post';
 import { Typography } from '../typography';
-import Link from 'next/link';
 
 //-----------------------------------------------------------------------------------------------
 

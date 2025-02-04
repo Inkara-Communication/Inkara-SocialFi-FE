@@ -18,8 +18,6 @@ import SearchInput from '@/components/search-input/search-input';
 import MobileSidebarTrigger from '@/components/sidebar-trigger/mobile-sidebar-trigger';
 import { usePost } from '@/context/post-context';
 
-import { USER_AVATAR_PLACEHOLDER } from '@/constant';
-
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
@@ -31,6 +29,7 @@ export default function HomeView() {
   const [openMoreOptionsId, setOpenMoreOptionsId] = React.useState<
     string | null
   >(null);
+  const [expandedPostId, setExpandedPostId] = React.useState<string | null>(null);
 
   const { userProfile: user } = useUserProfile();
 
@@ -54,15 +53,13 @@ export default function HomeView() {
 
   if (isLoading || !user) return <SplashScreen />;
 
+  const handleToggleComments = (postId: string) => {
+    setExpandedPostId(prev => prev === postId ? null : postId);
+  };
+
   const toggleSidebar = () => {
     setIsSidebarShow(!isSidebarShow);
     eventBus.emit('isShowSidebar', !isSidebarShow);
-  };
-
-  const currentUser = user && {
-    fullname: `${user.firstName} ${user.lastName}`,
-    nickname: user.username,
-    avatar: user.avatar || USER_AVATAR_PLACEHOLDER,
   };
 
   const handleCreatePost = () => {
@@ -86,7 +83,7 @@ export default function HomeView() {
             className="size-[44px] min-w-[44px]"
           />
           <MobileSidebarTrigger className="md:hidden" onClick={toggleSidebar}>
-            <Avatar src={currentUser.avatar} alt={currentUser.nickname} />
+            <Avatar src={user.photo.url} alt={user.username} />
           </MobileSidebarTrigger>
         </div>
         <ComposerInput usedBy="post" className="relative" />
@@ -98,6 +95,8 @@ export default function HomeView() {
                 onDeleteSuccess={setIsDeleted}
                 openMoreOptionsId={openMoreOptionsId}
                 setOpenMoreOptionsId={setOpenMoreOptionsId}
+                showComments={expandedPostId === post.id}
+                onToggleComments={() => handleToggleComments(post.id)}
               />
             </li>
           ))}

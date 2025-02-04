@@ -12,6 +12,7 @@ import AvatarProfile from '@/components/avatar/avatar-profile';
 import { EditForm, HeaderEdit } from '../profile-edit-components';
 import { AvatarUpdateDialog } from '@/components/avatar';
 import { uploadImage } from '@/apis/media';
+import { USER_AVATAR_PLACEHOLDER } from '@/constant';
 
 //----------------------------------------------------------------
 
@@ -76,7 +77,7 @@ export default function ProfileEditView() {
         <Image
           width={1280}
           height={180}
-          src={'/img/default-avatar.jpg'}
+          src={USER_AVATAR_PLACEHOLDER}
           className="max-h-[11.25rem] w-full object-cover"
           alt="avatar"
         />
@@ -94,7 +95,7 @@ export default function ProfileEditView() {
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
         onUpdateAvatar={handleAvatarUpdate}
-        currentAvatar={userProfile?.photo?.url || '/img/default-avatar.jpg'}
+        currentAvatar={userProfile?.photo?.url || USER_AVATAR_PLACEHOLDER}
         type="avatar"
       />
     </section>

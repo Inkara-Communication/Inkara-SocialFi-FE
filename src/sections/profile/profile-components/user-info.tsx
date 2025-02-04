@@ -13,7 +13,6 @@ import {
   CheckIcon,
   CommentIcon,
   EditIcon,
-  LinkIcon,
   NftIcon,
   ProfileIcon,
   ShareIcon,
@@ -195,7 +194,7 @@ export default function InfoUser({ user }: UserInfoProps) {
             </div>
           </div>
 
-          {user.websiteUrl && (
+          {/* {user.websiteUrl && (
             <div className="flex items-center gap-2 text-sm base opacity-80 cursor-pointer rounded-button px-3 py-2 hover:bg-neutral2-5">
               <LinkIcon />
               <a href={user.websiteUrl}>
@@ -207,7 +206,7 @@ export default function InfoUser({ user }: UserInfoProps) {
                 </Typography>
               </a>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </>

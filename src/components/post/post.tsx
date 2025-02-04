@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import { deletePost } from '@/apis/post';
-import { IPost } from '@/interfaces/post';
+import { ILikes, IPost } from '@/interfaces/post';
 import { IUserProfile } from '@/interfaces/user';
 import { useUserProfile } from '@/context/user-context';
 
@@ -28,8 +28,8 @@ import {
   AlertDialogDescription,
 } from '../alert-dialog';
 import { Button } from '../button';
-import { usePost } from '@/context/post-context';
-import { hasLiked, likeAction } from '@/apis/like';
+import { likeAction } from '@/apis/like';
+import CommentList from '@/sections/post-detail/comment-list';
 
 //-------------------------------------------------------------------------
 
@@ -42,6 +42,8 @@ interface PostProps {
   type?: string;
   openMoreOptionsId?: string | null;
   setOpenMoreOptionsId?: (id: string | null) => void;
+  showComments?: boolean;
+  onToggleComments?: (postId: string) => void;
 }
 
 export default function Post({
@@ -51,9 +53,11 @@ export default function Post({
   onDeleteSuccess,
   openMoreOptionsId,
   setOpenMoreOptionsId,
+  showComments,
+  onToggleComments,
+  setParentComment,
 }: PostProps) {
   const { userProfile } = useUserProfile();
-  const { posts } = usePost();
   const [localData, setLocalData] = React.useState(data);
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [isConfirm, setIsConfirm] = React.useState<boolean>(false);
@@ -61,43 +65,34 @@ export default function Post({
   const isPostType = data.type === 'text' || data.type === 'media';
 
   React.useEffect(() => {
-    if (!posts) return;
-    (async () => {
-      setIsLiked(await hasLiked('post', data.id));
-    })();
-  }, [data.id, posts, userProfile?.id]);
+    if (!userProfile?.id) return;
+    setIsLiked(localData.likes.some((like) => like.userId === userProfile.id));
+  }, [localData.likes, userProfile?.id]);
 
-  const handleLikeClick = async () => {
-    if (!isPostType) return;
-
-    const updatedData = {
-      ...localData,
-    } as IPost;
-
-    setLocalData(updatedData);
-    if (onUpdatePost) {
-      onUpdatePost(updatedData);
-    }
-
+  const handleLikeClick = async (postId: string) => {
+    if (!postId) return;
     try {
-      if (isLiked) {
-        await likeAction('post', localData.id);
-        setIsLiked(false);
-      } else {
-        await likeAction('post', localData.id);
-        setIsLiked(true);
-      }
+      setIsLiked(!isLiked);
+      const updatedLikes = isLiked
+        ? localData.likes.filter((like) => like.userId !== userProfile?.id) // Unlike
+        : [...localData.likes, { userId: userProfile?.id } as ILikes]; // Like
+  
+      setLocalData((prev) => ({
+        ...prev,
+        likes: updatedLikes,
+      }));
+      await likeAction('post', postId);
     } catch (error) {
       console.error('Failed to update like status:', error);
-      setLocalData(localData);
-      if (onUpdatePost) {
-        onUpdatePost(localData as IPost);
-      }
     }
   };
 
   const handleMoreOptions = () => {
     setOpenMoreOptionsId?.(openMoreOptionsId === data.id ? null : data.id);
+  };
+
+  const handleCommentClick = () => {
+    onToggleComments?.(data.id);
   };
 
   const handleUpdatePost = (updatedPost: IPost) => {
@@ -138,7 +133,7 @@ export default function Post({
       document.removeEventListener('keydown', handleEsc);
     };
   }, [isEdit]);
-
+  console.log(22, localData.comments)
   return (
     <div
       className={cn(
@@ -216,21 +211,26 @@ export default function Post({
       <div className="flex justify-end items-center md:justify-start md:pl-[48px]">
         <ReactItem
           value={(localData as IPost).likes.length}
-          icon={<HeartIcon isActive={isPostType && !isLiked} />}
-          onClick={handleLikeClick}
+          icon={<HeartIcon isActive={isPostType && isLiked} />}
+          onClick={() => handleLikeClick(localData.id)}
         />
 
-        {/* {isPostType ? ( */}
         <ReactItem
           value={(localData as IPost).comments.length || 0}
           icon={<CommentIcon />}
+          onClick={handleCommentClick}
         />
-        {/* ) : (
-          <button onClick={handleReplyComment}>
-            <CommentIcon />
-          </button> */}
-        {/* )} */}
+
       </div>
+
+      {showComments && (
+        <div className="mt-4 pl-14">
+          <CommentList
+            comments={localData.comments}
+            setParentComment={setParentComment}
+          />
+        </div>
+      )}
 
       {isEdit && (
         <Portal>

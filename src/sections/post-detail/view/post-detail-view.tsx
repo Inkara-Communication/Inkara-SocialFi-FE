@@ -22,7 +22,6 @@ import styles from '@/styles/post-detail.module.css';
 
 export default function PostDetailView({ id }: { id: string }) {
   const { posts } = usePost();
-  console.log(posts)
   const post = posts.find((post) => post.id === id);
 
   const [data, setData] = React.useState<IPost | null>(null);

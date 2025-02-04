@@ -6,6 +6,7 @@ import { Typography } from '@/components/typography';
 import { Avatar } from '@/components/avatar';
 
 import { IPost } from '@/interfaces/post';
+import { USER_AVATAR_PLACEHOLDER } from '@/constant';
 
 //---------------------------------------------------------------------------------------
 
@@ -20,8 +21,8 @@ export default function ExploreCard({ post }: IExploreCardProps) {
       className="group w-full min-w-[17.5rem] flex flex-col rounded-[20px] p-3 bg-neutral2-2 gap-3 md:items-start md:justify-center md:hover:bg-hover"
     >
       <Image
-        src={post.image ?? ''}
-        alt={'Image post by user ' + post.author.username}
+        src={post.photo?.url ?? ''}
+        alt={'Image post by user ' + post.user.username}
         height={500}
         width={900}
         style={{
@@ -40,13 +41,13 @@ export default function ExploreCard({ post }: IExploreCardProps) {
 
       <div className="flex w-full items-center gap-3 px-3">
         <Avatar
-          src={post.author.avatar ?? '/img/default-avatar.jpg'}
-          alt={post.author.username}
+          src={post.user.photo.url ?? USER_AVATAR_PLACEHOLDER}
+          alt={post.user.username}
           size={32}
         />
 
         <Typography level="small" className="text-tertiary mr-auto">
-          {post.author.firstName} {post.author.lastName}
+          {post.user.username}
         </Typography>
 
         {/* <Typography level="small" className="text-tertiary mr-auto">

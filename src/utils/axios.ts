@@ -143,6 +143,8 @@ export const endpoints = {
   comment: {
     get: (id: string) => `/post/${id}/comments`,
     create: (id: string) => `/post/${id}/comment`,
+    update: (id: string) => `/post/comment/${id}`,
+    delete: (id: string) => `/post/comment/${id}`,
   },
 
   like: {

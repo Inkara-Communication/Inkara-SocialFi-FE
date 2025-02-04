@@ -34,7 +34,7 @@ export default function ProfileView() {
           { startId: 0, offset: 1, limit: 10 },
           userProfile?.id as string
         );
-        console.log(11, response.data)
+
         setPosts(response.data);
         setNfts(response.data);
       } catch (error) {

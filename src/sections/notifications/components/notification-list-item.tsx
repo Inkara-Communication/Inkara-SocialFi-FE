@@ -6,6 +6,7 @@ import { FollowedSVG, LikedSVG, Loader, RepliedSVG } from '@/components/icons';
 
 import { getAction } from '../utils/get-Action';
 import { getTimeAgo } from '../utils/get-time-ago';
+import { USER_AVATAR_PLACEHOLDER } from '@/constant';
 
 //-----------------------------------------------------------------------------------------------
 
@@ -28,7 +29,7 @@ export const NotificationItem: React.FC<NItemProps> = ({
       className="cursor-pointer relative bg-neutral2-2 rounded-[20px] p-3 flex gap-2.5 items-center self-stretch"
     >
       <CircleAvatar
-        path={notification.sender.avatar ?? '/img/default-avatar.jpg'}
+        path={notification.sender.avatar ?? USER_AVATAR_PLACEHOLDER}
         upperItem={upperItem}
         className=""
       />
