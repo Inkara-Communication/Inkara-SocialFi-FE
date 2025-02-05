@@ -30,6 +30,7 @@ import {
 import { Button } from '../button';
 import { likeAction } from '@/apis/like';
 import CommentList from '@/sections/post-detail/comment-list';
+import { ComposerInput } from '../new-post';
 
 //-------------------------------------------------------------------------
 
@@ -54,14 +55,18 @@ export default function Post({
   openMoreOptionsId,
   setOpenMoreOptionsId,
   showComments,
-  onToggleComments,
-  setParentComment,
+  onToggleComments
 }: PostProps) {
   const { userProfile } = useUserProfile();
   const [localData, setLocalData] = React.useState(data);
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [isConfirm, setIsConfirm] = React.useState<boolean>(false);
   const [isLiked, setIsLiked] = React.useState<boolean>(false);
+  const [isCreated, setIsCreated] = React.useState(false);
+    const [parentComment, setParentComment] = React.useState<{
+      id: string;
+      username: string;
+    }>({ id: '', username: '' });
   const isPostType = data.type === 'text' || data.type === 'media';
 
   React.useEffect(() => {
@@ -76,7 +81,7 @@ export default function Post({
       const updatedLikes = isLiked
         ? localData.likes.filter((like) => like.userId !== userProfile?.id) // Unlike
         : [...localData.likes, { userId: userProfile?.id } as ILikes]; // Like
-  
+
       setLocalData((prev) => ({
         ...prev,
         likes: updatedLikes,
@@ -133,7 +138,7 @@ export default function Post({
       document.removeEventListener('keydown', handleEsc);
     };
   }, [isEdit]);
-  console.log(22, localData.comments)
+  console.log(22, localData.comments);
   return (
     <div
       className={cn(
@@ -220,7 +225,6 @@ export default function Post({
           icon={<CommentIcon />}
           onClick={handleCommentClick}
         />
-
       </div>
 
       {showComments && (
@@ -228,6 +232,14 @@ export default function Post({
           <CommentList
             comments={localData.comments}
             setParentComment={setParentComment}
+            className="space-y-2"
+          />
+          <ComposerInput
+            className="bg-neutral3-70 relative top-1 bottom-0"
+            usedBy="reply"
+            postId={data?.id}
+            onCreated={setIsCreated}
+            parentComment={parentComment}
           />
         </div>
       )}

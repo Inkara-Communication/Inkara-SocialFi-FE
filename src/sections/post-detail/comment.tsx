@@ -9,7 +9,7 @@ import { HeartIcon, MoreIcon } from '@/components/icons';
 import { MoreOptions } from '@/components/post/components/more-options';
 import { Typography } from '@/components/typography';
 import { useUserProfile } from '@/context/user-context';
-import { IComment, IChilrenComment } from '@/interfaces/comment';
+import { IComment } from '@/interfaces/comment';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -21,7 +21,7 @@ import { USER_AVATAR_PLACEHOLDER } from '@/constant';
 import { deleteComment } from '@/apis/comment';
 
 interface CommentProps {
-  data: IComment | IChilrenComment;
+  data: IComment;
   className?: string;
   setParentComment?: (parentComment: { id: string; username: string }) => void;
   openMoreOptionsId?: string | null;
@@ -64,7 +64,7 @@ export default function Comment({
   };
 
   return (
-    <div className={cn('group relative pl-4', className)}>
+    <div className={`${cn('group relative pl-4 flex gap-3', className)}`}>
       {/* More Options */}
       {userProfile && data?.userId === userProfile.id && (
         <div className="absolute right-2 top-2">
@@ -86,13 +86,13 @@ export default function Comment({
         </div>
       )}
 
-      {!('parentId' in data) && data.children?.length > 0 && (
+      {!('parentId' in data) && (
         <div className="absolute left-10 top-8 bottom-0 w-px bg-neutral-300 dark:bg-neutral-600" />
       )}
 
-      <div className="flex gap-3 p-3 rounded-lg transition-colors">
+      <div className="flex gap-3 rounded-lg transition-colors">
         {/* Avatar */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 z-10">
           <Image
             src={data.user?.photo?.url || USER_AVATAR_PLACEHOLDER}
             alt={data.user?.username}
@@ -102,28 +102,29 @@ export default function Comment({
           />
         </div>
 
-        {/* Comment Content */}
+        {/* Content section */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="font-semibold text-sm text-neutral-900 dark:text-neutral-100">
-              {data.user?.username}
-            </span>
-            <span className="text-xs text-neutral-500 dark:text-neutral-400">
-              {new Date(data.createdAt).toLocaleDateString('vi-VN', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-              })}
-            </span>
+          <div className="bg-neutral2-2 rounded-[1.25rem] p-4 hover:bg-neutral2-3 transition-colors">
+            {/* User info */}
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-semibold text-sm text-primary">
+                {data.user?.username}
+              </span>
+              <span className="text-xs text-tertiary">
+                {new Date(data.createdAt).toLocaleDateString('vi-VN', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                })}
+              </span>
+            </div>
+
+            {/* Comment content */}
+            <p className="text-sm text-secondary break-words">{data.content}</p>
           </div>
-
-          <p className="text-sm text-neutral-800 dark:text-neutral-200 break-words">
-            {data.content}
-          </p>
-
-          {/* Action Buttons */}
-          <div className="flex items-center gap-4 mt-2">
-            <button className="flex items-center gap-1 text-xs text-neutral-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+          {/* Action buttons */}
+          <div className="flex items-center gap-4 mt-1">
+            <button className="flex items-center gap-1 text-xs text-tertiary hover:text-blue-500 transition-colors size-[2rem]">
               <HeartIcon isActive={false} />
               <span>24</span>
             </button>
@@ -135,7 +136,7 @@ export default function Comment({
                   username: data.user.username,
                 })
               }
-              className="text-xs text-neutral-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+              className="text-xs text-tertiary gap-1 hover:text-blue-500 transition-colors"
             >
               Reply
             </button>
