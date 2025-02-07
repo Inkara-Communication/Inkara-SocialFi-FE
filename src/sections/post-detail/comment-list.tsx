@@ -16,6 +16,10 @@ const renderChildren = (
   parentId: string,
   setParentComment?: any
 ) => {
+  const [openMoreOptionsId, setOpenMoreOptionsId] = React.useState<
+    string | null
+  >(null);
+
   const childComments = comments.filter(
     (comment) => comment.parentId === parentId
   );
@@ -31,6 +35,8 @@ const renderChildren = (
             data={child}
             className="bg-neutral2-2 rounded-[1.25rem]"
             setParentComment={setParentComment}
+            openMoreOptionsId={openMoreOptionsId}
+            setOpenMoreOptionsId={setOpenMoreOptionsId}
           />
           {renderChildren(comments, child.id, setParentComment)}
         </li>
@@ -44,6 +50,10 @@ export default function CommentList({
   className,
   setParentComment,
 }: CommentListProps) {
+  const [openMoreOptionsId, setOpenMoreOptionsId] = React.useState<
+    string | null
+  >(null);
+
   return (
     <>
       {comments?.length > 0 && (
@@ -56,6 +66,8 @@ export default function CommentList({
                   data={comment}
                   className="bg-neutral2-2 rounded-[1.25rem]"
                   setParentComment={setParentComment}
+                  openMoreOptionsId={openMoreOptionsId}
+                  setOpenMoreOptionsId={setOpenMoreOptionsId}
                 />
                 {renderChildren(
                   comments.filter((c) => c.parentId === comment.id),

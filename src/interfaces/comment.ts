@@ -3,7 +3,7 @@ import { IUserSimple } from './user';
 export interface IComment {
   id: string;
   postId: string;
-  userId: string;
+  creatorId: string;
   content: string;
   parentId?: string;
   createdAt: string;

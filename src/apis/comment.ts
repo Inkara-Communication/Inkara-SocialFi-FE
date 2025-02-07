@@ -41,11 +41,11 @@ export const createComment = async (
 
 export const updateComment = async (
   id: string,
-  data: { content: string }
+  content: string
 ): Promise<IApiResponse<void>> => {
-  const response = await axiosInstance.put(
+  const response = await axiosInstance.patch(
     endpoints.comment.update(id),
-    data
+    content
   );
 
   return response.data;
