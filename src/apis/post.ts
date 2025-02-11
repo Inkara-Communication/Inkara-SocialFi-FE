@@ -6,6 +6,7 @@ import { IApiResponse } from '@/interfaces/api-response';
 import { CreatePost, UpdatePost } from '@/schema/posts-schema';
 import { InputFilter } from './dto/filter.dto';
 import { InputPagination } from './dto/pagination.dto';
+import { USER_POST } from '@/constant';
 
 //--------------------------------------------------------------------------------------------
 
@@ -88,5 +89,6 @@ export const getPostsByUser = async (
     },
   }
   );
+  localStorage.setItem(USER_POST, JSON.stringify(response.data));
   return response.data;
 };

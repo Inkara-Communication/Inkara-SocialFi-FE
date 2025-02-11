@@ -6,19 +6,21 @@ import { InputPagination } from './dto/pagination.dto';
 
 //--------------------------------------------------------------------------------------------
 
-export const getCommennts = async (
-  id: string,
-  { startId, offset, limit }: InputPagination
+export const getComments = async (
+  postId: string,
+  commentId: string | null,
+  { offset, limit }: InputPagination
 ): Promise<IApiResponse<IComment[]>> => {
   const pagination = {
-    startId,
     offset,
     limit,
   }
+
   const response = await axiosInstance.get(
-    endpoints.comment.get(id),
+    endpoints.comment.get(postId),
     {
       params: {
+        commentId: commentId,
         ...pagination,
       },
     }

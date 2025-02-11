@@ -1,5 +1,3 @@
-// import { ICommment } from './comment';
-
 import { IComment } from './comment';
 import { IUserSimple } from './user';
 
@@ -21,11 +19,13 @@ export interface IPost {
   };
   creatorId: string;
   type: 'text' | 'media';
-  likeCount: number;
-  commentCount: number;
   createdAt: string;
   updatedAt: string;
   likes: ILikes[];
   comments: IComment[];
   user: IUserSimple;
+  _count: {
+    comments: number;
+    likes: number;
+  };
 }

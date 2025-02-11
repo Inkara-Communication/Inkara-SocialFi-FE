@@ -47,7 +47,7 @@ export default function PostDetailView({ id }: { id: string }) {
         return response.data;
       })
       .then((res) => {
-        getCommennts(res.id, { startId: 0, offset: 1, limit: 3 }).then((response) => {
+        getCommennts(res.id, { startId: 0, offset: 1, limit: 5 }).then((response) => {
           const cmts = response.data.reverse().map((comment) => {
             return {
               ...comment,

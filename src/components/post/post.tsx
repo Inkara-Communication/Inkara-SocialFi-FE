@@ -31,6 +31,7 @@ import { Button } from '../button';
 import { likeAction } from '@/apis/like';
 import CommentList from '@/sections/post-detail/comment-list';
 import { ComposerInput } from '../new-post';
+import { getComments } from '@/apis/comment';
 
 //-------------------------------------------------------------------------
 
@@ -55,7 +56,7 @@ export default function Post({
   openMoreOptionsId,
   setOpenMoreOptionsId,
   showComments,
-  onToggleComments
+  onToggleComments,
 }: PostProps) {
   const { userProfile } = useUserProfile();
   const [localData, setLocalData] = React.useState(data);
@@ -63,16 +64,16 @@ export default function Post({
   const [isConfirm, setIsConfirm] = React.useState<boolean>(false);
   const [isLiked, setIsLiked] = React.useState<boolean>(false);
   const [isCreated, setIsCreated] = React.useState(false);
-    const [parentComment, setParentComment] = React.useState<{
-      id: string;
-      username: string;
-    }>({ id: '', username: '' });
+  const [parentComment, setParentComment] = React.useState<{
+    id: string;
+    username: string;
+  }>({ id: '', username: '' });
   const isPostType = data.type === 'text' || data.type === 'media';
 
   React.useEffect(() => {
     if (!userProfile?.id) return;
-    setIsLiked(localData.likes.some((like) => like.userId === userProfile.id));
-  }, [localData.likes, userProfile?.id]);
+    setIsLiked(localData.likes?.some((like) => like.userId === userProfile.id));
+  }, [localData.likes, userProfile?.id, data.id]);
 
   const handleLikeClick = async (postId: string) => {
     if (!postId) return;
@@ -98,6 +99,31 @@ export default function Post({
 
   const handleCommentClick = () => {
     onToggleComments?.(data.id);
+  };
+
+  const handleLoadMoreComments = async (parentId?: string) => {
+    try {
+      console.log(22, parentId)
+      const currentChildCommentsCount = localData.comments.filter(
+        (c) => c.parentId === parentId
+      ).length;
+
+      const offset =
+        currentChildCommentsCount > 0 ? currentChildCommentsCount : 1;
+
+      const response = await getComments(data.id, parentId || null, {
+        startId: 0,
+        offset,
+        limit: 5,
+      });
+
+      setLocalData((prev) => ({
+        ...prev,
+        comments: [...prev.comments, ...response.data],
+      }));
+    } catch (error) {
+      console.error('Failed to load more comments:', error);
+    }
   };
 
   const handleUpdatePost = (updatedPost: IPost) => {
@@ -138,7 +164,8 @@ export default function Post({
       document.removeEventListener('keydown', handleEsc);
     };
   }, [isEdit]);
-  console.log(22, localData.comments);
+  console.log(12, localData);
+
   return (
     <div
       className={cn(
@@ -215,13 +242,13 @@ export default function Post({
 
       <div className="flex justify-end items-center md:justify-start md:pl-[48px]">
         <ReactItem
-          value={(localData as IPost).likes.length}
+          value={(localData as IPost)._count?.likes || 0}
           icon={<HeartIcon isActive={isPostType && isLiked} />}
           onClick={() => handleLikeClick(localData.id)}
         />
 
         <ReactItem
-          value={(localData as IPost).comments.length || 0}
+          value={(localData as IPost)._count?.comments || 0}
           icon={<CommentIcon />}
           onClick={handleCommentClick}
         />
@@ -232,6 +259,7 @@ export default function Post({
           <CommentList
             comments={localData.comments}
             setParentComment={setParentComment}
+            onLoadMore={() => handleLoadMoreComments()}
             className="space-y-2"
           />
           <ComposerInput

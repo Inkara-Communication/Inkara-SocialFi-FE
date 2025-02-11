@@ -1,4 +1,4 @@
-import { AUTH_TOKEN, USER_INFO } from '@/constant';
+import { AUTH_TOKEN } from '@/constant';
 import { IApiResponse } from '@/interfaces/api-response';
 import axiosInstance, { endpoints } from '@/utils/axios';
 

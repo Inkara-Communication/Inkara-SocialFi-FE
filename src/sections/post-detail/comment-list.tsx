@@ -9,73 +9,86 @@ interface CommentListProps {
   comments: IComment[];
   className?: string;
   setParentComment?: (parentComment: { id: string; username: string }) => void;
+  onLoadMore?: (parentId?: string) => void;
 }
 
 const renderChildren = (
   comments: IComment[],
   parentId: string,
-  setParentComment?: any
+  setParentComment?: (parentComment: { id: string; username: string }) => void,
+  onLoadMore?: (parentId?: string) => void
 ) => {
-  const [openMoreOptionsId, setOpenMoreOptionsId] = React.useState<
-    string | null
-  >(null);
-
   const childComments = comments.filter(
     (comment) => comment.parentId === parentId
   );
-
+  const parentComment = comments.find((c) => c.id === parentId);
+  console.log(2,parentComment)
   if (childComments.length === 0) return null;
 
   return (
     <ul className="pl-12 relative before:absolute before:left-[20px] before:top-0 before:bottom-0">
-      {childComments.map((child, index) => (
+      {childComments.map((child) => (
         <li key={child.id} className="relative mt-2">
           <div className="absolute left-[-30px] top-[22px] w-[30px] h-[1.5px] bg-neutral1-25" />
           <Comment
             data={child}
             className="bg-neutral2-2 rounded-[1.25rem]"
             setParentComment={setParentComment}
-            openMoreOptionsId={openMoreOptionsId}
-            setOpenMoreOptionsId={setOpenMoreOptionsId}
           />
-          {renderChildren(comments, child.id, setParentComment)}
+          {renderChildren(comments, child.id, setParentComment, onLoadMore)}
         </li>
       ))}
+
+      {(parentComment?._count?.children ?? 0) > childComments.length && (
+        <li className="mt-2 ml-4">
+          <button
+            onClick={() => onLoadMore?.(parentId)}
+            className="text-sm text-blue-500 hover:underline"
+          >
+            Xem thêm {(parentComment?._count?.children ?? 0) - childComments.length} phản hồi
+          </button>
+        </li>
+      )}
     </ul>
   );
 };
-
 export default function CommentList({
   comments,
   className,
   setParentComment,
+  onLoadMore,
 }: CommentListProps) {
-  const [openMoreOptionsId, setOpenMoreOptionsId] = React.useState<
-    string | null
-  >(null);
-
+  
   return (
     <>
       {comments?.length > 0 && (
         <ul className={cn(`w-full overflow-y-auto`, className)}>
           {comments
             .filter((comment) => !comment.parentId)
-            .map((comment) => (
-              <li key={comment.id} className="mb-4">
-                <Comment
-                  data={comment}
-                  className="bg-neutral2-2 rounded-[1.25rem]"
-                  setParentComment={setParentComment}
-                  openMoreOptionsId={openMoreOptionsId}
-                  setOpenMoreOptionsId={setOpenMoreOptionsId}
-                />
-                {renderChildren(
-                  comments.filter((c) => c.parentId === comment.id),
-                  comment.id,
-                  setParentComment
-                )}
-              </li>
-            ))}
+            .map((comment) => {
+              const childComments = comments.filter(
+                (c) => c.parentId === comment.id
+              );
+
+              return (
+                <li key={comment.id} className="mb-4">
+                  <Comment
+                    data={comment}
+                    className="bg-neutral2-2 rounded-[1.25rem]"
+                    setParentComment={setParentComment}
+                  />
+                  {renderChildren(comments, comment.id, setParentComment, onLoadMore)}
+                  {(comment._count?.children ?? 0) > childComments.length && (
+                    <button
+                      onClick={() => onLoadMore?.(comment.id)}
+                      className="text-sm text-blue-500 hover:underline ml-12 mt-2"
+                    >
+                      Xem thêm {(comment._count?.children ?? 0) - childComments.length} phản hồi
+                    </button>
+                  )}
+                </li>
+              );
+            })}
         </ul>
       )}
     </>
