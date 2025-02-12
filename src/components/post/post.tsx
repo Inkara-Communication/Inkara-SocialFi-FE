@@ -10,7 +10,6 @@ import { IUserProfile } from '@/interfaces/user';
 import { useUserProfile } from '@/context/user-context';
 
 import { cn } from '@/lib/utils';
-import { relativeTime } from '@/utils/relative-time';
 
 import { Avatar } from '../avatar';
 import { CommentIcon, HeartIcon, MoreIcon } from '../icons';
@@ -60,6 +59,7 @@ export default function Post({
 }: PostProps) {
   const { userProfile } = useUserProfile();
   const [localData, setLocalData] = React.useState(data);
+  const [loadedCommentsCount, setLoadedCommentsCount] = React.useState(5);
   const [isEdit, setIsEdit] = React.useState<boolean>(false);
   const [isConfirm, setIsConfirm] = React.useState<boolean>(false);
   const [isLiked, setIsLiked] = React.useState<boolean>(false);
@@ -101,26 +101,21 @@ export default function Post({
     onToggleComments?.(data.id);
   };
 
-  const handleLoadMoreComments = async (parentId?: string) => {
+  const handleLoadMoreComments = async () => {
     try {
-      console.log(22, parentId)
-      const currentChildCommentsCount = localData.comments.filter(
-        (c) => c.parentId === parentId
-      ).length;
-
-      const offset =
-        currentChildCommentsCount > 0 ? currentChildCommentsCount : 1;
-
-      const response = await getComments(data.id, parentId || null, {
-        startId: 0,
-        offset,
+      const response = await getComments(data.id, null, {
+        startId: 1,
+        offset: loadedCommentsCount,
         limit: 5,
       });
 
-      setLocalData((prev) => ({
-        ...prev,
-        comments: [...prev.comments, ...response.data],
-      }));
+      if (response.data.length > 0) {
+        setLocalData((prev) => ({
+          ...prev,
+          comments: [...prev.comments, ...response.data],
+        }));
+        setLoadedCommentsCount((prevOffset) => prevOffset + 5);
+      }
     } catch (error) {
       console.error('Failed to load more comments:', error);
     }
@@ -164,7 +159,6 @@ export default function Post({
       document.removeEventListener('keydown', handleEsc);
     };
   }, [isEdit]);
-  console.log(12, localData);
 
   return (
     <div
@@ -201,7 +195,13 @@ export default function Post({
               level="captionr"
               className="text-tertiary justify-self-start grow opacity-45"
             >
-              {relativeTime(new Date(localData.createdAt))}
+              {new Date(localData.createdAt).toLocaleDateString('vi-VN', {
+                hour: 'numeric',
+                minute: 'numeric',
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              })}
             </Typography>
 
             {data.creatorId === (userProfile as IUserProfile).id && (
@@ -257,11 +257,21 @@ export default function Post({
       {showComments && (
         <div className="mt-4 pl-14">
           <CommentList
-            comments={localData.comments}
+            comments={localData.comments.slice(0, loadedCommentsCount)}
             setParentComment={setParentComment}
             onLoadMore={() => handleLoadMoreComments()}
             className="space-y-2"
           />
+          {localData._count.comments > loadedCommentsCount && (
+            <div className="flex justify-center">
+              <button
+                onClick={handleLoadMoreComments}
+                className="w-full sm:w-auto font-rubik font-semibold text-[0.9rem]/[1rem] opacity-80 group-hover:text-primary p-3 text-tertiary"
+              >
+                View more
+              </button>
+            </div>
+          )}
           <ComposerInput
             className="bg-neutral3-70 relative top-1 bottom-0"
             usedBy="reply"

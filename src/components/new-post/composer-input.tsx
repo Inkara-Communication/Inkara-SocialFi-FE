@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import React from 'react';
-import { z } from 'zod';
 
 import { createComment } from '@/apis/comment';
 import { createPost } from '@/apis/post';
@@ -90,12 +89,7 @@ export default function ComposerInput({
         fileInputRef.current.value = '';
       }
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        const errorMessage = error.errors.map((err) => err.message).join(', ');
-        console.log(`Validation error: ${errorMessage}`);
-      } else {
-        console.log('Failed to create post. Please try again.');
-      }
+      console.error('Failed to create post:', error);
     } finally {
       setIsSubmitting(false);
     }

@@ -42,8 +42,6 @@ export default function UpdatePost({
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
 
   const post = React.useMemo(() => {
-    console.log(posts.find((p) => p.id === postId));
-
     return posts.find((p) => p.id === postId);
   }, [posts, postId]);
 
@@ -90,12 +88,7 @@ export default function UpdatePost({
         onUpdateSuccess(post);
       }
 
-      if (error instanceof z.ZodError) {
-        const errorMessage = error.errors.map((err) => err.message).join(', ');
-        console.log(`Validation error: ${errorMessage}`);
-      } else {
-        console.log('Failed to update post. Please try again.');
-      }
+      console.error('Failed to update post:', error);
     } finally {
       setIsSubmitting(false);
     }

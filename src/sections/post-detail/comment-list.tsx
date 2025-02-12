@@ -22,7 +22,6 @@ const renderChildren = (
     (comment) => comment.parentId === parentId
   );
   const parentComment = comments.find((c) => c.id === parentId);
-  console.log(2,parentComment)
   if (childComments.length === 0) return null;
 
   return (
@@ -66,10 +65,6 @@ export default function CommentList({
           {comments
             .filter((comment) => !comment.parentId)
             .map((comment) => {
-              const childComments = comments.filter(
-                (c) => c.parentId === comment.id
-              );
-
               return (
                 <li key={comment.id} className="mb-4">
                   <Comment
@@ -78,14 +73,6 @@ export default function CommentList({
                     setParentComment={setParentComment}
                   />
                   {renderChildren(comments, comment.id, setParentComment, onLoadMore)}
-                  {(comment._count?.children ?? 0) > childComments.length && (
-                    <button
-                      onClick={() => onLoadMore?.(comment.id)}
-                      className="text-sm text-blue-500 hover:underline ml-12 mt-2"
-                    >
-                      Xem thêm {(comment._count?.children ?? 0) - childComments.length} phản hồi
-                    </button>
-                  )}
                 </li>
               );
             })}

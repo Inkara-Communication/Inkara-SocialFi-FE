@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import React from 'react';
-import { z } from 'zod';
 
 import { createPost } from '@/apis/post';
 import { usePost } from '@/context/post-context';
@@ -55,12 +54,7 @@ export default function NewPost({ onBack }: INewPostProps) {
         fileInputRef.current.value = '';
       }
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        const errorMessage = error.errors.map((err) => err.message).join(', ');
-        console.log(`Validation error: ${errorMessage}`);
-      } else {
-        console.log('Failed to create post. Please try again.');
-      }
+      console.error('Failed to create post:', error);
     } finally {
       setIsSubmitting(false);
 

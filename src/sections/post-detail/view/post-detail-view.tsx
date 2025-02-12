@@ -4,7 +4,7 @@ import React from 'react';
 import { IComment } from '@/interfaces/comment';
 import { IPost } from '@/interfaces/post';
 
-import { getCommennts } from '@/apis/comment';
+import { getComments } from '@/apis/comment';
 import { getPostDetail } from '@/apis/post';
 import { usePost } from '@/context/post-context';
 
@@ -47,8 +47,8 @@ export default function PostDetailView({ id }: { id: string }) {
         return response.data;
       })
       .then((res) => {
-        getCommennts(res.id, { startId: 0, offset: 1, limit: 5 }).then((response) => {
-          const cmts = response.data.reverse().map((comment) => {
+        getComments(res.id, null, { startId: 0, offset: 1, limit: 5 }).then((response: { data: IComment[]; }) => {
+          const cmts = response.data.reverse().map((comment: IComment) => {
             return {
               ...comment,
               // author: comment.user,

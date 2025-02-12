@@ -5,7 +5,6 @@ import { CircleAvatar } from '../components/circle-avatar';
 import { FollowedSVG, LikedSVG, Loader, RepliedSVG } from '@/components/icons';
 
 import { getAction } from '../utils/get-Action';
-import { getTimeAgo } from '../utils/get-time-ago';
 import { USER_AVATAR_PLACEHOLDER } from '@/constant';
 
 //-----------------------------------------------------------------------------------------------
@@ -21,7 +20,6 @@ export const NotificationItem: React.FC<NItemProps> = ({
 }) => {
   const action = getAction(notification.action);
   const upperItem = generateActionIcon(notification.action);
-  const timeAgo = getTimeAgo(notification.createdAt);
 
   return (
     <li
@@ -51,7 +49,13 @@ export const NotificationItem: React.FC<NItemProps> = ({
           </Typography>
         )}
         <Typography level="base2r" className="text-tertiary">
-          {timeAgo}
+          {new Date(notification.createdAt).toLocaleDateString('vi-VN', {
+            hour: 'numeric',
+            minute: 'numeric',
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })}
         </Typography>
       </div>
       {!notification.isRead && (
