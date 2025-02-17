@@ -27,11 +27,10 @@ export default function EditForm({
   loading,
 }: EditFormProps) {
   const [profileData, setProfileData] = React.useState({
-    firstName: userInfo.firstName,
-    lastName: userInfo.lastName,
+    fullname: userInfo.fullname,
     username: userInfo.username,
     bio: userInfo.bio,
-    websiteUrl: userInfo.websiteUrl,
+    websiteUrl: userInfo.websiteUrl || '',
   });
 
   const handleChange = (name: keyof IUserProfile, value: string) => {
@@ -58,40 +57,19 @@ export default function EditForm({
               className="text-secondary opacity-80 flex items-center gap-3 min-w-[10rem]"
             >
               <AvatarIcon />
-              First Name
+              Full Name
             </Typography>
             <div className="w-full flex justify-between items-center">
               <DebouncedInput
-                name="firstName"
-                onChange={(value) => handleChange('firstName', value)}
+                name="fullname"
+                onChange={(value) => handleChange('fullname', value)}
                 type="text"
                 className="grow text-primary text-sm opacity-80"
-                value={profileData.firstName}
+                value={profileData.fullname}
               />
               <SolidCheckIcon />
             </div>
           </li>
-
-          <li className="p-4 flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
-            <Typography
-              level="base2r"
-              className="text-secondary opacity-80 flex items-center gap-3 min-w-[10rem]"
-            >
-              <AvatarIcon />
-              Last Name
-            </Typography>
-            <div className="w-full flex justify-between items-center">
-              <DebouncedInput
-                name="lastName"
-                onChange={(value) => handleChange('lastName', value)}
-                type="text"
-                className="grow text-primary text-sm opacity-80"
-                value={profileData.lastName}
-              />
-              <SolidCheckIcon />
-            </div>
-          </li>
-
           <li className="p-4 flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
             <Typography
               level="base2r"

@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useUserProfile } from '@/context/user-context';
 import { IPost } from '@/interfaces/post';
 import { IUserProfile } from '@/interfaces/user';
@@ -13,56 +13,50 @@ import { getPostsByUser } from '@/apis/post';
 
 export default function ProfileView() {
   const { userProfile } = useUserProfile();
-  const [posts, setPosts] = React.useState<IPost[]>([]);
-  const [nfts, setNfts] = React.useState<unknown[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [error, setError] = React.useState<string | null>(null);
-  const [contentType, setContentType] = React.useState<'post' | 'nfts'>('post');
-  const [hasFetchedNFTs, setHasFetchedNFTs] = React.useState<boolean>(false);
+  const [posts, setPosts] = useState<IPost[]>([]);
+  const [nfts, setNfts] = useState<unknown[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [contentType, setContentType] = useState<'post' | 'nfts'>('post');
 
-  const fetchPosts = async () => {
+  React.useEffect(() => {
+    const fetchPosts = async () => {
+      if (!userProfile?.id) return;
+      setLoading(true);
+      try {
+        const response = await getPostsByUser(
+          { startId: 0, offset: 1, limit: 5 },
+          userProfile.id
+        );
+        setPosts(response.data);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+        setError('Failed to load posts.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, [userProfile?.id]);
+
+  const fetchNfts = async () => {
+    if (!userProfile?.id) return;
     setLoading(true);
     try {
-      const response = await getPostsByUser(
-        { startId: 0, offset: 1, limit: 5 },
-        userProfile?.id as string
-      );
-      setPosts(response.data);
+      // const response = await getNftsByUser(userProfile.id);
+      // setNfts(response.data);
     } catch (error) {
-      console.error('Error fetching posts:', error);
-      setError('Failed to load posts.');
+      console.error('Error fetching NFTs:', error);
+      setError('Failed to load NFTs.');
     } finally {
       setLoading(false);
     }
   };
 
-  React.useEffect(() => {
-      fetchPosts();
-  });
-
-  const fetchNfts = async () => {
-    if (!hasFetchedNFTs) {
-      setLoading(true);
-      try {
-        // const response = await getNftsByUser(userProfile?.id as string);
-        // setNfts(response.data);
-        setHasFetchedNFTs(true);
-      } catch (error) {
-        console.error('Error fetching NFTs:', error);
-        setError('Failed to load NFTs.');
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
-
   const handleToggle = (key: string) => {
-    if (key === 'posts') {
-      setContentType('post');
-    } else if (key === 'nfts') {
-      setContentType('nfts');
-      fetchNfts();
-    }
+    setContentType(key === 'posts' ? 'post' : 'nfts');
+    if (key === 'nfts') fetchNfts();
   };
 
   return (
@@ -83,7 +77,11 @@ export default function ProfileView() {
           data={contentType === 'nfts' ? nfts : posts}
           loading={loading}
           err={error}
-          onDeleted={() => setPosts((prevPosts) => prevPosts.filter(post => post.id !== ''))}
+          onDeleted={(isDeleted: boolean) => {
+            if (isDeleted) {
+              setPosts((prevPosts) => prevPosts.filter(post => post.id !== userProfile?.id));
+            }
+          }}
         />
       </div>
     </section>

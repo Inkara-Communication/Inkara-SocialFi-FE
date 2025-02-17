@@ -39,7 +39,7 @@ export default function ExploreView() {
   //       setError(new Error('Failed to fetch posts'));
   //     }
   //   })();
-  // }, [searchStr]);
+  // }, [filter]);
 
   const handleTagSelect = (tag: string) => {
     setFilteredPosts(posts);
@@ -59,11 +59,7 @@ export default function ExploreView() {
           setSearch={setSearchStr}
         />
       </div>
-      {isLoading ? (
-        <SplashScreen />
-      ) : error ? (
-        <p>Error: {error.message}</p>
-      ) : filteredPosts.length === 0 || posts.length === 0 ? (
+      {filteredPosts.length === 0 || posts.length === 0 ? (
         <EmptyContent
           content={
             <Typography level="base2sm" className="text-secondary">

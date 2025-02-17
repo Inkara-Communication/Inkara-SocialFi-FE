@@ -86,6 +86,10 @@ export default function Post({
       setLocalData((prev) => ({
         ...prev,
         likes: updatedLikes,
+        _count: {
+          ...prev._count,
+          likes: updatedLikes.length,
+        },
       }));
       await likeAction('post', postId);
     } catch (error) {

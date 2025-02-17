@@ -3,6 +3,7 @@ import { IPost } from '@/interfaces/post';
 import { EmptyContent } from '../empty-content';
 import { Post } from '../post';
 import { Typography } from '../typography';
+import React from 'react';
 
 //-----------------------------------------------------------------------------------------------
 
@@ -22,11 +23,29 @@ export default function ActivityFeed({
   err,
   onDeleted,
 }: NewFeedProps) {
+  const [openMoreOptionsId, setOpenMoreOptionsId] = React.useState<
+    string | null
+  >(null);
+  const [expandedPostId, setExpandedPostId] = React.useState<string | null>(
+    null
+  );
+
+  const handleToggleComments = (postId: string) => {
+    setExpandedPostId((prev) => (prev === postId ? null : postId));
+  };
+
   const posts = (
     <ul className="w-full h-full mt-3">
       {(data as IPost[]).map((post) => (
         <li key={post.id} className="mb-2">
-          <Post data={post} onDeleteSuccess={onDeleted} />
+          <Post
+            data={post}
+            onDeleteSuccess={onDeleted}
+            openMoreOptionsId={openMoreOptionsId}
+            setOpenMoreOptionsId={setOpenMoreOptionsId}
+            showComments={expandedPostId === post.id}
+            onToggleComments={() => handleToggleComments(post.id)}
+          />
         </li>
       ))}
     </ul>

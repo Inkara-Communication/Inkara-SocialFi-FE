@@ -123,7 +123,7 @@ export const endpoints = {
   post: {
     getById: (id: string) => `/post/${id}`,
     getMany: `/post`,
-    getMaynyByUser: (id: string) => `/post/user/${id}`,
+    getManyByUser: (id: string) => `/post/user/${id}`,
     create: `/post`,
     update: (id: string) => `/post/${id}`,
     delete: (id: string) => `/post/${id}`,

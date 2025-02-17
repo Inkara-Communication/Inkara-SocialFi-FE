@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { getUserProfileById } from '@/apis/user';
 import { IPost } from '@/interfaces/post';
@@ -20,61 +20,48 @@ interface ProfileUserViewProps {
 }
 
 export default function ProfileUserView({ userId }: ProfileUserViewProps) {
-  const [user, setUser] = React.useState<IUserProfile | null>(null);
-  const [posts, setPosts] = React.useState<IPost[]>([]);
-  const [nfts, setNfts] = React.useState<unknown[]>([]);
-  const [error, setError] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const [params, setParams] = React.useState<Record<string, string | boolean>>(
-    {}
-  );
-  const [contentType, setContentType] = React.useState<'post' | 'nfts'>(
-    'post'
-  );
+  const [user, setUser] = useState<IUserProfile | null>(null);
+  const [posts, setPosts] = useState<IPost[]>([]);
+  const [nfts, setNfts] = useState<unknown[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [contentType, setContentType] = useState<'post' | 'nfts'>('post');
 
-  React.useEffect(() => {
-    const fetchUserProfile = async () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!userId) return;
       try {
         setLoading(true);
         const userData = await getUserProfileById(userId);
         setUser(userData.data);
+
+        if (contentType === 'post') {
+          const postsResponse = await getPostsByUser(
+            { startId: 0, offset: 1, limit: 5 },
+            userId
+          );
+          setPosts(postsResponse.data);
+        } else if (contentType === 'nfts') {
+          // const nftsResponse = await getNftsByUser(userId);
+          // setNfts(nftsResponse.data); 
+        }
       } catch (error) {
-        console.error('Error fetching user profile:', error);
-        setError('Failed to load user profile.');
+        console.error('Error fetching data:', error);
+        setError('Failed to load data.');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUserProfile();
+    fetchData();
   }, [userId]);
-
-  React.useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await getPostsByUser(
-          { startId: 0, offset: 1, limit: 10 },
-          userId
-        );
-        setPosts(response.data);
-        setNfts(response.data);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-        setError('Failed to load posts.');
-      }
-    };
-
-    fetchPosts();
-  }, [params, userId]);
 
   const handleToggle = (key: string) => {
     switch (key) {
       case 'posts':
-        setParams({});
         setContentType('post');
         break;
-      case 'nft':
-        setParams({ type: 'nfts' });
+      case 'nfts':
         setContentType('nfts');
         break;
       default:

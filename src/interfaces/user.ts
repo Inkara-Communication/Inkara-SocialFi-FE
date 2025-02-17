@@ -9,6 +9,7 @@ export interface IUserSimple {
 
 export interface IUserProfile {
   id: string
+  fullname: string
   username: string
   role: string
   address: string
@@ -20,5 +21,6 @@ export interface IUserProfile {
   }
   postCount?: number
   followerCount?: number
-  nftCount?: number
+  nftCount?: number,
+  websiteUrl?: string
 }

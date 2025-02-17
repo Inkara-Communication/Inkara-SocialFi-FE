@@ -20,8 +20,10 @@ export default function ProfileEditView() {
   const { userProfile, setUserProfile } = useUserProfile();
   const [loading, setLoading] = React.useState(false);
   const [profileData, setProfileData] = React.useState({
+    fullname: userProfile?.fullname || '',
     username: userProfile?.username || '',
     bio: userProfile?.bio || '',
+    websiteUrl: userProfile?.websiteUrl || '',
   });
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
