@@ -19,8 +19,11 @@ export interface IUserProfile {
   photo: {
     url: string
   }
-  postCount?: number
-  followerCount?: number
-  nftCount?: number,
+  _count: {
+    followers: number
+    followings: number
+    posts: number
+    nft: number
+  }
   websiteUrl?: string
 }

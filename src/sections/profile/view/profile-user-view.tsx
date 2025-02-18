@@ -74,7 +74,7 @@ export default function ProfileUserView({ userId }: ProfileUserViewProps) {
   return (
     <section className="relative w-full h-fit min-h-svh overflow-hidden">
       <ProfileHead />
-      <UserInfo user={user} />
+      <UserInfo user={user as IUserProfile} />
       <ToggleGroup
         items={[
           { key: 'posts', label: 'Posts' },

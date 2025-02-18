@@ -158,7 +158,7 @@ export default function InfoUser({ user }: UserInfoProps) {
                 level="base2r"
                 className="text-primary flex items-center gap-2"
               >
-                {user.postCount}
+                {user._count.posts || 0}
                 <Typography level="base2r" className="text-tertiary">
                   posts
                 </Typography>
@@ -172,7 +172,7 @@ export default function InfoUser({ user }: UserInfoProps) {
                   level="base2r"
                   className="text-primary flex items-center gap-2"
                 >
-                  {user.followerCount}
+                  {user._count.followers || 0}
                   <Typography level="base2r" className="text-tertiary">
                     followers
                   </Typography>
@@ -186,7 +186,7 @@ export default function InfoUser({ user }: UserInfoProps) {
                 level="base2r"
                 className="text-primary flex items-center gap-2"
               >
-                {user.nftCount}xxx
+                {user._count.nft || 0}
                 <Typography level="base2r" className="text-tertiary">
                   nfts
                 </Typography>

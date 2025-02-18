@@ -173,73 +173,81 @@ export default function Post({
     >
       <div className="flex items-start gap-5">
         <Link
-          href={`/profile/${localData.creatorId}`}
+          href={
+        localData.creatorId === userProfile?.id
+          ? '/profile'
+          : `/profile/${localData.creatorId}`
+          }
           className="cursor-pointer"
         >
           <Avatar
-            alt="avatar"
-            src={localData?.user?.photo?.url || ''}
-            size={44}
+        alt="avatar"
+        src={localData?.user?.photo?.url || ''}
+        size={44}
           />
         </Link>
         <div className="w-full flex flex-col gap-2">
           <div className="relative z-0 flex justify-items-auto items-center">
-            <Link
-              href={`/profile/${localData.creatorId}`}
-              className="cursor-pointer"
-            >
-              <Typography
-                level="base2m"
-                className="text-primary font-bold justify-self-start opacity-80 mr-4"
-              >
-                {localData?.user?.username}
-              </Typography>
-            </Link>
-            <Typography
-              level="captionr"
-              className="text-tertiary justify-self-start grow opacity-45"
-            >
-              {new Date(localData.createdAt).toLocaleDateString('vi-VN', {
-                hour: 'numeric',
-                minute: 'numeric',
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-              })}
-            </Typography>
+        <Link
+          href={
+            localData.creatorId === userProfile?.id
+          ? '/profile'
+          : `/profile/${localData.creatorId}`
+          }
+          className="cursor-pointer"
+        >
+          <Typography
+            level="base2m"
+            className="text-primary font-bold justify-self-start opacity-80 mr-4"
+          >
+            {localData?.user?.username}
+          </Typography>
+        </Link>
+        <Typography
+          level="captionr"
+          className="text-tertiary justify-self-start grow opacity-45"
+        >
+          {new Date(localData.createdAt).toLocaleDateString('vi-VN', {
+            hour: 'numeric',
+            minute: 'numeric',
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })}
+        </Typography>
 
-            {data.creatorId === (userProfile as IUserProfile).id && (
-              <MoreIcon onClick={handleMoreOptions} />
-            )}
-            {openMoreOptionsId === data.id && (
-              <div
-                className="fixed inset-0 z-10"
-                onClick={() => setOpenMoreOptionsId?.(null)}
-              />
-            )}
+        {data.creatorId === (userProfile as IUserProfile).id && (
+          <MoreIcon onClick={handleMoreOptions} />
+        )}
+        {openMoreOptionsId === data.id && (
+          <div
+            className="fixed inset-0 z-10"
+            onClick={() => setOpenMoreOptionsId?.(null)}
+          />
+        )}
           </div>
           <Link href={`/posts/${localData.id}`} className="cursor-pointer">
-            <Typography level="body2r" className="text-secondary opacity-80">
-              {localData.content}
-            </Typography>
+        <Typography level="body2r" className="text-secondary opacity-80">
+          {localData.content}
+        </Typography>
           </Link>
 
           {(localData as IPost).photo?.url && (
-            <Link href={`/posts/${localData.id}`}>
-              <Image
-                width={400}
-                height={400}
-                src={localData?.photo?.url || ''}
-                alt="post-image"
-                className="max-h-[400px] w-full rounded-[1.5rem] object-cover"
-              />
-            </Link>
+        <Link href={`/posts/${localData.id}`}>
+          <Image
+            width={400}
+            height={400}
+            src={localData?.photo?.url || ''}
+            alt="post-image"
+            className="max-h-[400px] w-full rounded-[1.5rem] object-cover"
+          />
+        </Link>
           )}
         </div>
         {openMoreOptionsId === data.id && (
           <MoreOptions
-            onEdit={() => setIsEdit(true)}
-            onDelete={handleConfirmDelete}
+        onEdit={() => setIsEdit(true)}
+        onDelete={handleConfirmDelete}
           />
         )}
       </div>
