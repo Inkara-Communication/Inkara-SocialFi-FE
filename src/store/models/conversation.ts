@@ -1,64 +1,44 @@
 import { createModel } from '@rematch/core'
-import axios, { AxiosError } from 'axios'
-
 import { RootModel } from '.'
-
+import { IConversation } from '@/interfaces/conversation'
+import { getUserConversations } from '@/apis/conversation'
 
 interface ConversationState {
-    conversations: any[] | [],
-    activeConversation: any | null
+    conversations: IConversation[]
+    activeConversation: IConversation | null
 }
 
 const initialState: ConversationState = {
     conversations: [],
-    activeConversation: null
+    activeConversation: null,
 }
 
 export const conversation = createModel<RootModel>()({
     name: 'conversation',
     state: initialState,
     reducers: {
-        SET_CONVERSATIONS: (state, payload) => {
-            return {
-                ...state,
-                conversations: payload,
-            }
+        setConversations(state, payload: IConversation[]) {
+            state.conversations = payload
         },
-        SET_ACTIVE_CONVERSATION: (state, payload) => {
-            return {
-                ...state,
-                activeConversation: payload,
-            }
-        }
+        setActiveConversation(state, payload: IConversation | null) {
+            state.activeConversation = payload
+        },
     },
     effects: (dispatch) => ({
-        async setConversations(conversations?: any[]) {
+        async fetchConversations(_, rootState) {
             try {
-                if(!conversations) {
-                    const res = await axios.get('/conversation/my/conversations')
-                    dispatch.conversation.SET_CONVERSATIONS(res.data)
-                    return
+                const { conversations } = rootState.conversation
+    
+                const { data } = await getUserConversations()
+                
+                if (JSON.stringify(data) !== JSON.stringify(conversations)) {
+                    dispatch.conversation.setConversations(data)
                 }
-                dispatch.conversation.SET_CONVERSATIONS(conversations)
-            } catch (err: any) {
-                console.error(err)
-                let axiosError: AxiosError;
-                dispatch.conversation.SET_CONVERSATIONS([])
-                if(err instanceof AxiosError) {
-                    axiosError = err.response?.data
-                    return axiosError
-                }
-                return err
-            }
-        },
-        async setActiveConversation(conversation: any | null) {
-            try {
-                dispatch.conversation.SET_ACTIVE_CONVERSATION(conversation)
-            } catch (err: any) {
-                console.error(err)
-                dispatch.conversation.SET_ACTIVE_CONVERSATION(null)
-                return err
+            } catch (error) {
+                console.error('Failed to fetch conversations:', error)
+                dispatch.conversation.setConversations([])
             }
         }
     })
+    
 })

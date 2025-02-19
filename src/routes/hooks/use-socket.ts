@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useSocket } from 'socket.io-react-hook'
 
-import { RootState } from '../store/store'
+import { RootState } from '../../store/store'
 
 export const useAuthenticatedSocket = (namespace: string) => {
     const userState = useSelector((state: RootState) => state.user)

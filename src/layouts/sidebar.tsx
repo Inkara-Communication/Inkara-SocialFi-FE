@@ -185,7 +185,7 @@ export function UserSection({ isExpanded, user }: UserSectionProps) {
       >
         <Avatar
           src={user.photo?.url || USER_AVATAR_PLACEHOLDER}
-          alt={user.username}
+          alt={user.fullname}
           size={32}
         />
 
@@ -196,7 +196,7 @@ export function UserSection({ isExpanded, user }: UserSectionProps) {
                 level="base2sm"
                 className="text-secondary opacity-80 select-none"
               >
-                {user.username}
+                {user.fullname}
               </Typography>
               <br />
               <Typography

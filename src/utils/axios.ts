@@ -151,4 +151,29 @@ export const endpoints = {
     likeAction: `/like`,
     hasLiked: (id: string) => `/like/check/${id}`,
   },
+
+  message: {
+    getMessageRoom: (id: string) => `/message/${id}`,
+    createMessageRoom: (id: string) => `/message/${id}`,
+    getMessage: `/message`,
+  },
+
+  conversation: {
+    get: `/conversation`,
+    create: `/conversation`,
+    getById: (id: string) => `/conversation/${id}`,
+    getMyConversation: `/conversation/my-conversation`,
+  },
+
+  room: {
+    getInvitation: `/room/invitation`,
+    getInvitations: `/room/invitations`,
+    invite: (id: string) => `/room/invite/${id}`,
+    getMany: `/room`,
+    getById: (id: string) => `/room/${id}`,
+    getMyRooms: `/room/my-rooms`,
+    create: `/room`,
+    addUser: (id: string) => `/room/add-user/${id}`,
+    removeUser: (id: string) => `/room/remove-user/${id}`,
+  }
 };

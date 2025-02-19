@@ -66,8 +66,9 @@ export default function Post({
   const [isCreated, setIsCreated] = React.useState(false);
   const [parentComment, setParentComment] = React.useState<{
     id: string;
+    fullname: string;
     username: string;
-  }>({ id: '', username: '' });
+  }>({ id: '', fullname: '', username: '' });
   const isPostType = data.type === 'text' || data.type === 'media';
 
   React.useEffect(() => {
@@ -200,7 +201,7 @@ export default function Post({
             level="base2m"
             className="text-primary font-bold justify-self-start opacity-80 mr-4"
           >
-            {localData?.user?.username}
+            {localData?.user?.fullname}
           </Typography>
         </Link>
         <Typography

@@ -108,6 +108,7 @@ export default function SidebarRight({ className }: SidebarRightProps) {
                 key={user.following.id}
                 user={{
                   id: user.following.id,
+                  fullname: user.following.fullname,
                   username: user.following.username,
                   photo: {
                     url: user.following.photo?.url || USER_AVATAR_PLACEHOLDER,
@@ -123,6 +124,7 @@ export default function SidebarRight({ className }: SidebarRightProps) {
                 key={user.id}
                 user={{
                   id: user.id,
+                  fullname: user.fullname,
                   username: user.username,
                   photo: {
                     url: user.photo?.url || USER_AVATAR_PLACEHOLDER,

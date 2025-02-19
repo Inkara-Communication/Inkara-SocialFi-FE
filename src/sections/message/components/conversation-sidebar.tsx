@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { _conversations as fakeConversation } from '@/_mocks/_conversation';
-
 import { AddIcon } from '@/components/icons';
 import { Button } from '@/components/button';
 
@@ -15,13 +13,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/alert-dialog';
+import { IConversation } from '@/interfaces/conversation';
 
 //----------------------------------------------------------------------
 interface ConversationSidebarProps {
+  conversations: IConversation[];
   onConversationClick: (id: any) => void;
 }
 
 export default function ConversationSidebar({
+  conversations,
   onConversationClick,
 }: ConversationSidebarProps) {
   return (
@@ -46,7 +47,7 @@ export default function ConversationSidebar({
       </div>
 
       <div className="w-full max-h-full flex flex-col gap-2 overflow-y-auto">
-        {fakeConversation.map((conversation) => (
+        {conversations.map((conversation) => (
           <ConversationItem
             key={conversation.id}
             isReaded={false}

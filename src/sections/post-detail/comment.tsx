@@ -14,7 +14,7 @@ interface CommentProps {
   data: IComment;
   className?: string;
   onUpdateComment?: (updatedComment: IComment) => void;
-  setParentComment?: (parentComment: { id: string; username: string }) => void;
+  setParentComment?: (parentComment: { id: string; fullname: string, username: string }) => void;
   openMoreOptionsId?: string | null;
   setOpenMoreOptionsId?: (id: string | null) => void;
   onDeleteSuccess?: (isDeleted: boolean) => void;
@@ -74,7 +74,7 @@ export default function Comment({
         <div className="flex-shrink-0 z-10">
           <Image
             src={data.user?.photo?.url || USER_AVATAR_PLACEHOLDER}
-            alt={data.user?.username}
+            alt={data.user?.fullname}
             width={40}
             height={40}
             className="w-10 h-10 rounded-full"
@@ -88,7 +88,7 @@ export default function Comment({
             <div className="flex items-center justify-between gap-2 mb-2">
               <div className="flex items-center gap-2">
                 <span className="font-semibold text-sm text-primary">
-                  {data.user?.username}
+                  {data.user?.fullname}
                 </span>
                 <span className="text-xs text-tertiary">
                   {new Date(data.createdAt).toLocaleDateString('vi-VN', {
@@ -119,6 +119,7 @@ export default function Comment({
               onClick={() =>
                 setParentComment?.({
                   id: data.id,
+                  fullname: data.user.fullname,
                   username: data.user.username,
                 })
               }

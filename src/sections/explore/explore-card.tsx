@@ -42,12 +42,12 @@ export default function ExploreCard({ post }: IExploreCardProps) {
       <div className="flex w-full items-center gap-3 px-3">
         <Avatar
           src={post.user.photo.url ?? USER_AVATAR_PLACEHOLDER}
-          alt={post.user.username}
+          alt={post.user.fullname}
           size={32}
         />
 
         <Typography level="small" className="text-tertiary mr-auto">
-          {post.user.username}
+          {post.user.fullname}
         </Typography>
 
         {/* <Typography level="small" className="text-tertiary mr-auto">

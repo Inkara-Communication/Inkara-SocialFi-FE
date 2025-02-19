@@ -1,5 +1,6 @@
 export interface IUserSimple {
   id: string
+  fullname: string
   username: string
   address: string
   photo: {
@@ -11,6 +12,7 @@ export interface IUserProfile {
   id: string
   fullname: string
   username: string
+  email: string
   role: string
   address: string
   bio?: string

@@ -1,19 +1,13 @@
-import React from 'react';
+'use client';
 
+import React from 'react';
 import { UploadIcon } from '@/components/icons';
 
-//-------------------------------------------------------------------------
-
-function handelSubmitMessage() {
-  return (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const inputElement = e.currentTarget.querySelector('input');
-    const message = inputElement ? inputElement.value : '';
-    console.log(message);
-  };
+interface ChatInputProps {
+  onSendMessage: (message: string) => void;
 }
 
-export default function ChatInput() {
+export default function ChatInput({ onSendMessage }: ChatInputProps) {
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
   const handleButtonClick = () => {
@@ -28,9 +22,22 @@ export default function ChatInput() {
       console.log('Selected file:', file);
     }
   };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const inputElement = e.currentTarget.querySelector('input');
+    const message = inputElement ? inputElement.value : '';
+    if (message) {
+      onSendMessage(message);
+      if (inputElement) {
+        inputElement.value = '';
+      }
+    }
+  };
+
   return (
     <div className="w-full p-3">
-      <form onSubmit={handelSubmitMessage()}>
+      <form onSubmit={handleSubmit}>
         <div className="flex items-center gap-4 p-2.5 rounded-[2.625rem] bg-neutral4-30">
           <button
             className="btn-upload p-[0.4375rem] group"

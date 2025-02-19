@@ -8,14 +8,14 @@ import { cn } from '@/lib/utils';
 interface CommentListProps {
   comments: IComment[];
   className?: string;
-  setParentComment?: (parentComment: { id: string; username: string }) => void;
+  setParentComment?: (parentComment: { id: string; fullname: string, username: string }) => void;
   onLoadMore?: (parentId?: string) => void;
 }
 
 const renderChildren = (
   comments: IComment[],
   parentId: string,
-  setParentComment?: (parentComment: { id: string; username: string }) => void,
+  setParentComment?: (parentComment: { id: string; fullname: string, username: string }) => void,
   onLoadMore?: (parentId?: string) => void
 ) => {
   const childComments = comments.filter(

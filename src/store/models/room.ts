@@ -1,13 +1,12 @@
 import { createModel } from '@rematch/core'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 
 import { RootModel } from '.'
-import { Room } from '../../utils/types'
-
+import { IRoom } from '@/interfaces/room'
 
 interface RoomState {
-    rooms: Room[] | [],
-    activeRoom: Room | null
+    rooms: IRoom[]
+    activeRoom: IRoom | null
 }
 
 const initialState: RoomState = {
@@ -19,47 +18,30 @@ export const room = createModel<RootModel>()({
     name: 'room',
     state: initialState,
     reducers: {
-        SET_ROOMS: (state, payload) => {
-            return {
-                ...state,
-                rooms: payload,
-            }
+        setRooms(state, payload: IRoom[]) {
+            state.rooms = payload
         },
-        SET_ACTIVE_ROOM: (state, payload) => {
-            return {
-                ...state,
-                activeRoom: payload,
-            }
+        setActiveRoom(state, payload: IRoom | null) {
+            state.activeRoom = payload
         }
     },
     effects: (dispatch) => ({
-        async setRooms(rooms?: Room[]) {
+        async fetchRooms(_, rootState) {
             try {
-                if(!rooms) {
-                    const res = await axios.get('/room/my/rooms')
-                    dispatch.room.SET_ROOMS(res.data)
-                    return
+                const { rooms } = rootState.room
+
+                const { data } = await axios.get('/room/my/rooms')
+
+                if (JSON.stringify(data) !== JSON.stringify(rooms)) {
+                    dispatch.room.setRooms(data)
                 }
-                dispatch.room.SET_ROOMS(rooms)
-            } catch (err: any) {
-                console.log(err)
-                let axiosError: AxiosError;
-                dispatch.room.SET_ROOMS([])
-                if(err instanceof AxiosError) {
-                    axiosError = err.response?.data
-                    return axiosError
-                }
-                return err
+            } catch (error) {
+                console.error('Failed to fetch rooms:', error)
+                dispatch.room.setRooms([])
             }
         },
-        async setActiveRoom(room: Room | null) {
-            try {
-                dispatch.room.SET_ACTIVE_ROOM(room)
-            } catch (err: any) {
-                console.log(err)
-                dispatch.room.SET_ACTIVE_ROOM(null)
-                return err
-            }
+        setActiveRoom(room: IRoom | null) {
+            dispatch.room.setActiveRoom(room)
         }
     })
 })

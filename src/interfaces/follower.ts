@@ -2,6 +2,7 @@ import { IUserSimple } from './user';
 
 export interface IFollower {
   id: string;
+  fullname: string;
   username: string;
   address: string;
   photo: {

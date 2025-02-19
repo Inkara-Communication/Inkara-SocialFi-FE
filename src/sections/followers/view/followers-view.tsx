@@ -125,6 +125,7 @@ export default function FollowersView() {
                 <ProfileCard
                   user={{
                     id: follower.id,
+                    fullname: follower.following.fullname,
                     username: follower.following.username,
                     photo: {
                       url:
@@ -161,6 +162,7 @@ export default function FollowersView() {
               <ProfileCard
                 user={{
                   id: followed.following.id,
+                  fullname: followed.following.fullname,
                   username: followed.following.username,
                   photo: {
                     url:

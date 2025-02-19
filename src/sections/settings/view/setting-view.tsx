@@ -137,7 +137,7 @@ const SettingsView = () => {
                   level="baser"
                   className="font-medium text-secondary"
                 >
-                  {userProfile.username}
+                  {userProfile.fullname}
                 </Typography>
                 <Typography
                   level="baser"

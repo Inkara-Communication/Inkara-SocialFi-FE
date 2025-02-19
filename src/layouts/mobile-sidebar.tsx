@@ -61,7 +61,7 @@ const MobileSidebar = ({ onClose, className }: MobileSidebarProps) => {
                   level="base2sm"
                   className="text-secondary opacity-80 select-none"
                 >
-                  {userProfile.username}
+                  {userProfile.fullname}
                 </Typography>
                 <br />
                 <Typography

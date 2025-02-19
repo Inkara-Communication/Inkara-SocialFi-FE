@@ -1,33 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-
-import { _conversations as fakeConversation } from '@/_mocks/_conversation';
-
 import { Avatar } from '@/components/avatar';
 import { CloseIcon, MoreIcon } from '@/components/icons';
 import { Typography } from '@/components/typography';
 import { Button } from '@/components/button';
 import { ChatInput, MessageItem } from '../components';
+import { useConversation } from '@/routes/hooks/use-conversation';
+import { Socket } from 'socket.io-client';
 
-//----------------------------------------------------------------------
-interface ConversationDetailPageProps {
+type ConversationDetailProps = {
   id: string;
-}
+  socket: Socket;
+};
 
-export default function ConversationDetailPage({
-  id,
-}: ConversationDetailPageProps) {
+export default function ConversationDetail({ id }: ConversationDetailProps) {
   const router = useRouter();
-
-  const conversationId = Number(id);
-  const conversation = fakeConversation.find(
-    (item: any) => item.id === conversationId
-  );
-
-  if (!conversation) return <p>Conversation not found</p>;
+  const { messages, sendMessage } = useConversation(id);
 
   const handleBack = () => {
     router.push('/messages');
@@ -39,10 +29,10 @@ export default function ConversationDetailPage({
         id="conversation-header"
         className="w-full flex items-center gap-4 py-3 pr-6 pl-3"
       >
-        <Avatar src={conversation.user.avatarUrl} alt="avatar" />
+        <Avatar src="" alt="avatar" size={40} />
 
         <Typography level="base2m" className="text-primary grow">
-          {conversation.user.name}
+          John Doe {/* Tạm thời hardcode, có thể thay bằng dữ liệu từ API */}
         </Typography>
 
         <Button className="p-2.5" child={<MoreIcon />} />
@@ -58,12 +48,12 @@ export default function ConversationDetailPage({
         id="chat-container"
         className="flex flex-col gap-2 h-[calc(100vh-150px)] overflow-y-auto items-center justify-start p-3"
       >
-        {conversation.messages?.map((message, index) => (
+        {messages.map((message, index) => (
           <MessageItem key={index} message={message} />
         ))}
       </section>
 
-      <ChatInput />
+      <ChatInput onSendMessage={sendMessage} />
     </section>
   );
 }

@@ -41,13 +41,13 @@ export default function ProfileCard({
               src={
                 user.photo?.url ? user.photo?.url : USER_AVATAR_PLACEHOLDER
               }
-              alt={`Avatar of ${user.username}`}
+              alt={`Avatar of ${user.fullname}`}
               className="size-[44px]"
             />
           </div>
           <div className="grow flex flex-col gap-1">
             <Typography level="base2sm" className="text-primary">
-              {user.username}
+              {user.fullname}
             </Typography>
             <Typography className="text-tertiary opacity-80" level="captionr">
               {`${user.address.slice(0, 12)}...${user.address.slice(-12)}`}

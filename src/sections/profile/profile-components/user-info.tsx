@@ -89,15 +89,17 @@ export default function InfoUser({ user }: UserInfoProps) {
           id="profile-info-header"
           className="flex items-center gap-[0.4375rem]"
         >
-          <div className="grow opacity-80">
+            <div className="grow opacity-80">
             <Typography level="title" className="text-primary">
-              {user.username}
+              {user.fullname}
             </Typography>
+            <Typography level="base2r" className="text-tertiary">
+              @{user.username}
+            </Typography>
+            </div>
             <Typography level="base2r" className="text-tertiary">
               {user.address}
             </Typography>
-          </div>
-
           <Button
             child={
               isCopied ? <CheckIcon /> : <ShareIcon width={24} height={24} />

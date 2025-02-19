@@ -25,7 +25,7 @@ interface PostContentProps {
   className?: string;
   onCreated?: (isCreate: boolean) => void;
   postId?: string;
-  parentComment?: { id: string; username: string };
+  parentComment?: { id: string; fullname: string, username: string };
 }
 
 export default function ComposerInput({
@@ -104,7 +104,7 @@ export default function ComposerInput({
   };
 
   React.useEffect(() => {
-    if (parentComment?.username) {
+    if (parentComment?.fullname) {
       setContent(`@${parentComment.username} `);
       if (inputRef.current) {
         inputRef.current.focus();

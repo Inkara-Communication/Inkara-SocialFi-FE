@@ -83,7 +83,7 @@ export default function HomeView() {
             className="size-[44px] min-w-[44px]"
           />
           <MobileSidebarTrigger className="md:hidden" onClick={toggleSidebar}>
-            <Avatar src={user.photo.url} alt={user.username} />
+            <Avatar src={user.photo.url} alt={user.fullname} />
           </MobileSidebarTrigger>
         </div>
         <ComposerInput usedBy="post" className="relative" />

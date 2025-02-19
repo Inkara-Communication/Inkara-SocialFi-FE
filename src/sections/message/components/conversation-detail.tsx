@@ -1,64 +1,24 @@
+'use client';
+
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import { Avatar } from '@/components/avatar';
-import { Button } from '@/components/button';
 import { CloseIcon, MoreIcon } from '@/components/icons';
 import { Typography } from '@/components/typography';
+import { Button } from '@/components/button';
+import { ChatInput, MessageItem } from '../components';
+import { useConversation } from '@/routes/hooks';
 
-import MessageItem from './message-item';
-import ChatInput from './chat-input';
+interface ConversationDetailProps {
+  id: string;
+}
 
-//----------------------------------------------------------------------
+export default function ConversationDetailPage({ id }: ConversationDetailProps) {
+  const router = useRouter();
+  const { messages, sendMessage } = useConversation(id);
 
-const messages = [
-  {
-    user: {
-      avatarUrl: '',
-      name: 'Apple hi',
-    },
-    content: 'Hello, how can I help you today?',
-    time: '8:30 AM',
-    imageUrl: '',
-  },
-  {
-    user: {
-      avatarUrl: '',
-      name: 'Samsung',
-    },
-    content: 'Hello, how can I help you today?',
-    time: '8:30 AM',
-  },
-  {
-    user: {
-      avatarUrl: '',
-      name: 'Apple Releases',
-    },
-    content: 'Hello, can I help you?',
-    time: '8:30 AM',
-  },
-];
-
-const _conversations = [
-  {
-    id: 1,
-    user: {
-      avatarUrl: '',
-      name: 'John Doe',
-    },
-    content: 'Test content',
-    messages: messages,
-  },
-  {
-    id: 2,
-    user: {
-      avatarUrl: '',
-      name: 'John Doe 2',
-    },
-    content: 'Test content 2',
-  },
-];
-
-export default function ConversationDetail() {
   const handleBack = () => {
-    // navigate('/messages');
+    router.push('/messages');
   };
 
   return (
@@ -70,7 +30,7 @@ export default function ConversationDetail() {
         <Avatar src="" alt="avatar" size={40} />
 
         <Typography level="base2m" className="text-primary grow">
-          {_conversations[0].user.name}
+          John Doe {/* Tạm thời hardcode, có thể thay bằng dữ liệu từ API */}
         </Typography>
 
         <Button className="p-2.5" child={<MoreIcon />} />
@@ -86,12 +46,12 @@ export default function ConversationDetail() {
         id="chat-container"
         className="flex flex-col gap-2 h-[calc(100vh-150px)] overflow-y-auto items-center justify-start p-3"
       >
-        {_conversations[0].messages?.map((message, index) => (
+        {messages.map((message, index) => (
           <MessageItem key={index} message={message} />
         ))}
       </section>
 
-      <ChatInput />
+      <ChatInput onSendMessage={sendMessage} />
     </section>
   );
 }

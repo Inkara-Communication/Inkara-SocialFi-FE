@@ -61,7 +61,7 @@ export const AccountsSection = () => {
         </div>
         <span className="flex flex-col items-center gap-2">
           <p className="font-rubik font-medium text-title text-primary self-center">
-            {userProfile ? `${userProfile.username}` : 'User'}
+            {userProfile ? `${userProfile.fullname}` : 'User'}
           </p>
           <p className="text-tertiary opacity-80">{userProfile?.address}</p>
         </span>
@@ -75,7 +75,7 @@ export const AccountsSection = () => {
               Email
             </Typography>
             <Typography level="base2r" className="text-tertiary opacity-80">
-              {userProfile?.username}@gmail.com
+              {userProfile?.email}
             </Typography>
           </span>
         </SettingCard.item>
