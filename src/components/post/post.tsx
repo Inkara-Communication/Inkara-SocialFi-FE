@@ -64,6 +64,14 @@ export default function Post({
   const [isConfirm, setIsConfirm] = React.useState<boolean>(false);
   const [isLiked, setIsLiked] = React.useState<boolean>(false);
   const [isCreated, setIsCreated] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isCreated) {
+      setLoadedCommentsCount((prev) => prev + 1);
+      setIsCreated(false);
+    }
+  }, [isCreated]);
+
   const [parentComment, setParentComment] = React.useState<{
     id: string;
     fullname: string;

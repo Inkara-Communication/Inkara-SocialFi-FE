@@ -44,8 +44,11 @@ export default function ProfileView() {
     if (!userProfile?.id) return;
     setLoading(true);
     try {
-      // const response = await getNftsByUser(userProfile.id);
-      // setNfts(response.data);
+      const response = await getPostsByUser(
+        { startId: 0, offset: 1, limit: 5 },
+        userProfile.id
+      );
+      setNfts(response.data);
     } catch (error) {
       console.error('Error fetching NFTs:', error);
       setError('Failed to load NFTs.');
@@ -79,7 +82,9 @@ export default function ProfileView() {
           err={error}
           onDeleted={(isDeleted: boolean) => {
             if (isDeleted) {
-              setPosts((prevPosts) => prevPosts.filter(post => post.id !== userProfile?.id));
+              setPosts((prevPosts) =>
+                prevPosts.filter((post) => post.id !== userProfile?.id)
+              );
             }
           }}
         />

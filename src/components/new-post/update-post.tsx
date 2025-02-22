@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import React from 'react';
-import { z } from 'zod';
 
 import { updatePost } from '@/apis/post';
 import { usePost } from '@/context/post-context';

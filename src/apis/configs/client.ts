@@ -23,6 +23,18 @@ export async function ConnectWalletClient() {
     transport: transport,
   });
 
+  if (!walletClient.requestAddresses) {
+    walletClient.requestAddresses = async () => {
+      if (!window.ethereum) {
+        throw new Error('MetaMask or another web3 wallet is not installed. Please install one to proceed.');
+      }
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+      return accounts.map((account: string) => `0x${account}`) as `0x${string}`[];
+    };
+  }
+
   // Return the wallet client
   return walletClient;
 }

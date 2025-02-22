@@ -42,8 +42,11 @@ export default function ProfileUserView({ userId }: ProfileUserViewProps) {
           );
           setPosts(postsResponse.data);
         } else if (contentType === 'nfts') {
-          // const nftsResponse = await getNftsByUser(userId);
-          // setNfts(nftsResponse.data); 
+          const nftsResponse = await getPostsByUser(
+            { startId: 0, offset: 1, limit: 5 },
+            userId
+          );
+          setNfts(nftsResponse.data);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -54,7 +57,7 @@ export default function ProfileUserView({ userId }: ProfileUserViewProps) {
     };
 
     fetchData();
-  }, [userId]);
+  }, [contentType, userId]);
 
   const handleToggle = (key: string) => {
     switch (key) {

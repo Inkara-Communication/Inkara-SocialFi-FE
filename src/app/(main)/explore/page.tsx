@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ExploreView } from '@/sections/explore/view';
+import { MarketView } from '@/sections/market/view';
 
 //-----------------------------------------------------------------------------------------------
 
 export default function Explore() {
-  return <ExploreView />;
+  return <MarketView />;
 }

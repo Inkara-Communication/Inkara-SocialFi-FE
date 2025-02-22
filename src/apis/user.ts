@@ -31,7 +31,7 @@ export const getUserProfile = async (): Promise<IApiResponse<IUserProfile>> => {
 };
 
 export const updateUserProfile = async (
-  profileData: Partial<IUserProfile> & { avatarId?: string }
+  profileData: Partial<IUserProfile> & { url: string }
 ): Promise<IApiResponse<IUserProfile>> => {
   const { data } = await axiosInstance.patch(
     endpoints.user.update,

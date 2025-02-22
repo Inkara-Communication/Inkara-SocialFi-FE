@@ -5,7 +5,6 @@ import { useUserProfile } from '@/context/user-context';
 
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -40,7 +39,6 @@ import { Avatar } from '@/components/avatar';
 export const AccountsSection = () => {
   const { userProfile } = useUserProfile();
   const [password, setPassword] = React.useState('');
-  const [loading, setLoading] = React.useState(false);
 
   return (
     <section className="flex-1 flex flex-col h-full gap-3 overflow-auto no-scrollbar">

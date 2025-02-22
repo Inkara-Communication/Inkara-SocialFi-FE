@@ -1,4 +1,4 @@
-import { TrashIcon, LockIcon } from '@/components/icons';
+import { TrashIcon } from '@/components/icons';
 import MoreItem from './more-item';
 import EditProfile from '@/components/icons/edit';
 

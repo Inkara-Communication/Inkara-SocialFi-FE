@@ -1,6 +1,6 @@
 import {
   BookIcon,
-  ExploreIcon,
+  MarketIcon,
   MessageIcon,
   NotificationIcon,
 } from '@/components/icons';
@@ -37,9 +37,9 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     path: '/profile',
   },
   {
-    title: 'Explore',
-    Icon: <ExploreIcon />,
-    path: '/explore',
+    title: 'Marketplace',
+    Icon: <MarketIcon />,
+    path: '/market',
   },
 ];
 

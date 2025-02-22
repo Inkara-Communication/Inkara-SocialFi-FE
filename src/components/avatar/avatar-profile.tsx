@@ -33,7 +33,7 @@ const AvatarProfile = ({ avatar, canEdit }: AvatarProfileProps) => {
         const response = await uploadImage(file);
         const newAvatarUrl = response.data.url;
 
-        await updateUserProfile({ avatar: newAvatarUrl });
+        await updateUserProfile({ url: newAvatarUrl });
 
         setUserProfile({
           ...userProfile,

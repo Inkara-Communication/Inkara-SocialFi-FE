@@ -18,7 +18,7 @@ export default function Message() {
   const [showDetailOnly, setShowDetailOnly] = useState(false);
   const [selectedConversationId, setSelectedConversationId] = React.useState<string | null>(null);
   const [conversations, setConversations] = useState([]);
-  const [rooms, setRooms] = useState([]);
+  // const [rooms, setRooms] = useState([]);
 
   const isMobile = breakpoint === 'sm';
   const hideConsolidation = breakpoint === 'sm' || breakpoint === 'md';
@@ -32,9 +32,9 @@ export default function Message() {
       setConversations(data);
     });
 
-    socket.on('room:all', (data) => {
-      setRooms(data);
-    });
+    // socket.on('room:all', (data) => {
+    //   setRooms(data);
+    // });
 
     socket.on('message:created', (message) => {
       // Handle new message
